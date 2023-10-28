@@ -1,0 +1,35 @@
+Please Read
+
+There is no audio for this one....
+
+I am going to show you how to create a FlexTable.  The first thing that you need to understand is this: what data am I going to be displaying in my
+flextable?
+
+Do not even start with making a new flextable until you understand this.
+
+The flextable supports display almost any data that you can get from the database
+
+You can even use mongo aggregate commands for the data you need.
+
+So the first step is to make sure that you have created your mongodb queries.
+
+You need to know the following information:
+
+	What is your MongoDB collection?
+
+	What, if any, find/filter commands will you use to get your data?
+
+	Does the data you want to display require an aggregate find?
+
+In our case that we're going to demonstrate right now, I want to create a flextable of "completed" bounties.
+
+My collection is 'bounties' and my filter looks like this:
+
+	db.bounties.find({published_link: {$exists: true}}).pretty()
+
+So the first thing I need to do is run this command in the mongo shell to make sure it works.
+
+As you can see, it does.  Next I'm going to decide on what columns I want to display.
+
+I want to display "Brand Name", "Keywords", "Titles" and "Published Link".
+

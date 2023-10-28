@@ -1,0 +1,124 @@
+Assignment for Imran
+
+Write the backend code and MongoDB queries for “bounties”
+
+Imran, this is a critical piece of ‘Content Bounty’ and I think you are well suited to do this assignment.
+
+I will make a video in addition to this instruction document, and we will talk about it tomorrow.
+
+Essentially, I want you to make a ‘mongo’ aggregate query, or any other query as you see fit, to provide the “bounties” for our freelancers.
+
+To understand, you will be given this information:
+
+{
+	“skill”:”writing”
+}
+
+As an example of your input.  The ‘skill’ can be anything.
+
+Then, you will have “bounties” documents that look like this:
+
+{
+	"_id" : ObjectId("5e83af6b00cf2efd555f84e9"),
+	"created_by" : ObjectId("5e838b4fa083bb4b4f48adb7"),
+	"modified_by" : ObjectId("5e838b4fa083bb4b4f48adb7"),
+	"owner" : ObjectId("5e838b4fa083bb4b4f48adbb"),
+	"brand_name" : "Beauty Rhyme",
+	"release_for_bounty" : "2020-04-08T23:00:27+02:00",
+	"dependent_on" : "",
+	"queued_content" : "Long Form Article",
+	"m_b" : 0,
+	"spend" : 0,
+	"c_b" : 0,
+	"creator" : "",
+	"creators" : [ ],
+	"content_type" : "Long Form Article",
+	"pipeline" : "unclaimed",
+	"published" : false,
+	"keywords" : [
+		"Select"
+	],
+	"titles" : [
+		"Select"
+	],
+	"prompts" : [
+		"Select"
+	],
+	"process" : [
+		{
+			"completion_order" : 1,
+			"name" : "Rough Draft",
+			"description" : "Write the Rough Draft in compliance with our editorial guidelines",
+			"inhouse" : false,
+			"checkin" : false,
+			"skills" : [
+				"writing"
+			],
+			"bounty" : 35,
+			"pipeline" : "unclaimed",
+			"status" : "incomplete",
+			"bStatus" : true
+		},
+		{
+			"completion_order" : 2,
+			"name" : "Editing",
+			"description" : "Edit the content",
+			"inhouse" : false,
+			"checkin" : false,
+			"skills" : [
+				"editing"
+			],
+			"bounty" : 15,
+			"pipeline" : "unclaimed",
+			"status" : "incomplete",
+			"bStatus" : false
+		},
+		{
+			"completion_order" : 3,
+			"name" : "Beautification",
+			"description" : "Format and Beautify the Post for Publication",
+			"inhouse" : false,
+			"checkin" : false,
+			"skills" : [
+				"markdown,photoshop,design"
+			],
+			"bounty" : 10,
+			"pipeline" : "unclaimed",
+			"status" : "incomplete",
+			"bStatus" : false
+		}
+	],
+	"batch" : "ccf636c0-97ba-427e-be92-24b9e5085ed1",
+	"title" : "",
+	"created" : ISODate("2020-03-31T21:00:27.909Z"),
+	"modified" : ISODate("2020-03-31T21:00:27.909Z"),
+	"__v" : 0
+}
+
+Look at the “process” array.  You will see “{
+	Process: [
+			"completion_order" : 2,
+			"name" : "Editing",
+			"description" : "Edit the content",
+			"inhouse" : false,
+			"checkin" : false,
+			"skills" : [
+				"writing"
+			],
+			"bounty" : 15,
+			"status" : "incomplete",
+			"bStatus" : true
+		},
+	        …
+	]
+
+I want you to return all documents that have “bStatus == true” and “skills” == “writing” as an example.
+
+The resulting document will look like this:
+{
+	“bounty”:”Edit the Content”, <------------ you get this from process: [ "description" ]
+	“content_type”:”Long Form Article”, <------------- you get this from "content_type"
+	“pipeline”:”unclaimed”, you get this from process: [ "pipeline" ]
+	“keywords”:[“keyword 1”, “keyword 2”, “keyword 3”] <--------- keywords
+}
+

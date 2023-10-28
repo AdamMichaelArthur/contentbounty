@@ -1,0 +1,24 @@
+<div class="circle" (dragstart)="dragStart($event)" draggable="true">
+  <div class="single-cell">
+    <div (click)="displayMenu()" class="bounty_title">
+      {{ _variableData["brand_name"] }}<br>{{ _variableData["content_type"] }}<br *ngIf="_variableData['keywords'][0]">{{ _variableData["keywords"][0] }}
+      <div *ngIf="bMenu" class="bMenu" id="bMenu" #bMenu>
+        <menu-flex-dropdown
+          key="step"
+          distinct="content_type"
+          [flowToNewRoute]="flowToNewRoute"
+          [routeToGoTo]="routeToGoTo"
+          [data]="menu"
+          [_id]="_id"
+          [_dateKey]="_dateKey"
+          [_dateValue]="_dateValue"
+          [_variableData]="_variableData"
+          [date]="date"
+          class="dropdown"
+        ></menu-flex-dropdown>
+      </div>
+    </div>
+    <i class="fas fa-times del_bounty" (click)="deleteBounty($event, _id)"></i>
+  </div>
+  <!-- <span class="del_bounty">x</span> -->
+</div>

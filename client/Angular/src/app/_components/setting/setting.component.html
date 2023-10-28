@@ -1,0 +1,473 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <!-- <div class="lds-ripple-parent" *ngIf="isLoading3">
+      <div class="lds-ripple">
+        <div></div>
+        <div></div>
+      </div>
+    </div> -->
+    <div class="bounty_feed" *ngIf="isLoading3">
+      <div class="loader">Loading...</div>
+    </div>
+    <div *ngIf="loaded3">
+      <div class="flex_area">
+        <div class="card">
+          <div class="user_settings_area">
+            <div class="area_title">
+              <h3 style="display: block; float: left">User Settings</h3>
+              <h4
+                *ngIf="!settingAvailable"
+                style="display: block; float: right"
+              >
+                No setting available! Please create your setting...
+              </h4>
+            </div>
+            <div class="area_content showDiv">
+              <div class="user_image_area">
+                <img src="{{ currentImg }}" alt="" class="user_img" />
+                <p class="danger_input_box" *ngIf="profileImageError">
+                  {{ profileImageError }}
+                </p>
+                <div class="text-center">
+                  <label class="theme-color custom-file-upload">
+                    <input
+                      type="file"
+                      name="profileFile"
+                      accept="image/*"
+                      (change)="handleProfileInputChange($event)"
+                      [ngClass]="{ 'float-left': loaded }"
+                    />
+                    <span *ngIf="initialImg !=''"> Change Profile Picture </span> 
+                    <span *ngIf="initialImg===''"> Upload Profile Picture </span> 
+
+                  </label>
+                  <!-- <button (click)="sendMessage()" class="btn btn-primary">Send Message</button>
+                  <button (click)="clearMessage()" class="btn btn-secondary">Clear Message</button> -->
+                  <!-- <label
+                    class="theme-color custom-file-upload ml-1"
+                    *ngIf="loaded"
+                    (click)="uploadImage('profile_img_link')"
+                  >
+                    Submit Image
+                  </label> -->
+                </div>
+                <div class="text-center">
+                  <!-- <label
+                    *ngIf="loaded"
+                    class="theme-color custom-file-upload mt-2"
+                    (click)="cancel()"
+                  >
+                    Cancel
+                  </label> -->
+                </div>
+              </div>
+              <div class="user_info_area">
+                <div class="row">
+                  <div class="col-md-3">
+                    <p class="label_para"><b>First Name:</b></p>
+                    <p class="label_para"><b>Last Name:</b></p>
+                    <p class="label_para"><b>Email:</b></p>
+                    <p class="label_para"><b>Phone Number:</b></p>
+                    <p class="label_para"><b>Job Title:</b></p>
+                    <p class="label_para"><b>Address:</b></p>
+                    <p class="label_para"><b>City:</b></p>
+                    <p class="label_para"><b>State:</b></p>
+                    <p class="label_para"><b>Zip Code:</b></p>
+                    <p class="label_para"><b>LinkedIn Profile:</b></p>
+                  </div>
+                  <div class="col-md-9" tabindex="0">
+                    <div>
+                      <p class="input_para">
+                        <input
+                          class="input_box"
+                          type="text"
+                          id="first_name"
+                          [(ngModel)]="settingData.first_name"
+                          (keypress)="removeDanger($event, 'first_name')"
+                          (blur)="
+                            saveSetting(0, 'first_name', settingData.first_name)
+                          "
+                          minlength="3"
+                          maxlength="40"
+                          placeholder="{{
+                            first_name_error ? first_name_error : ''
+                          }}"
+                          autocomplete="off"
+                        />
+                      </p>
+                    </div>
+                    <div>
+                      <p class="input_para">
+                        <input
+                          class="input_box"
+                          type="text"
+                          id="last_name"
+                          [(ngModel)]="settingData.last_name"
+                          (keypress)="removeDanger($event, 'last_name')"
+                          (blur)="
+                            saveSetting(0, 'last_name', settingData.last_name)
+                          "
+                          minlength="3"
+                          maxlength="40"
+                          placeholder="{{
+                            last_name_error ? last_name_error : ''
+                          }}"
+                          autocomplete="off"
+                        />
+                      </p>
+                    </div>
+                    <div>
+                      <p class="input_para">
+                        <input
+                          class="input_box"
+                          type="text"
+                          id="email"
+                          [(ngModel)]="settingData.email"
+                          (blur)="saveSetting(0, 'email', settingData.email)"
+                          (keypress)="validateEmailOnKeyPress('email')"
+                          minlength="8"
+                          maxlength="70"
+                          placeholder="{{ email_error ? email_error : '' }}"
+                          autocomplete="off"
+                        />
+                      </p>
+                    </div>
+                    <div>
+                      <p class="input_para">
+                        <input
+                          class="input_box"
+                          type="tel"
+                          id="phone"
+                          [(ngModel)]="settingData.phone"
+                          (blur)="saveSetting(0, 'phone', settingData.phone)"
+                          (keypress)="validatePhone($event, 'phone')"
+                          placeholder="{{ phone_error ? phone_error : '' }}"
+                          autocomplete="off"
+                          minlength="14"
+                          maxlength="14"
+                        />
+                      </p>
+                    </div>
+                    <div>
+                      <p class="input_para">
+                        <input
+                          class="input_box"
+                          type="text"
+                          id="job_title"
+                          [(ngModel)]="settingData.job_title"
+                          (keypress)="removeDanger($event, 'job_title')"
+                          (blur)="
+                            saveSetting(0, 'job_title', settingData.job_title)
+                          "
+                          placeholder="{{
+                            job_title_error ? job_title_error : ''
+                          }}"
+                          autocomplete="off"
+                        />
+                      </p>
+                    </div>
+                    <div>
+                      <p class="input_para">
+                        <input
+                          class="input_box"
+                          type="text"
+                          id="address"
+                          [(ngModel)]="settingData.address"
+                          (keypress)="removeDanger($event, 'address')"
+                          (blur)="
+                            saveSetting(0, 'address', settingData.address)
+                          "
+                          placeholder="{{ address_error ? address_error : '' }}"
+                          autocomplete="off"
+                        />
+                      </p>
+                    </div>
+                    <div>
+                      <p class="input_para">
+                        <input
+                          class="input_box"
+                          type="text"
+                          id="city"
+                          [(ngModel)]="settingData.city"
+                          (keypress)="removeDanger($event, 'city')"
+                          (blur)="saveSetting(0, 'city', settingData.city)"
+                          placeholder="{{ city_error ? city_error : '' }}"
+                          autocomplete="off"
+                        />
+                      </p>
+                    </div>
+                    <div>
+                      <p class="input_para">
+                        <input
+                          class="input_box"
+                          type="text"
+                          id="state"
+                          [(ngModel)]="settingData.state"
+                          (keypress)="removeDanger($event, 'state')"
+                          (blur)="saveSetting(0, 'state', settingData.state)"
+                          placeholder="{{ state_error ? state_error : '' }}"
+                          autocomplete="off"
+                        />
+                      </p>
+                    </div>
+                    <div>
+                      <p class="input_para">
+                        <input
+                          class="input_box"
+                          type="text"
+                          id="zip_code"
+                          [(ngModel)]="settingData.zip_code"
+                          (blur)="
+                            saveSetting(0, 'zip_code', settingData.zip_code)
+                          "
+                          placeholder="{{
+                            zip_code_error ? zip_code_error : ''
+                          }}"
+                          (keypress)="validateZipOnKeyPress($event, 'zip_code')"
+                          autocomplete="off"
+                        />
+                      </p>
+                    </div>
+                    <div>
+                      <p class="input_para">
+                        <input
+                          class="input_box"
+                          type="text"
+                          id="linkedIn_profile"
+                          [(ngModel)]="settingData.linkedIn_profile"
+                          (blur)="
+                            saveSetting(
+                              0,
+                              'linkedIn_profile',
+                              settingData.linkedIn_profile
+                            )
+                          "
+                          placeholder="{{
+                            linkedIn_profile_error ? linkedIn_profile_error : ''
+                          }}"
+                          autocomplete="off"
+                        />
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex_area">
+        <div class="card">
+          <div class="user_settings_area">
+            <div class="area_title">
+              <h3>User Company Settings</h3>
+            </div>
+            <div class="area_content showDiv">
+              <div class="row">
+                <div class="col-md-4">
+                  <p class="label_para"><b>Company Name:</b></p>
+                  <p class="label_para"><b>Website Link:</b></p>
+                  <p class="label_para"><b>Gmail Email Address:</b></p>
+                  <p class="label_para"><b>Gmail App Password:</b></p>
+                </div>
+                <div class="col-md-8" tabindex="0">
+                  <div>
+                    <p class="input_para">
+                      <input
+                        class="input_box"
+                        type="text"
+                        id="company_name"
+                        [(ngModel)]="settingData.company_settings.company_name"
+                        (blur)="
+                          saveAdvancedSetting(
+                            'settings',
+                            'company_settings',
+                            'company_name',
+                            settingData.company_settings.company_name
+                          )
+                        "
+                        minlength="3"
+                        (keypress)="removeDanger($event, 'company_name')"
+                        maxlength="40"
+                        placeholder="{{
+                          company_name_error ? company_name_error : ''
+                        }}"
+                        autocomplete="off"
+                      />
+                    </p>
+                  </div>
+                  <div>
+                    <p class="input_para">
+                      <input
+                        class="input_box"
+                        type="text"
+                        id="company_website_link"
+                        [(ngModel)]="
+                          settingData.company_settings.company_website_link
+                        "
+                        (blur)="
+                          saveAdvancedSetting(
+                            'settings',
+                            'company_settings',
+                            'company_website_link',
+                            settingData.company_settings.company_website_link
+                          )
+                        "
+                        placeholder="{{
+                          company_website_link_error
+                            ? company_website_link_error
+                            : ''
+                        }}"
+                        autocomplete="off"
+                      />
+                    </p>
+                  </div>
+                  <div>
+                    <p class="input_para">
+                      <input
+                        class="input_box"
+                        type="text"
+                        id="gmail_email"
+                        [(ngModel)]="settingData.company_settings.gmail_email"
+                        (blur)="
+                          saveAdvancedSetting(
+                            'settings',
+                            'company_settings',
+                            'gmail_email',
+                            settingData.company_settings.gmail_email
+                          )
+                        "
+                        (keyup)="validateEmailOnKeyPress('gmail_email')"
+                        placeholder="{{
+                          gmail_email_error ? gmail_email_error : ''
+                        }}"
+                        minlength="8"
+                        maxlength="70"
+                        autocomplete="off"
+                      />
+                    </p>
+                  </div>
+                  <div>
+                    <p class="input_para">
+                      <input
+                        class="input_box"
+                        type="text"
+                        id="gmail_app_password"
+                        [(ngModel)]="
+                          settingData.company_settings.gmail_app_password
+                        "
+                        (keypress)="removeDanger($event, 'gmail_app_password')"
+                        (blur)="
+                          saveAdvancedSetting(
+                            'settings',
+                            'company_settings',
+                            'gmail_app_password',
+                            settingData.company_settings.gmail_app_password
+                          )
+                        "
+                        placeholder="{{
+                          gmail_app_password_error
+                            ? gmail_app_password_error
+                            : ''
+                        }}"
+                        autocomplete="off"
+                      />
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- <div class="flex_area">
+        <div class="card">
+          <div class="user_settings_area">
+            <div class="area_title">
+              <h3 style="display: block; float: left">Send Test Email</h3>
+            </div>
+            <div class="area_content showDiv">
+              <div class="user_image_area">
+                <div class="text-center">
+                  <div>
+                    <p class="input_para">
+                      <input
+                        class="input_box"
+                        type="text"
+                        id="test_email"
+                        [(ngModel)]="test_email"
+                        (keypress)="validateEmailOnKeyPress('test_email')"
+                        minlength="8"
+                        maxlength="70"
+                        placeholder="{{
+                          test_email_error ? test_email_error : ''
+                        }}"
+                        autocomplete="off"
+                      />
+                    </p>
+                  </div>
+                  <label
+                    class="theme-color custom-file-upload ml-1"
+                    *ngIf="test_email_entered"
+                    (click)="sendTestEmail()"
+                  >
+                    Send Email
+                  </label>
+                  <div *ngIf="test_email_send_success">
+                    <br /><br />
+                    <p class="success_input_box">{{ send_test_email_info }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> -->
+      <!-- <div class="flex_area">
+        <div class="card">
+          <div class="user_settings_area">
+            <div class="area_title">
+              <h3 style="display: block; float: left">Base 64 Signature</h3>
+            </div>
+            <div class="area_content showDiv">
+              <div class="row">
+                <div class="col-md-4">
+                  <p class="label_para"><b>Base 64 Signature:</b></p>
+                </div>
+                <div class="col-md-8" tabindex="0">
+                  <div>
+                    <p class="input_para">
+                      <textarea
+                        class="input_box"
+                        name="base64_signature"
+                        id="base64_signature"
+                        [(ngModel)]="settingData.base64_signature"
+                        (blur)="
+                          saveSetting(
+                            0,
+                            'base64_signature',
+                            settingData.base64_signature
+                          )
+                        "
+                        cols="100"
+                        rows="5"
+                        (keypress)="removeDanger($event, 'base64_signature')"
+                        placeholder="{{
+                          base64_signature_error ? base64_signature_error : ''
+                        }}"
+                        autocomplete="off"
+                      >
+                      </textarea>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> -->
+    </div>
+  </div>
+</div>

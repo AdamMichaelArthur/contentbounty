@@ -1,0 +1,218 @@
+
+<div class="table_container">
+   <div class="select_planner_area">
+      <ul>
+         <li>
+            <div class="dropdown">
+               <select (change)="selectTargetBrand($event)">
+                  <option value="">Brand</option>
+                  <option *ngFor="let brand of brands">{{brand.brand_name}}</option>
+               </select>
+            </div>
+         </li>
+         <li>
+            <div class="dropdown">
+               <select (change)="selectTargetPlatform($event)">
+                  <option value="">Target Platform</option>
+                  <option *ngFor="let platform of platforms" [value]="platform">{{platform}}</option>
+               </select>
+            </div>
+         </li>
+                  <li>
+            <div class="dropdown">
+               <select (change)="selectContentType($event)">
+                  <option value="">Content Type</option>
+                  <option *ngFor="let type of content_type" [value]="type">{{type}}</option>
+               </select>
+            </div>
+         </li>
+         <li>
+            <div class="dropdown">
+               <select (change)="selectDisplayRow($event)">
+                  <option value="">0</option>
+                  <option *ngFor="let number of display_count" [value]="number">{{number}}</option>
+               </select>
+            </div>
+         </li>
+<!--          <li>
+            <input class="planner_button" type="button" value="Upload and Filter Keywords"> 
+         </li> -->
+         <li>
+            <input class="planner_button" type="button" value="Deploy Unused Keywords" (click)="deployUnusedKeywords()"> 
+         </li>
+         <li>
+            <input class="planner_button" type="button" value="Add" (click)="addContent()"> 
+         </li>
+         <li>
+            <input class="planner_button" type="button" value="Add Process" (click)="addProcessToSelectedContentType()"> 
+         </li>
+      </ul>
+   </div>
+   <div class="content_plan_table">
+      <mat-accordion *ngFor="let count of testIteams; let i = index">
+         <mat-expansion-panel>
+            <mat-expansion-panel-header>
+               <mat-panel-title>
+                  <table>
+                     <tr>
+                        <td style="max-width: 50px;">{{i}}</td>
+                        <td>{{count.unused_keyword}}</td>
+                        <td style="max-width: 300px;">{{count.content_type}}</td>
+                        <td style="max-width: 150px;">{{count.target_platform}}</td>
+                     </tr>
+                  </table>
+               </mat-panel-title>
+               <button class="delete_button" (click)="remove(count)">
+                  <i class="far fa-trash-alt"></i>
+               </button>
+            </mat-expansion-panel-header>
+            <input class="planner_button" type="button" value="Move To Staging" (click)="moveToStaging(i)">
+            <input class="planner_button" type="button" value="Add Process" (click)="addProcess(count, $event, true, i)"> 
+            <input class="planner_button" type="button" value="Use Last Process" (click)="useLastProcess(i)"> 
+
+               <div class="col-md-3">
+        <div class="starting_date_area">
+          <h4>Select Start Date</h4>
+          <mat-form-field>
+            <mat-label>Starting Date</mat-label>
+            <input matInput [matDatepicker]="picker" [(ngModel)]="myDate" placeholder="Starting Date"/>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+
+            <table>
+               <tr>
+                  <td>
+                     <div class="flex_box">
+                        <input value="{{count.brand_name}}" (focusout)="saveDataLocally(count, 'brand', $event, true)" class="planner_text" type="text" name="" placeholder="Brand" id="">
+                     </div>
+                  </td>
+               </tr>
+               <tr>
+                  <td> 
+                     <input (focusout)="saveDataLocally(i, 'title', $event.target.value)" class="planner_text" type="text" name="" id="" placeholder="Title" value="{{count.title}}">
+                  </td>
+               </tr>
+               <tr>
+                  <td> 
+                     <input (focusout)="saveDataLocally(i, 'unused_keyword', $event.target.value)" class="planner_text" type="text" name="" id="" placeholder="Keyword" value={{count.unused_keyword}}>
+                  </td>
+               </tr>
+               <tr>
+                  <td>
+                     <textarea (focusout)="saveDataLocally(i, 'prompt', $event.target.value)" class="planner_textarea" cols="30" rows="5" placeholder="Prompt" [(value)]="count.prompt"></textarea>
+                     <input class="planner_text" type="text" name="" placeholder="Prompt" id="">
+                  </td>
+               </tr>
+               <tr>
+                  <button class="delete_button" (click)="addProcess(count, $event, true, i)"> Add Process </button>
+               </tr>
+        <app-bounty-create
+        *ngIf="processPopup[i]"
+      content_type="{{currentContentType}}"
+      bShowDateTimePicker=true
+      currentBounty="{{currentBounty}}"
+      (passBountyTemplate)="useKeywordsProcess(i, $event)"
+      (hideTableButtonArea)="hideKeywordsProcess(i)"
+    ></app-bounty-create>
+
+               <tr>
+                  <td>
+                     <div class="flex_box">
+                        <input [(ngModel)]="secondary_keyword" (focusout)="saveDataLocally(count, 'secondary_keywords', $event, true)" class="planner_text" type="text" name="" placeholder="Secondary Keywords" id="">
+                        <button class="add_button" (click)="addSecondaryKeyword()">+</button>
+                     </div>
+                     <ul class="display_add_data" *ngIf="secondary_keywords?.length > 0">
+                        <li *ngFor="let keyword of secondary_keywords">
+                           {{keyword}} 
+                           <i class="far fa-times-circle" (click)="deleteSecondaryKeyword(keyword)"></i>
+                        </li>
+                     </ul>
+                  </td>
+               </tr>
+               <tr>
+                  <td>
+                     <div class="flex_box">
+                        <div class="dropdown">
+                           <select (change)="selectInternalLink($event)">
+                              <option [value]="" [disabled]="true">Internal Links</option>
+                              <option *ngFor="let published_url of deployed_urls" [value]="published_url">{{published_url}}</option>
+                           </select>
+                        </div>
+                        <button class="add_button" (click)="addInternalLink()">+</button>
+                     </div>
+                     <ul class="display_add_data" *ngIf="internal_links?.length > 0">
+                        <li *ngFor="let link of internal_links">
+                           {{link}} 
+                           <i class="far fa-times-circle" (click)="deleteInternalLink(link)"></i>
+                         </li>
+                     </ul>
+                  </td>
+               </tr>
+               <tr>
+                  <td>
+                     <div class="dropdown">
+                        <select>
+                           <option value="">Reasons</option>
+                           <option *ngFor="let reason of reasons">{{reason}}</option>
+                        </select>
+                     </div>
+                  </td>
+               </tr>
+               <tr>
+                  <td>
+                     <div class="flex_box">
+                        <input [(ngModel)]="affiliate_link" class="planner_text" type="text" name="" placeholder="Affiliate Links" id="">
+                        <button class="add_button" (click)="addAffiliateLink()">+</button>
+                     </div>
+                     <ul class="display_add_data" *ngIf="affiliate_links?.length > 0">
+                        <li *ngFor="let keyword of affiliate_links">
+                           {{keyword}} 
+                           <i class="far fa-times-circle" (click)="deleteAffiliateLink(keyword)"></i>
+                        </li>
+                     </ul>
+                  </td>
+               </tr>
+               <tr>
+                  <td>
+                     <div class="dropdown">
+                        <select (change)="saveDataLocally(i, 'content_type', $event.target.value)"  value="{{count.content_type}}">
+                           <option value="{{count.content_type}}">Content Type</option>
+                           <option *ngFor="let type of content_type" [selected]="type===count.content_type">{{type}}</option>
+                        </select>
+                     </div>
+                  </td>
+               </tr>
+               <tr>
+                  <td>
+                     <div class="dropdown">
+                        <select (change)="saveDataLocally(i, 'target_platform', $event.target.value)">
+                           <option value="{{count.target_platform}}">Target Platform</option>
+                           <option *ngFor="let platform of platforms" [selected]="platform===count.target_platform">{{platform}}</option>
+                        </select>
+                     </div>
+                  </td>
+               </tr>
+            </table>
+         </mat-expansion-panel>
+      </mat-accordion>
+   </div>   
+
+  <div class="table_pagination">
+    <div class="pagination">
+      <a *ngFor="let page of pagination.pages; let i = index" (click)="Page(page.page_endpoint)"
+        [ngClass]="{'active': pagination.current_page == page.page_number}">{{page.page_number}}</a>
+    </div>
+  </div>
+
+</div>
+
+        <app-bounty-create
+        *ngIf="processByContentType"
+      content_type="{{selected_content}}"
+      currentBounty="{{currentBounty}}"
+      (passBountyTemplate)="massProcessAdd($event)"
+      (hideTableButtonArea)="massProcessHide()"
+    ></app-bounty-create>

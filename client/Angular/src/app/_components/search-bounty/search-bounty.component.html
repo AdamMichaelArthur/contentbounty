@@ -1,0 +1,253 @@
+<div class="table_container" cdkDropListGroup>
+    <flexible-table
+    key="bounty"
+    (headerDropdownChanged)="headerDropdownChanged($event)"
+    [disableDeleteDropdown]="disableDropdown"
+    columns="brand_name,content_type,name,keywords,prompts,bounty,description,completion_order,refDocId"
+    displayFileUpload="false"
+    displayAddDataToSource="false"
+    viewSelectColumns="keyword"
+    filters={{filtersStr}}
+    tableIcons="description" 
+    tableIconNames="local_phone,local_phone,format_paint,local_phone,local_phone,local_phone"
+    aggregate="{{aggregateStr}}"
+    currencyColumns="bounty"
+    noDisplayColumns="refDocId"
+    noTextColumns="completion_order,description,refDocId"
+    displayClone=false
+    displayDelete=false
+    buttons="brand_name,brand_name,brand_name,brand_name"
+    buttonNames="Claim,Template,Files,Kickback"
+    viewSelectColumns="prompts"
+    (tableButtonClicked)="tableButtonClicked($event)"
+    (receivedTableData)="receivedTableData($event)"
+    (sendTableButtons)="updateTableButtons($event)"
+    widths="0,450,150,180,300,100,150,0,0"
+    [textCutoff]="textCutoff"
+    >
+    </flexible-table>
+</div>
+
+<div *ngIf="displayTableButtonArea" style="margin: auto;" class="popup_modal_fade">
+  <div class="popup_modal_content_area" *ngIf="tableButtonSubviews[1]">
+    <button class="close_popup_modal" (click)="hidePopup()">X</button>
+     <div id="my-box-content-explorer"></div>
+  </div>
+
+  <div class="popup_modal_content_area" *ngIf="tableButtonSubviews[2]">
+<app-files [response]="response" (displayPopup)="hidePopup()"></app-files>
+  </div>
+
+    <div class="popup_modal_content_area" *ngIf="tableButtonSubviews[3]">
+    <button class="close_popup_modal" (click)="hidePopup()">X</button>
+    <app-kickback [(_displayPopup)]="displayTableButtonArea" [response]="response" [_processSteps]="processSteps" (displayPopup)="hidePopup()"></app-kickback>
+
+  </div>
+
+</div>
+
+<!-- 
+                columns="content_type,short_description,suggested_bounty,frequency,starting_day"
+                editFormColumns="suggested_bounty"  
+                headerButtons="Approve All,Start Over"
+                (onHeaderButtonClicked)="flextableHeaderButtonClicked($event)"
+                (headerDropdownChanged)="headerDropdownChanged($event)"
+                displayAddDataToSource=false
+                all="all"
+                (sendHeaderButtons)="updateHeaderButtons($event)"
+                displaySearch=false
+                filters={{filtersStr}}
+                displayClone=false
+                displayFileUpload=false   
+                buttons="content_type"
+                buttonNames="Add"
+                (tableButtonClicked)="tableButtonClicked($event)"
+                (sendTableButtons)="updateTableButtons($event)"
+                (iconClicked)="showIconMenu($event)"
+                displayDelete=false
+                displayClone=false
+                widths="0,250"
+                currencyColumns="suggested_bounty"
+                widths="100,200,300,200"
+                 -->
+
+<!-- <div class="page_container">
+    <div class="col-md-12">
+        <div class="page_header">
+            <h3>All Bounty</h3>
+        </div>
+    </div>
+
+    <div class="page_container">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="bounty_search_filter">
+                    <h3>Bounty category list</h3>
+                    <ul class="add_content_popup_check">
+                        <li *ngFor="let bounty_catogary of bounty_catogarys; let i = index">
+                            <div class="cb_container">
+                                <input [(ngModel)]="bounty_catogary.selected"  type="checkbox" id="bounty+{{i}}"/>
+                                <label class="checkmark" for="bounty+{{i}}"></label>
+                                <span class="checkmark_lable">{{bounty_catogary.label}}</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>    
+            </div>
+            <div class="col-md-9">
+                <div class="bounty_search_area">
+                    <div class="bounty_search_option">
+                        <input type="text" [(ngModel)]="searchText" placeholder="Ex: Title/size/budget" (keyup)="somethingChanged($event.target.value)">
+                        <i class="material-icons">search</i>
+                    </div>
+                </div>
+                <div *ngIf="searchAll">
+                    <div class="bounty" *ngFor="let bounty of bountys | grdFilter: {bounty_title: searchText, word_count:searchText,  budget: searchText}, let i = index">
+                        <div class="row">
+                            <div class="col-md-9">
+                                <div class="bounty_content">
+                                    <h3>{{bounty.bounty_title}}</h3>
+                                    <ul>
+                                        <li>Content Size: <span>{{bounty.word_count}} Word</span> </li>
+                                        <li>Budget : <span>{{bounty.budget | currency}}</span> </li>
+                                    </ul>
+                                    <p>{{bounty.content_description}}</p>
+                                    <button type="button" (click)="claimBounty(bounty)">Claim</button>
+                                    <button type="button" (click)="viewDetailsBounty(bounty)">View Details</button>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="bounty_post">
+                                    <h3>Post By</h3>
+                                    <table>
+                                        <tr>
+                                            <td> 
+                                                <img src="../../assets/img/AdobeStock_188917578.png" alt="" alt=""> 
+                                            </td>
+                                            <td>
+                                                <h4>{{bounty.brand_name}}</h4>
+                                                <p>{{bounty.post_from}}</p>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div *ngIf="searchCheck">
+                    <div class="bounty" *ngFor="let bounty of bountys | checkBoxFilter: selectedBountyTypes">
+                        <div class="row">
+                            <div class="col-md-9">
+                                <div class="bounty_content">
+                                    <h3>{{bounty.bounty_title}}</h3>
+                                    <ul>
+                                        <li>Content Size: <span>{{bounty.word_count}} Word</span> </li>
+                                        <li>Budget : <span>{{bounty.budget | currency}}</span> </li>
+                                    </ul>
+                                    <p>{{bounty.content_description}}</p>
+                                    <button type="button" (click)="claimBounty(bounty)">Claim</button>
+                                    <button type="button" (click)="viewDetailsBounty(bounty)">View Details</button>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="bounty_post">
+                                    <h3>Post By</h3>
+                                    <table>
+                                        <tr>
+                                            <td> 
+                                                <img src="../../assets/img/AdobeStock_188917578.png" alt="" alt=""> 
+                                            </td>
+                                            <td>
+                                                <h4>{{bounty.brand_name}}</h4>
+                                                <p>{{bounty.post_from}}</p>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pageination">
+                    <ul>
+                        <li>Previous</li>
+                        <li>1</li>
+                        <li>Next</li>                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>-->
+    <!--Bounty Details Popup-->
+    <!--
+    <div *ngIf="bounty_details">
+        <div class="popup_fad" [ngClass]="viewDetailsBountyPopup ? 'show' : 'hide'">
+            <div class="popup_area">
+                <div class="popup_header">
+                    <h3>Bounty Details</h3>
+                    <span (click)="viewDetailsBounty2()">X</span>
+                </div>
+                <div class="popup_body">
+                    <div class="bounty">
+                        <div class="row">
+                            <div class="col-md-9">
+                                <div class="bounty_content">
+                                    <h3>{{bounty_details.bounty_title}}</h3>
+                                    <ul>
+                                        <li>Content Size: <span>{{bounty_details.word_count}} Word</span> </li>
+                                        <li>Budget : <span>{{bounty_details.budget}}$</span> </li>
+                                    </ul>
+                                    <p>{{bounty_details.content_description}}</p>
+                                    <a> <span>Link:</span>https://docs.google.com/spreadsheets/d/1CxuasOQ5OwYv6l1lJp7TZa2pAiS-Pi3GHpYORhPoErI/edit#gid=0 </a>
+                                    <button type="button">Claim</button>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="bounty_post">
+                                    <h3>Post By</h3>
+                                    <table>
+                                        <tr>
+                                            <td> 
+                                                <img src="" alt="" alt=""> 
+                                            </td>
+                                            <td>
+                                                <h4>{{bounty_details.brand_name}}</h4>-->
+                                                <!--<p>{{bounty_details.post_from}}</p>-->
+                                                <!--
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <table class="bounty_details_table">
+                                        <tr>
+                                            <td>Total Bounty</td>
+                                            <td>{{bounty_details.total_bounty}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Current Bounty</td>
+                                            <td>{{bounty_details.available_bounty}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Total Cost</td>
+                                            <td>{{bounty_details.total_cost}}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>-->
+    <!--Bounty Details Popup End-->
+    <!--
+    <div class="warning_area" *ngIf="ifUncompletedBounty">
+        <div class="warning_content_area">
+            <h3 >You must complete and turn in your bounty before claiming a new bounty</h3>
+        </div>
+    </div>
+</div>
+ -->

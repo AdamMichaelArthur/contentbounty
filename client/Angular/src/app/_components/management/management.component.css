@@ -1,0 +1,27 @@
+:host ::ng-deep .page_header{
+    padding: 10px;
+}
+:host ::ng-deep .table_area{
+    width: 100%;
+    float: left;
+}
+:host ::ng-deep .table_pagination{
+    padding: 5px 10px;
+}
+:host ::ng-deep .add_content_popup{
+    left: 0 !important;
+    padding-top: 35px;
+}
+:host ::ng-deep .add_content_popup form{
+    margin-bottom:0px;
+}
+:host ::ng-deep .form-control:focus{
+    box-shadow: none !important;
+}
+.table_container{
+    width: 100%;
+    height: auto;
+    float: left;
+    position: relative;
+    padding: 15px;
+}

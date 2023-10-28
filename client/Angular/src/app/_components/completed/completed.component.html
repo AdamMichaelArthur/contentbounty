@@ -1,0 +1,51 @@
+<div class="table_container" cdkDropListGroup>
+  <flexible-table
+    key="bounty"
+    all="completed"
+    columns="brand_name,content_type,pipeline,keywords,bounty,name,description,completion_order"
+    aggregate="{{ aggregateStr }}"
+    displayFileUpload="false"
+    viewSelectColumns="keywords"
+    displayAddDataToSource="false"
+    currencyColumns="bounty"
+    noTextColumns="completion_order"
+    displayClone="false"
+    displayDelete="false"
+    displaySearch="false"
+    checkOutBalance="true"
+    headerButtons="Request Payout"
+    (onHeaderButtonClicked)="flextableHeaderButtonClicked($event)"
+    (tableButtonClicked)="tableButtonClicked($event)"
+    widths="0,300,160,160,160,160,160,160"
+    (sendHeaderButtons)="updateHeaderButtons($event)"
+    (sendTableButtons)="updateTableButtons($event)"
+    buttons="brand_name,brand_name"
+    buttonNames="Undo Complete,Files"
+    displayHeader="true"
+    headerDisplayText="{{ userBalance }}"
+    filter={{filter}}
+    filters="{{ filtersStr }}" 
+    [textCutoff]="textCutoff">
+  </flexible-table>
+
+  <div id="id-Action1"
+    [style.display]="displayButtonArea ? 'none' : ''"
+    class="popup_background_fade">
+    <div *ngIf="buttonSubviews[0]" class="add_user_form">
+      <button class="close_popup" (click)="hidePopup()">x</button>
+      <h3>Request Payout Form</h3>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="displayTableButtonArea" style="margin: auto;" class="popup_modal_fade">
+  <div class="popup_modal_content_area" *ngIf="tableButtonSubviews[1]">
+    <button class="close_popup_modal" (click)="hidePopup()">X</button>
+    <app-files [response]="response" (displayPopup)="hidePopup()"></app-files>
+     <!-- <a href="{{response.localFolder}}" target="_blank">Click here to access the assets directly on contentbounty.com</a> -->
+<!--      <p><a href="{{response.localFolder}}" target="_blank">All Files</a>&nbsp;||&nbsp;<a (click)="openSpreadsheet($event)" href="#" target="_blank">Spreadsheet</a>&nbsp;||&nbsp;<a (click)="openDocument($event)" href="#" target="_blank">Document</a></p>
+
+    <div id="my-box-content-explorer"></div> -->
+  </div>
+
+</div>

@@ -1,0 +1,73 @@
+<div style="margin: auto;">
+  <div style="width: 1100px; margin: auto;">
+  
+  
+<p>Management -> Too Cute For Me -> Link Building</p>
+
+    <flexible-table
+      key="bounties"		
+      columns="selected,published_link,brand_name,titles,keywords" 
+      displayClone="false"
+      widths="0,40,300,150,350,215"
+      all="account"
+      headerButtons="Start Link Building,Start Page Rank Audit" 
+      (onHeaderButtonClicked)="flextableHeaderButtonClicked($event)"
+      filter='{"published_link": {"$exists": true}, "linkcampaign_id": {"$exists": false }, "brand_id":"{{sharedService._id}}" } '
+      selectedButtons="Delete Selected,Upload All"
+      buttons="published_link,brand_name,brand_name,brand_name,brand_name,brand_name,brand_name"
+      buttonNames="Campaign"
+      (sendHeaderButtons)="updateHeaderButtons($event)"
+      (onHeaderButtonClicked)="flextableHeaderButtonClicked($event)"
+      (tableButtonClicked)="tableButtonClicked($event)"
+      (sendTableButtons)="updateTableButtons($event)"
+      [(validation)]="validation"
+      [textCutoff]="textCutoff"
+      >
+    </flexible-table>
+
+      <div id="id-Action1" *ngIf="displayButtonArea" class="popup_modal_fade">
+        <div *ngIf="buttonSubviews[0] == true" class="popup_modal_content_area">
+          <button class="close_popup_modal" (click)="hidePopup()">X</button>
+          <h1>test</h1>
+          <app-bounty-create
+            content_type="Link Building"
+            [(currentBounty)]="currentBounty"
+            (passBountyTemplate)="addGuide($event)">
+          </app-bounty-create>
+        </div>
+      </div>
+
+<!-- 
+<div *ngIf="displayTableButtonArea" class="popup_modal_fade">
+  <div *ngIf="tableButtonSubviews[0]" class="popup_modal_content_area">
+  	<button class="close_popup_modal" (click)="hidePopup()">X</button>
+  	You have {{response.available_emails.readyToSend}} emails available for this piece of content
+
+    <div>
+    <div class="file_add_up full_width">
+      <select class="flexdropdown" style="border:0px" [(ngModel)]="selectedLevel" (change)="onSelected()">
+        <option *ngFor="let label of campaignTypes; let y = index" [ngValue]="label">{{
+          label.name
+        }}</option>
+      </select>
+    </div>
+  </div>
+
+  <div *ngIf="displayProcess" class="bounty_container">
+    This is a test
+  <app-bounty-create
+    *ngIf="displayProcess"
+    displayTableButtonArea="{{displayTableButtonArea}}"
+    content_type="{{selectedProcess}}"
+    [(currentBounty)]="currentBounty"
+    (hideTableButtonArea)="disapparePopup()"
+    (passBountyTemplate)="addGuide($event)"
+  ></app-bounty-create>
+  <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+  </div>
+  </div>
+
+</div> -->
+
+  </div>
+</div>

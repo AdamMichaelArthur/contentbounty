@@ -1,0 +1,78 @@
+
+
+/*Custom CSS*/
+.dataTables_wrapper .dataTables_filter{
+    float: left;
+    width: 30%;
+    text-align: left;
+    padding: 5px 0;
+}
+.dataTables_wrapper .dataTables_filter input {
+    margin-left: 0 !important;
+    position: relative;
+    left: 0;
+    background: none;
+    padding: 5px 10px;
+    border: 1px solid #cccccc;
+    width: 100%;
+    border-radius: 50px; 
+    margin-top: 10px;
+}
+table.dataTable.no-footer {
+    border-bottom: 1px solid #cccccc !important;
+}
+.dataTables_filter label{
+  width: 100%;
+  height: auto;
+  float: left;
+  position: relative;
+}
+.dataTables_wrapper .dataTables_length {
+    float: right;
+    width: 200px;
+}
+.dataTables_wrapper .dataTables_length label{
+    width: 100%;
+    float: left;
+    margin: 0px;
+}
+.dataTables_wrapper .dataTables_length label select{
+    margin-left: 0 !important;
+    position: relative;
+    left: 0;
+    background: none;
+    padding: 5px 10px;
+    border: 1px solid #cccccc;
+    width: 100%;
+    border-radius: 50px; 
+    margin: 10px 0;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button.current, .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover{
+    color: #ffffff !important;
+    border: 0;
+    background-color: white;
+    background: #43425d;
+    border-radius: 50%;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover{
+    color: white !important;
+    border: 1px solid #43425d;
+    background-color: #585858;
+    background: #43425d;
+    border-radius: 70px;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button{
+    cursor: default;
+    color: #43425d !important;
+    border: 1px solid #43425d;
+    background: transparent;
+    box-shadow: none;
+    border-radius: 70px;
+    padding: 4px 12px;
+}
+
+table.dataTable.no-footer {
+    min-width: 600px !important;
+    background: #fff;
+    margin-bottom: 20px;
+}

@@ -1,0 +1,82 @@
+[{
+    "brand_name": "Return Store",
+    "website_url":"https://www.return.store",
+    "new_post_url":"https://www.return.store/newpost.php",
+    "new_post_login":"iansa4219",
+    "new_post_pw":"dino",
+    "monthly_budget":200,
+    "social_media":[{
+            "platform":"Instagram",
+            "login":"Iansa4219",
+            "pw":"dino"
+            }
+        ]
+},{
+    "brand_name": "Too Cute For Me",
+    "website_url":"https://www.toocuteforme.com",
+    "new_post_url":"https://www.return.store/newpost.php",
+    "new_post_login":"iansa4219",
+    "new_post_pw":"dino",
+    "monthly_budget":200,
+    "social_media":[{
+            "platform":"Instagram",
+            "login":"Iansa4219",
+            "pw":"dino"
+            }
+        ]
+},
+{
+    "brand_name": "The Bored Developer",
+    "website_url":"https://www.theboreddeveloper.co",
+    "new_post_url":"https://www.return.store/newpost.php",
+    "new_post_login":"iansa4219",
+    "new_post_pw":"dino",
+    "monthly_budget":200,
+    "social_media":[{
+            "platform":"Instagram",
+            "login":"Iansa4219",
+            "pw":"dino"
+            }
+        ]
+},{
+    "brand_name": "Content Bounty",
+    "website_url":"https://www.contentbounty.com",
+    "new_post_url":"https://www.return.store/newpost.php",
+    "new_post_login":"iansa4219",
+    "new_post_pw":"dino",
+    "monthly_budget":200,
+    "social_media":[{
+            "platform":"Instagram",
+            "login":"Iansa4219",
+            "pw":"dino"
+            }
+        ]
+},{
+    "brand_name": "Watch Me Bark",
+    "website_url":"https://www.watchmebark.com",
+    "new_post_url":"https://www.return.store/newpost.php",
+    "new_post_login":"iansa4219",
+    "new_post_pw":"dino",
+    "monthly_budget":200,
+    "social_media":[{
+            "platform":"Instagram",
+            "login":"Iansa4219",
+            "pw":"dino"
+            }
+        ]
+},
+{
+    "brand_name": "Beauty Rhyme",
+    "website_url":"https://www.return.store",
+    "new_post_url":"https://www.return.store/newpost.php",
+    "new_post_login":"iansa4219",
+    "new_post_pw":"dino",
+    "monthly_budget":200,
+    "social_media":[{
+            "platform":"Instagram",
+            "login":"Iansa4219",
+            "pw":"dino"
+            }
+        ]
+}
+]

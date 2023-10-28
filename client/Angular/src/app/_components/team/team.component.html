@@ -1,0 +1,169 @@
+<div class="table_container">
+  <flexible-table key="user" headerButtons="Add User" (onHeaderButtonClicked)="flextableHeaderButtonClicked($event)"
+    (sendHeaderButtons)="updateHeaderButtons($event)" displayClone="false" displayAddDataToSource="false"
+    displayFileUpload="false" viewSelectColumns="skill" columns="email,first_name,last_name,role,skill"
+    widths="0,250,100,100,200,75" all="owner" dragdrop="skill" (receivedDropItem)="dropItemReceived($event)"
+    (onDragStart)="onDragStart($event)" (onDragEnd)="onDragEnd($event)" (onDragEnter)="onDragEnter($event)"
+    (onDragLeave)="onDragLeave($event)" (onDragOver)="onDragOver($event)" (onDropEvent)="onDropEvent($event)"
+    buttons="role" buttonNames="Change Role" (tableButtonClicked)="tableButtonClicked($event)"
+    (sendTableButtons)="updateTableButtons($event)"></flexible-table>
+</div>
+
+<div *ngIf="displayTableButtonArea" class="popup_modal_fade">
+  <div class="popup_modal_content_area" *ngIf="tableButtonSubviews[0]" style="width: 350px; height:150px;">
+    <button class="close_popup_modal" (click)="hideUserRoleSelectPopup()">X</button>
+    <div class="userroledropdown_container">
+      <select class="userroledropdown" (change)="changeUserRole($event.target.value, $event)" style="border:0px">
+        <option>Select Role</option>
+        <option *ngFor="let role of response.roles; let i = index;" [value]="role">{{role}}</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<div id="id-Action1" [style.display]="displayButtonArea ? 'none' : ''" class="popup_modal_fade">
+  <div *ngIf="buttonSubviews[0] === true" class="popup_modal_content_area"
+    [ngClass]="{'add_user_error_form': addTeamMemberForm.invalid && (f.touched || submitted)}">
+    <button class="close_popup_modal" (click)="hidePopup()">X</button>
+    <div class="form_header">
+      <h3>Add User</h3>
+    </div>
+    <div class="loader" *ngIf="isLoading">Loading...</div>
+    <div class="alert_success" *ngIf="ifSuccessMessage">
+      {{errorText}}
+    </div>
+    <div class="alert_error" *ngIf="ifErrorMessage">
+      {{errorText}}
+    </div>
+
+    <form [formGroup]="addTeamMemberForm" (ngSubmit)="addUser()">
+      <div class="form_input">
+
+        <div class="row">
+          <div class="col-md-6">
+            <label>First Name</label>
+            <input name="first_name" formControlName="first_name">
+            <div *ngIf="f.first_name.invalid && (f.first_name.touched || submitted)">
+              <label for="first_name" *ngIf="f.first_name.errors?.required" class="text-danger text_right">First name is
+                required!</label>
+              <label for="first_name" *ngIf="f.first_name.errors?.minlength" class="text-danger text_right">Invalid
+                first name!</label>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <label>Last Name</label>
+            <input name="last_name" formControlName="last_name">
+            <label for="last_name"
+              *ngIf="f.last_name.invalid && (f.last_name.touched || submitted) && f.last_name.errors?.minlength"
+              class="text-danger text_right">Invalid last name!</label>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <label>Email</label>
+            <input name="email" formControlName="email">
+            <div *ngIf="f.email.invalid && (f.email.touched || submitted)">
+              <label for="email" *ngIf="f.email.errors?.required" class="text-danger text_right">Email is
+                required!</label>
+              <label for="email" *ngIf="f.email.errors?.email" class="text-danger text_right">Invalid email!</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <label>Password</label>
+            <input name="password" formControlName="password">
+            <div *ngIf="f.password.invalid && (f.password.touched || submitted)">
+              <label for="password" *ngIf="f.password.errors?.required" class="text-danger text_right">Password is
+                required!</label>
+              <label for="password" *ngIf="f.password.errors?.minlength" class="text-danger text_right">Invalid
+                password!</label>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <label>Confirm Password</label>
+            <input name="confirm_password" formControlName="confirm_password">
+            <div *ngIf="f.confirm_password.invalid && (f.confirm_password.touched || submitted)">
+              <label for="confirm_password" *ngIf="f.confirm_password.errors?.required"
+                class="text-danger text_right">Required!</label>
+              <label for="confirm_password" *ngIf="f.confirm_password.errors?.mustMatch"
+                class="text-danger text_right">not matched!</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <label>Primary Skill</label>
+
+            <app-flex-dropdown key='skill' distinct='skills' initialNone='true'
+              (change)="updateSkill($event.target.value)"></app-flex-dropdown>
+            <label for="skill" *ngIf="f.skill.invalid && (f.skill.touched || submitted) && f.skill.errors?.required"
+              class="text-danger text_right">Required!</label>
+          </div>
+        </div>
+
+        <div class="add_content_popup_check margin_top">
+          <label class="cb_container">Require user to change password
+            <input type="checkbox" [value]="true" name="req_change_password" formControlName="req_change_password" />
+            <span class="checkmark"></span>
+            <label for="req_change_password"
+              *ngIf="f.req_change_password.invalid && (f.req_change_password.touched || submitted) && f.req_change_password.errors?.required"
+              class="text-danger text_right">Required!</label>
+          </label>
+        </div>
+
+        <!-- <div class="alert_error" *ngIf="ifErrorMessage">
+          {{errorText}}
+        </div> -->
+
+      </div>
+
+      <div class="form_submit">
+        <!-- <input type="submit" value="Create User" [disabled]="addTeamMemberForm.invalid && submitted"> -->
+        <input type="submit" value="Create User" [disabled]="submitted && f.invalid">
+      </div>
+    </form>
+  </div>
+  <div *ngIf="buttonSubviews[1] == true" style="position: absolute; width:100%; height: 100%; background-color:yellow;">
+    Delete User UI
+  </div>
+  <div *ngIf="buttonSubviews[2] == true" style="position: absolute; width:100%; height: 100%;background-color:green;">
+    Suspend User UI
+  </div>
+  <div *ngIf="buttonSubviews[3] == true" style="position: absolute; width:100%; height: 100%;background-color:purple;">
+    Example 3 Area
+  </div>
+</div>
+
+<div class="table_container">
+
+    <div class="tab_switch" style="z-index: 9;top: 0;">
+      <ul>
+        <li [class.active_tab]="viewMode == 'keyword'" rel="keyword" (click)="viewMode ='keyword'">Skills</li>
+      </ul>
+    </div>
+    <div class="tab_switch_container" [ngSwitch]="viewMode">
+      <div id="keyword" class="tab_switch_body" *ngSwitchCase="'keyword'" style="height: 100%">
+        <div class="keyword_and_promt_bucket" style="height: 100%">
+          <div class="row" style="height: 100%">
+            <div class="col-md-12" style="display: flex; flex-direction: column;">
+              <label for="">Drag Skills To The User</label>
+              <div class="textarea" style="height: 100%">
+                <div class="tag_container">
+                  <span class="tag" *ngFor="let userSkill of userSkills" draggable="true"
+                    (dragstart)="dragStart($event, 'add_skill', userSkill)">
+                    {{ userSkill }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+</div>

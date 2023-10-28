@@ -1,0 +1,19 @@
+<p>guest-post-opportunities works!</p>
+
+	<div *ngIf="loadFlextable">
+	    <flexible-table
+	      key="guest_post_opportunities"	
+	      currencyColumns="Cost"
+	      (sendHeaderButtons)="updateHeaderButtons($event)"
+	      columns="Site,Proposed Article,Cost,DR" 
+	      displayClone="false"
+	      displayAddDataToSource="false"
+	      widths="0,350,350,350,450,450"
+	      filter="{{filterStr}}"
+	      buttons="Site"
+      	  buttonNames="Buy"
+          (tableButtonClicked)="tableButtonClicked($event)"
+          (sendTableButtons)="updateTableButtons($event)"
+	      >
+	    </flexible-table>
+	</div>

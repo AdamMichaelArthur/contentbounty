@@ -1,0 +1,421 @@
+<div cdkDropListGroup>
+  <div>
+    <div class="example-container">
+      <h2>Available items</h2>
+
+      <div
+        cdkDropList
+        [cdkDropListData]="items"
+        cdkDropListSortingDisabled
+        (cdkDropListDropped)="drop($event)"
+      >
+        <div class="example-box" *ngFor="let item of items" cdkDrag>
+          {{ item }}
+        </div>
+      </div>
+    </div>
+
+    <div class="example-container">
+      <h2>Shopping basket</h2>
+
+      <div
+        cdkDropList
+        [cdkDropListData]="basket"
+        (cdkDropListDropped)="drop($event)"
+      >
+        <div class="example-box" *ngFor="let item of basket" cdkDrag>
+          {{ item }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page_container">
+    <div class="page_header">
+      <div class="file_add_up">
+        <button
+          *ngIf="displayAddDataToSource == true"
+          class="add"
+          id="adddatatosourceBtn"
+          (click)="openDataSource()"
+        >
+          <i class="fas fa-plus"></i> Add data to source
+        </button>
+        <button
+          *ngIf="displayFileUpload == true"
+          class="upload"
+          (click)="openFileUpload()"
+        >
+          <i class="fas fa-upload"></i> File upload
+        </button>
+      </div>
+      <div>
+        <mat-icon aria-hidden="false" aria-label="Example home icon">Dates</mat-icon>
+      </div>
+      <div class="file_add_up_select">
+        <div *ngIf="displayPageLength == true" class="dropdown_container_popup">
+          <select (change)="onChangeMaxRecord($event.target.value)">
+            <option value="10">10</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+          </select>
+        </div>
+      </div>
+      <div *ngIf="displaySearch == true" class="header_search">
+        <label for="" *ngIf="searchvalueError">
+          {{ searchvalueErrorTest }}</label
+        >
+        <div class="header_search_fill">
+          <div class="header_search_fill_select">
+            <select #t (change)="getOption(t.value)">
+              <option value="">Select</option>
+              <option
+                *ngFor="let tableHeader of table_Header"
+                [value]="tableHeader"
+              >
+                <span>{{ tableHeader }}</span>
+              </option>
+            </select>
+          </div>
+          <div class="header_search_fill_input">
+            <input
+              type="search"
+              #box
+              (keyup)="onEnter(box.value)"
+              placeholder="Search"
+            />
+            <button type="button" (click)="onEnter(box.value)">
+              <i class="fas fa-search"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--  
+  <div class="page_header">
+    <div class="file_add_up">
+      <button *ngIf="displayAddDataToSource == true" class="add" (click)="openDataSource()">
+        <i class="fas fa-plus"></i> Add data to source
+      </button>
+      <button *ngIf="displayFileUpload == true" class="upload" (click)="openFileUpload()">
+        <i class="fas fa-upload"></i> File upload
+      </button>
+    </div>
+    <div class="file_add_up_select">
+      <div *ngIf="displayPageLength == true" class="dropdown_container_popup">
+        <select (change)="onChangeMaxRecord($event.target.value)">
+          <option value="10">10</option>
+          <option value="25">25</option>
+          <option value="50">50</option>
+          <option value="100">100</option>
+        </select>
+      </div>
+    </div>
+
+    <div *ngIf="displaySearch == true" class="header_search">
+      <label for="" *ngIf="searchvalueError"> {{ searchvalueErrorTest }}</label>
+      <div class="header_search_fill">
+        <div class="header_search_fill_select">
+          <select #t (change)="getOption(t.value)">
+            <option value="">Select</option>
+            <option
+              *ngFor="let tableHeader of table_Header"
+              [value]="tableHeader"
+            >
+              <span>{{ tableHeader }}</span>
+            </option>
+          </select>
+        </div>
+        <div class="header_search_fill_input">
+          <input
+            type="search"
+            #box
+            (keyup)="onEnter(box.value)"
+            placeholder="Search"
+          />
+          <button type="button" (click)="onEnter(box.value)">
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+-->
+
+    <div class="add_content_popup" *ngIf="opendataSource" id="adddatasource">
+      <h3>Add Data To Source</h3>
+      <span>
+        {{ addsourceTest }}
+      </span>
+      <button class="close_popup" (click)="closeDataSource()">X</button>
+      <form
+        [formGroup]="datasourceFormDynamic"
+        (ngSubmit)="onSubmitDatasourceFormDynamic(datasourceFormDynamic)"
+      >
+        <div class="row">
+          <div
+            class="col-md-4 margin_top"
+            *ngFor="let itemdata of addDataForm_value"
+          >
+            <div class="add_content_desc">
+              <label
+                *ngIf="itemdata.type !== 'Boolean'"
+                for="itemdata.field_name"
+                >{{ itemdata.field_label }}</label
+              >
+              <span
+                *ngIf="
+                  submitted &&
+                  datasourceFormDynamic.get(itemdata.field_name).errors
+                    ?.required
+                "
+                class="text-danger"
+              >
+                {{ itemdata.field_label }} is required!
+              </span>
+              <input
+                *ngIf="itemdata.type == 'String' || itemdata.type == 'Number'"
+                [type]="itemdata.formType.controlType"
+                class="form-control"
+                [placeholder]="itemdata.field_label"
+              />
+              <div
+                *ngIf="itemdata.type == 'Boolean'"
+                class="add_content_popup_check margin_top"
+              >
+                <label class="cb_container">
+                  {{ itemdata.field_label }}
+                  <input
+                    [type]="itemdata.formType.controlType"
+                    (change)="updatePublished($event.target.checked)"
+                  />
+                  <span class="checkmark"></span>
+                </label>
+              </div>
+              <select
+                [formControlName]="itemdata.field_name"
+                *ngIf="itemdata.type == 'Array'"
+                class="brand"
+              >
+                <option value="">Select an option!</option>
+                <option
+                  *ngFor="
+                    let option of itemdata.formType.options;
+                    let i = index
+                  "
+                  [value]="option"
+                >
+                  {{ option }}
+                </option>
+              </select>
+              <input
+                type="date"
+                *ngIf="itemdata.type == 'Date'"
+                [formControlName]="itemdata.field_name"
+                placeholder="Choose a date"
+                onkeypress="return false;"
+              />
+            </div>
+          </div>
+          <div class="add_content_popup_submit">
+            <button>Add</button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="add_content_popup" *ngIf="addfile">
+      <h3>File upload</h3>
+      <button class="close_popup" (click)="closeFileUpload()">X</button>
+
+      <div class="area_content showDiv">
+        <div class="user_image_area">
+          <p class="danger_input_box" *ngIf="excel_file_Error">
+            {{ excel_file_Error }}
+          </p>
+          <p class="info_input_box" *ngIf="excel_file_Info">
+            {{ excel_file_Info }}
+          </p>
+          <div class="text-center">
+            <label class="theme-color custom-file-upload" *ngIf="!excel_loaded">
+              <input
+                type="file"
+                name="snippet_file"
+                id="snippet_file"
+                (change)="Validate($event)"
+                accept=".xlsx, .csv"
+                [ngClass]="{ 'float-left': loaded }"
+              />
+              Upload Data Excel File
+            </label>
+            <button
+              class="theme-color custom-file-upload ml-1"
+              [ngClass]="{ disable_style: uploading }"
+              [disabled]="uploading"
+              *ngIf="excel_loaded"
+              (click)="uploadExcelFile()"
+            >
+              {{ file_status }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flextable">
+      <div>
+        <div class="flexcontainer">
+          <div class="flexbody" *ngFor="let tableHeader of table_Header">
+            <div *ngIf="displayHeaders == true" class="flexheader">
+              {{ tableHeader }}
+            </div>
+            <div
+              class="flexrow"
+              *ngFor="let dataSource of dataSource_list; let i = index"
+            >
+              <div *ngFor="let row of table_Header; let y = index">
+                <div class="flexcell" *ngIf="tableHeader == row">
+                  <div
+                    *ngFor="let typeArr of addDataForm_value; let t = index"
+                    cdkDropList
+                    [cdkDropListData]="dataSource[row]"
+                    (cdkDropListDropped)="drop($event)"
+                  >
+                    <div *ngIf="table_Header[t] == row" cdkDrag>
+                      <input
+                        (change)="
+                          editDataById(
+                            dataSource,
+                            row,
+                            dataSource[row],
+                            'text',
+                            $event.target
+                          )
+                        "
+                        class="flexcell"
+                        size="{{ dataSource[row].length }}"
+                        *ngIf="typeArr.formType.controlType == 'text'"
+                        type="{{ typeArr.formType.controlType }}"
+                        [(ngModel)]="dataSource[row]"
+                      />
+                      <input
+                        (change)="
+                          editDataById(
+                            dataSource,
+                            row,
+                            dataSource[row],
+                            'number',
+                            $event.target
+                          )
+                        "
+                        class="flexcell"
+                        size="4"
+                        *ngIf="typeArr.formType.controlType == 'number'"
+                        type="text"
+                        [(ngModel)]="dataSource[row]"
+                      />
+
+                      <mat-form-field
+                        class="flexdate"
+                        *ngIf="typeArr.formType.controlType == 'date'"
+                      >
+                        <input
+                          matInput
+                          [matDatepicker]="picker"
+                          [value]="dataSource[row]"
+                        />
+                        <mat-datepicker-toggle
+                          matSuffix
+                          [for]="picker"
+                        ></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                      </mat-form-field>
+
+                      <!--
+                                      <input (change)="editDataById(dataSource, row, dataSource[row], 'date')"  
+                                              class='flexcell' 
+                                              size="{{dataSource[row].length}}" 
+                                              *ngIf="typeArr.formType.controlType == 'date'" 
+                                              [(ngModel)]="dataSource[row]"/>
+                                  -->
+
+                      <input
+                        (change)="
+                          editDataById(
+                            dataSource,
+                            row,
+                            dataSource[row],
+                            'boolean',
+                            $event.target
+                          )
+                        "
+                        class="flexcell"
+                        size="5"
+                        *ngIf="
+                          typeArr.formType.controlType == 'checkbox' &&
+                          dataSource[row] != true
+                        "
+                        type="{{ typeArr.formType.controlType }}"
+                      />
+                      <input
+                        (change)="
+                          editDataById(
+                            dataSource,
+                            row,
+                            dataSource[row],
+                            'boolean',
+                            $event.target
+                          )
+                        "
+                        class="flexcell"
+                        size="5"
+                        *ngIf="
+                          typeArr.formType.controlType == 'checkbox' &&
+                          dataSource[row] == true
+                        "
+                        type="{{ typeArr.formType.controlType }}"
+                        checked
+                      />
+                      <div
+                        class="flexcell"
+                        *ngIf="typeArr.formType.controlType == 'select'"
+                      >
+                        <select
+                          (change)="
+                            editDataById(
+                              dataSource,
+                              row,
+                              dataSource[row],
+                              'array',
+                              $event.target.value
+                            )
+                          "
+                          class="flexcell"
+                        >
+                          <option
+                            class="flexcell"
+                            *ngFor="let option of dataSource[row]"
+                            >{{ option }}</option
+                          >
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="displayPagination == true" class="table_pagination">
+      <ul>
+        <li (click)="previous()">Previous</li>
+        <li>{{ current_page_text }}</li>
+        <li>{{ total_items_text }}</li>
+        <li (click)="next()">Next</li>
+      </ul>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,619 @@
+<!-- <a href="javascript:void(0)" id="drag" draggable="true">Drag me</a>
+
+<div id="drop" 
+  (startdrag)="startDrag($event)"
+  (dragenter)="handleDragEnter($event)" 
+  (dragover)="handleDragOver($event)"
+  (dragleave)="handleDragLeave($event)"
+  (drop)="handleDrop($event)"
+  dropzone="copy">
+    <span style="pointer-events: none;">
+        Text node in child
+        <p style="pointer-events: none;">Text node in grandchild</p>
+    </span>
+</div> -->
+
+<div #tablecontainer class="page_container" id="page_container" (mousedown)="onClick($event)" (mouseup)="onMouseUp($event)">
+  <h2 class="sectionheader" *ngIf="displayHeader != false">
+    <span>{{headerDisplayText}}</span>
+  </h2>
+  <div class="page_header" *ngIf="displayOptions == true">
+    <div class="file_add_up">
+      <button *ngFor="let headerButton of headerButtonsAr" id="{{headerButton}}"
+        (click)="onHeaderBtnClicked(headerButton)">
+        {{headerButton}}
+      </button>
+      <span *ngIf="atLeastOneRowSelected">
+      <button *ngFor="let selectedButton of selectedButtonsAr" (click)="onHeaderBtnClicked(selectedButton)">
+        {{selectedButton}}
+      </button>
+    </span>
+    </div>
+    <div class="file_add_up">
+      <div class="select_dropdown" *ngFor="let filter of filtersAr; let i = index;">
+        <select class="flexdropdown" (change)="onFilterSelected(i, $event.target.value, filterLabelsAr[i][0])" style="border:0px">
+          <option *ngFor="let label of filterLabelsAr[i]; let y = index" [value]="label">{{label}}</option>
+        </select>
+      </div>
+    </div>
+    <div class="file_add_up" *ngIf="displayOptions == true">
+      <button id="adddatatosourceBtn" *ngIf="displayAddDataToSource == true" class="add" (click)="openDataSource()">
+        <i class="fas fa-plus"></i> {{addDataToSourceDesc}}
+      </button>
+      <button id="addfileBtn" *ngIf="displayFileUpload == true" class="upload">
+        <!-- <input
+          type="file"
+          name="profileFile"
+          accept="image/*"
+          (change)="handleProfileInputChange($event)"
+          [ngClass]="{ 'float-left': loaded }"
+        /> -->
+        <input type="text" name="snippet_file" id="snippet_file" (click)="openFileUploader($event)"/>
+
+        <!-- <input type="file" name="snippet_file" id="snippet_file" (change)="Validate($event)" accept=".xlsx" /> -->
+        <label for="snippet_file">
+          <i class="fas fa-cloud-upload-alt"></i>
+          <span>Upload File</span>
+        </label>
+
+      </button>
+      <!-- <input
+      type="file"
+      name="snippet_file"
+      id="snippet_file"
+      (change)="Validate($event)"
+      accept=".xlsx"
+    /> -->
+    </div>
+
+    <div class="file_add_up_select" *ngIf="displayPageLength == true">
+      <div *ngIf="displayPageLength == true" class="dropdown_container">
+        <select [(ngModel)]="corporationObj" (change)="onChangeMaxRecord($event.target.value)" value=[max_records_default]>
+          <option value="10" selected>10</option>
+          <option value="25">25</option>
+          <option value="50">50</option>
+          <option value="100">100</option>
+        </select>
+      </div>
+    </div>
+        <div *ngIf="addDateSearch" style="padding-top:5px; padding-left:5px; padding-right: 5px;">
+        <mat-icon aria-hidden="false" aria-label="Example home icon" (click)="showDatePicker()">date_range</mat-icon>
+        <app-searchselectbounty *ngIf="bShowDatePicker" (newItemEvent)="datesDidChange($event)"></app-searchselectbounty>
+      </div>
+
+    <div *ngIf="displaySearch == true" class="header_search">
+      <label for="" *ngIf="searchvalueError"> {{ searchvalueErrorTest }}</label>
+      <div class="header_search_fill">
+        <div class="header_search_fill_select">
+          <select #t (change)="getOption(t.value)">
+            <option value="">Select</option>
+            <option *ngFor="let tableHeader of table_Header" [value]="tableHeader">
+              <span>{{ tableHeader | replaceUnderscore }}</span>
+            </option>
+          </select>
+        </div>
+        <div class="header_search_fill_input">
+          <input autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" type="text" #box (keyup)="onEnter(box.value)" placeholder="Search" />
+          <button (click)="dynamicButtonClicked($event, 8, 8)" type="button" (click)="onEnter(box.value)">
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- <div class="toster_area">
+    <div class="success_toster" *ngIf="success_toster">
+      <p>{{alert}}</p>
+    </div>
+    <div class="error_toster" *ngIf="error_toster">
+      <p>{{alert}}</p>
+    </div>
+    <div class="loader" *ngIf="isLoading">Loading...</div>
+  </div> -->
+
+  <div class="table_area">
+    <div class="flex-container-table" style="display: inline-flex; width: 100% ; min-height: 365px;">
+      <div #column name="mainColumn" [attr.data-column]="y" class="flexcolumn"
+        *ngFor="let column of tableColumns; let y = index; let firstRow = first; let lastRow = last;">
+        <div style="border-bottom: 1px solid #cccccc;" *ngIf="dragallows[y-1] == true" (mouseenter)="onHoverColumn(true, y)"
+          (mouseleave)="onHoverColumn(false, y)">
+
+          <div id="div10" style="border:0; padding-left: 10px;"
+            [ngClass]="selectColumnClass(compact, noTextColumnsAr[y-1])" click="headerClicked($event, y-1)"
+            *ngIf="displayHeaders == true" click="headerClicked($event, y-1)">
+            <div #flexheader class="flexheader">
+              {{tableLabels[y-1]}}
+              <div class="arrowup"></div>
+            </div>
+          </div>
+          <div #messageEl id="div11" #cell class="flexa"
+            *ngFor="let row of column; let i = index; let firstColumn = first; let lastColumn = last"
+            (mouseenter)="onHoverRow(true, i)" (mouseleave)="onHoverRow(false, i)" draggable="true"
+            (dragstart)="startDrag($event, y-1, i)" (startdrag)="startDrag($event, y-1, i)"
+            (dragenter)="handleDragEnter($event, y-1, i)" (dragover)="handleDragOver($event, y-1, i)"
+            (dragleave)="handleDragLeave($event, y-1, i)" (drop)="handleDrop($event, y-1, i)" dropzone="copy"
+            [attr.data-cell]="i" [attr.data-column]="y" [attr.data-count]="y*(i+1)"
+            [ngClass]="testIm[y-1 + i * 20]?'bg':''">
+            <div class="block_row" *ngIf="rowOperationsAr[i]"></div>
+            <div class="block_row_gr" *ngIf="rowOperationsGr[i]"></div>
+            <div *ngIf="lastRow">
+              <div *ngIf="firstColumn"></div>
+              <div *ngIf="lastColumn"></div>
+            </div>
+            <div #textColumn [attr.data-column]="y" id="div7" name="setCustomWidth"
+              [ngClass]="selectColumnClass(compact, noTextColumnsAr[y-1])" style="height: 20px;"
+              *ngIf="formDefinitions[y-1].formType.controlType == 'text'" (dblclick)="editField()">
+              <span #textSpan [ngClass]="selectCellClass(noTextColumnsAr[y-1], y-1)"
+                *ngIf="noTextColumnsAr[y-1] == false"
+                
+                >
+                <!-- {{ row }} -->
+                <a *ngIf="linkColumnsAr[y-1] == true" href="{{row}}" target="_blank">{{ (row.length>textCutoff[y-1])? (row | slice:0:textCutoff[y-1])+' ...':(row) }}</a>
+                <span (click)="onTextClicked($event,i, y-1)" *ngIf="linkColumnsAr[y-1] != false">{{ (row.length>textCutoff[y-1])? (row | slice:0:textCutoff[y-1])+' ...':(row) }}</span>
+              </span>
+              <span #noTextSpan id="test" [ngClass]="selectCellClass(noTextColumnsAr[y-1], y-1)"
+                *ngIf="noTextColumnsAr[y-1] == true">&nbsp;</span>
+
+              <div class="flextip">
+                <!-- <span class="flextiptext">{{ iconColumns[y][i] }}</span> -->
+                <!-- <span class="flextiptext"  *ngIf="noTextColumnsAr[y-1] == true || row.length > 18">{{ iconColumns[y][i] }}</span> -->
+                <span class="flextiptext"  *ngIf='(noTextColumnsAr[y-1] == true || row.length > 18) && iconColumns[y][i] != "" '>{{ iconColumns[y][i] }}</span>
+                <div style="float:right" *ngFor="let iconcolumn of tableIconsAr; let r = index">
+                  <div style="float:right" *ngIf="tableHeaders[y-1] == iconcolumn">
+                    <span id="{{idsAr[i]}}" class="flexicon" 
+                    (click)="onIconClicked($event, 9, 9, idsAr[i], buttonNamesAr[r], y-1)"
+                      (mouseenter)="displayIconTooltip($event, iconcolumn, tableIconNamesAr[y-1])"
+                      (mouseleave)="hideIconTooltip($event)">
+                      <mat-icon class="flexicon">{{tableIconNamesAr[y-1]}}</mat-icon>
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div style="float:left" *ngFor="let buttoncolumn of buttonsAr; let r = index">
+                <div style="float:left" *ngIf="tableHeaders[y-1] == buttoncolumn">
+                  <button (click)="dynamicButtonClicked($event, 9, 9)" class="button" name="{{buttonNamesAr[r]}}" 
+                    id="{{idsAr[i]}}" type="button">
+                    {{buttonNamesAr[r]}}
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div #row id="div1" [className]="compact ? 'flexrow-compact' : 'flexrow'"
+              *ngIf="formDefinitions[y-1].formType.controlType == 'number'" (dblclick)="editField()">
+              <span #textSpan [ngClass]="selectCellClass(noTextColumnsAr[y-1], y-1)"
+                *ngIf="noTextColumnsAr[y-1] == false">{{ row }}</span>
+              <span #noTextSpan id="test" [ngClass]="selectCellClass(noTextColumnsAr[y-1], y-1)"
+                *ngIf="noTextColumnsAr[y-1] == true">&nbsp;</span>
+              <div style="float:left" *ngFor="let buttoncolumn of buttonsAr; let r = index">
+                <div style="float:left" *ngIf="tableHeaders[y-1] == buttoncolumn">
+                  <button (click)="dynamicButtonClicked($event, 1, 1)" class="button" name="{{buttonNamesAr[r]}}"
+                    id="{{idsAr[i]}}" type="button">
+                    {{buttonNamesAr[r]}}
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div #flexdropdown [attr.data-column]="y" id="div2" [className]="compact ? 'flexrow-compact' : 'flexrow'"
+              name="hideOnDrag" *ngIf="formDefinitions[y-1].formType.controlType == 'select'">
+              <div *ngIf="bDropDownViewsAr[y-1]" class="flexcell">
+                <span>&nbsp;</span>
+                <view-flex-dropdown [disableDropdownDelete]="disableDeleteDropdown" [data]="row" id="{{idsAr[i]}}" key="{{tableHeaders[y-1]}}" datasource="{{this.key}}" 
+                (itemRemoved)="dropdownItemRemoved($event)"
+                (dragenter)="handleDragEnter2(y-1 + i * 20)"
+                (dragleave)="handleDragLeave2(y-1 + i * 20)" 
+                ></view-flex-dropdown>
+              </div>
+              <div *ngIf="!bDropDownViewsAr[y-1]">
+                <select (change)="onDropdownChange($event.target.value, y, i)" class="flexcell">
+                  <option class="flexcell" *ngFor="let option of row">{{ option }}</option>
+                </select>
+              </div>
+
+              <div style="float:left" *ngFor="let buttoncolumn of buttonsAr; let r = index">
+                <div style="float:left" *ngIf="tableHeaders[y-1] == buttoncolumn">
+                  <button (click)="dynamicButtonClicked($event, 6, 6)" class="button" name="{{buttonNamesAr[r]}}"
+                    id="{{idsAr[i]}}" type="button">
+                    {{buttonNamesAr[r]}}
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="flexcheckbox" *ngIf="formDefinitions[y-1].formType.controlType == 'checkbox'">
+              <label class="cb_container" *ngIf="row == true" >
+                <input  (change)="checkValue($event, 7, 7, idsAr[i])" size="5" type="checkbox" checked />
+                <span class="cb_checkmark"></span>
+              </label>
+              <label class="cb_container" *ngIf="row == false">
+                <input (change)="checkValue($event, 7, 7, idsAr[i])" size="5" type="checkbox" />
+                <span class="cb_checkmark"></span>
+              </label>
+
+              <div style="float:left" *ngFor="let buttoncolumn of buttonsAr; let r = index">
+                <div style="float:left" *ngIf="tableHeaders[y-1] == buttoncolumn">
+                  <button (click)="dynamicButtonClicked($event, 3, 3)" class="button" name="{{buttonNamesAr[r]}}"
+                    id="{{idsAr[i]}}" type="button">
+                    {{buttonNamesAr[r]}}
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div id="div3" [className]="compact ? 'flexrow-compact' : 'flexrow'"
+              *ngIf="formDefinitions[y-1].formType.controlType == 'date'">
+              <div class="flexdate"></div>
+            </div>
+          </div>
+        </div>
+        <div style="border-bottom: 1px solid #cccccc;" *ngIf="dragallows[y-1] == false" name="header-nodrag" (click)="columnClicked(y-1)">
+          <div #selectColumn id="div4" style="border:0; padding-left: 0px; cursor: col-resize;"
+            [className]="compact ? 'flexrow-compact' : 'flexrow'" *ngIf="displayHeaders == true">
+            <div #flexheader class="flexheader" [attr.data-sortable]="true"
+              (click)="headerClicked($event, y-1, flexheader)">
+              <span #textSpan *ngIf="noTextColumnsAr[y-1] == false">
+                <span class="flexicon-header">{{tableLabels[y-1]}}</span>
+              </span>
+              <span #noTextSpan id="test" *ngIf="noTextColumnsAr[y-1] == true">
+                <div [className]="displayIconHeader[y-1] ? 'showiconheader' : 'hideiconheader'">
+                  {{tableLabels[y-1]}}
+                </div>
+              </span>
+              <div *ngIf="bSortableColumnsAr[y-1]" [className]="bUp[y-1] ? 'arrow-down' : 'arrow-up'"></div>
+            </div>
+          </div>
+          <div *ngIf="lastRow">
+          </div>
+          <div class="decreased_pad" id="div6" (mouseenter)="onHoverRow(true, i, $event)" (mouseleave)="onHoverRow(false, i)"
+            [ngClass]="selectColumnClass(compact, noTextColumnsAr[y-1])" *ngFor="let row of column; let i = index"
+             #rowcell>
+              <div class="block_row" *ngIf="rowOperationsAr[i]"></div>
+              <div class="block_row_gr" *ngIf="rowOperationsGr[i]"></div>
+            <div #textColumn [attr.data-column]="y" id="div7" name="setCustomWidth"
+              [ngClass]="selectColumnClass(compact, noTextColumnsAr[y-1])"
+              *ngIf="formDefinitions[y-1].formType.controlType == 'text'" (dblclick)="editField()">
+              <div style="float:left" *ngFor="let buttoncolumn of buttonsAr; let r = index">
+                <div style="float:left" *ngIf="tableHeaders[y-1] == buttoncolumn">
+                  <div class="loader loader_absolute_left" *ngIf="rowOperationsGr[i]">Loading...</div>
+                  <button (click)="dynamicButtonClicked($event, i, r)" class="button" name="{{buttonNamesAr[r]}}"
+                    id="{{idsAr[i]}}" type="button">
+                    {{buttonNamesAr[r]}}
+                  </button>
+                </div>
+              </div>
+              <span #textSpan [ngClass]="selectCellClass(noTextColumnsAr[y-1], y-1)"
+                *ngIf="noTextColumnsAr[y-1] == false"
+                
+                >
+                <a *ngIf="linkColumnsAr[y-1] == true" href="{{row}}" target="_blank">{{ (row.length>textCutoff[y-1])? (row | slice:0:textCutoff[y-1])+' ...':(row) }}</a>
+                <span (click)="onTextClicked($event, i, y-1)" *ngIf="linkColumnsAr[y-1] != true">{{ (row.length>textCutoff[y-1])? (row | slice:0:textCutoff[y-1])+' ...':(row) }}</span>
+              </span>
+              <span #noTextSpan id="test" [ngClass]="selectCellClass(noTextColumnsAr[y-1], y-1)"
+                *ngIf="noTextColumnsAr[y-1] == true">&nbsp;</span>
+              <div class="flextip">
+                <span style="z-index: 1;" class="flextiptext" *ngIf='(noTextColumnsAr[y-1] == true || row.length > 20) && iconColumns[y][i] != "" '>{{ iconColumns[y][i] }}</span>
+                <div style="float:right; z-index: 9999;" *ngFor="let iconcolumn of tableIconsAr; let r = index">
+                  <div *ngIf="bIconRows[i] == true">
+                    <div *ngIf="bIconColumns[y-1] == true" (mouseenter)="activateDropdownTimer(i, y-1)" (mouseleave)="hideDropDown(i, y-1)" class="bMenu" id="bMenu" #bMenu>
+                      <menu-flex-dropdown
+                        key="step"
+                        distinct="content_type"
+                        [flowToNewRoute]="flowToNewRoute"
+                        [routeToGoTo]="routeToGoTo[r]"
+                        [data]="tableIconMenusAr[i]"
+                        dynamicRoutes="{{tableIconMenuRoutesAr[i]}}"
+                        _id={{idsAr[i]}}
+                        class="dropdown"
+                        [_variableData]="tableData[i]">
+                      </menu-flex-dropdown>
+                    </div>
+                  </div>
+                  <div style="float:right" *ngIf="tableHeaders[y-1] == iconcolumn">
+                    <span id="{{idsAr[i]}}" class="flexicon"
+                    id="{{idsAr[i]}}" (click)="onIconClicked($event, i, r, idsAr[i], buttonNamesAr[r], y-1)"
+                      (mouseenter)="displayIconTooltip($event, iconcolumn, tableIconNamesAr[y-1])"
+                      (mouseleave)="hideIconTooltip($event)"><!-- {{i}}, {{r}}, {{y-1}} -->
+                      <mat-icon class="flexicon">{{tableIconNamesAr[y-1]}}</mat-icon>
+                      
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+
+            </div>
+            <div id="div8" [ngClass]="selectColumnClass(compact, noTextColumnsAr[y-1])"
+              *ngIf="formDefinitions[y-1].formType.controlType == 'number'" (dblclick)="editField()">
+              <span #textSpan [ngClass]="selectCellClass(noTextColumnsAr[y-1], y-1)"
+                *ngIf="noTextColumnsAr[y-1] == false">{{ row }}</span>
+              <span #noTextSpan id="test" [ngClass]="selectCellClass(noTextColumnsAr[y-1], y-1)"
+                *ngIf="noTextColumnsAr[y-1] == true">&nbsp;</span>
+              <div style="float:left" *ngFor="let buttoncolumn of buttonsAr; let r = index">
+                <div style="float:left" *ngIf="tableHeaders[y-1] == buttoncolumn">
+                  <button (click)="dynamicButtonClicked($event, 5, 5)" class="button" name="{{buttonNamesAr[r]}}"
+                    id="{{idsAr[i]}}" type="button">
+                    {{buttonNamesAr[r]}}
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div #flexdropdown [attr.data-column]="y" id="div9" [className]="compact ? 'flexrow-compact' : 'flexrow'"
+              *ngIf="formDefinitions[y-1].formType.controlType == 'select'">
+
+              <div *ngIf="bDropDownViewsAr[y-1]" class="flexcell">
+                <span>&nbsp;</span>
+                <view-flex-dropdown [data]="row" [disableDropdownDelete]="disableDeleteDropdown" id="{{idsAr[y-1]}}" key="{{tableHeaders[y-1]}}" datasource="bounty" (itemRemoved)="dropdownItemRemoved($event)"> </view-flex-dropdown>
+              </div>
+              <div *ngIf="!bDropDownViewsAr[y-1]"> 
+                <select (change)="onDropdownChange($event.target.value, y, i)" class="flexcell">
+                  <option class="flexcell" *ngFor="let option of row">{{ option }}</option>
+                </select>
+              </div>
+              <div style="float:left" *ngFor="let buttoncolumn of buttonsAr; let r = index">
+                <div style="float:left" *ngIf="tableHeaders[y-1] == buttoncolumn">
+                  <button (click)="dynamicButtonClicked($event, 6, 6)" class="button" name="{{buttonNamesAr[r]}}"
+                    id="{{idsAr[i]}}" type="button">
+                    {{buttonNamesAr[r]}}
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="flexcheckbox" *ngIf="formDefinitions[y-1].formType.controlType == 'checkbox'">
+              <label class="cb_container" *ngIf="row == true">
+                <input  (change)="checkValue($event, 7, 7, idsAr[i])" size="5" type="checkbox" checked />
+                <span class="cb_checkmark"></span>
+              </label>
+              <label class="cb_container" *ngIf="row == false">
+                <input  (change)="checkValue($event, 7, 7, idsAr[i])" size="5" type="checkbox" />
+                <span class="cb_checkmark"></span>
+              </label>
+
+              <div style="float:left" *ngFor="let buttoncolumn of buttonsAr; let r = index">
+                <div style="float:left" *ngIf="tableHeaders[y-1] == buttoncolumn">
+                  <button (click)="dynamicButtonClicked($event, 7, 7)" class="button" name="{{buttonNamesAr[r]}}"
+                    id="{{idsAr[i]}}" type="button">
+                    {{buttonNamesAr[r]}}
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div id="div10" [className]="compact ? 'flexrow-compact' : 'flexrow'"
+              *ngIf="formDefinitions[y-1].formType.controlType == 'date'">
+              <div class="flexdate">
+                <mat-form-field>
+                  <input (dateChange)="dateChanged(idsAr[i], $event.target.value, 'release_for_bounty')" matInput [matDatepicker]="picker" [value]="row" />
+                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div name="2" [attr.data-column]="columnsAr.length+1" style="width: 100%" class="flexcolumn"
+        *ngIf="displayFullLines == true">
+        <div class="testbyimran" style="border-bottom: 1px solid #cccccc;">
+          <div style="border-bottom: 0" *ngIf="displayHeaders==true" #row
+            [className]="compact ? 'flexrow-compact' : 'flexrow'">
+            <div class="flexheader"></div>
+          </div>
+          <div class="nodata_table" *ngIf="tableData?.length < 1">
+            <h1>No Data</h1>
+          </div>
+
+          <!-- <div #row [className]="compact ? 'flexrow-compact' : 'flexrow'"
+            *ngFor="let row of test; let i = index; let last = last">
+            <div class="test4" *ngIf="!last">
+              <div *ngIf="displayDelete != true">
+                <div *ngIf="displayClone != true"><span>&nbsp;</span></div>
+              </div>
+              <span [className]="test1[i] ? 'flexicon-hide' : 'flexicon-hover'" *ngIf="displayClone == true"
+                (click)="duplicateById(idsAr[i])">
+                <mat-icon class="flexicon_endrow">add</mat-icon>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              </span>
+              <span [className]="test1[i] ? 'flexicon-hide' : 'flexicon-hover'" *ngIf="displayDelete == true"
+                (mouseenter)="onHoverRow(true, i)" (mouseleave)="onHoverRow(false, i)" (click)="deleteById(idsAr[i])">
+                &nbsp;<mat-icon class="flexicon_endrow">delete_forever</mat-icon>
+              </span>
+            </div>
+
+            <div *ngIf="last" class="test4">
+              <div *ngIf="displayDelete != true">
+                <div *ngIf="displayClone != true"><span>&nbsp;</span></div>
+              </div>
+              <span [className]="test1[i] ? 'flexicon-hide' : 'flexicon-hover'" *ngIf="displayClone == true"
+                (click)="duplicateById(idsAr[i])">
+                <mat-icon class="flexicon_endrow">add</mat-icon>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              </span>
+              <span [className]="test1[i] ? 'flexicon-hide' : 'flexicon-hover'" *ngIf="displayDelete == true"
+                (mouseenter)="onHoverRow(true, i)" (mouseleave)="onHoverRow(false, i)" (click)="deleteById(idsAr[i])">
+                &nbsp;<mat-icon class="flexicon_endrow">delete_forever</mat-icon>
+              </span>
+              <div style="position:absolute; padding-top: 6px; left:0px; width:100%; height:1px;">
+                &nbsp;
+              </div>
+            </div>
+          </div> -->
+
+          <div #row [className]="compact ? 'flexrow-compact' : 'flexrow'"
+            *ngFor="let row of tableData; let i = index; let last = last">
+            <div class="test4">
+              <div *ngIf="displayDelete != true">
+                <div *ngIf="displayClone != true"><span>&nbsp;</span></div>
+              </div>
+              <span [className]="test1[i] ? 'flexicon-hide' : 'flexicon-hover'" *ngIf="displayClone == true"
+                (click)="duplicateById(row._id)">
+                <mat-icon class="flexicon_endrow">add</mat-icon>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              </span>
+              <span [className]="test1[i] ? 'flexicon-hide' : 'flexicon-hover'" *ngIf="displayDelete == true"
+                (click)="deleteById(row._id, i)">
+                &nbsp;<mat-icon class="flexicon_endrow">delete_forever</mat-icon>
+              </span>
+            </div>
+            <div class="block_row" *ngIf="isLoading[row._id]"></div>
+            <div class="loader loader_absolute" *ngIf="isLoading[row._id]">Loading...</div>
+            <!-- <div class="block_row_gr" *ngIf="isLoadingGr[row._id]"></div>
+            <div class="loader loader_absolute" *ngIf="isLoadingGr[row._id]">Loading...</div> -->
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="displayPagination == true" class="table_pagination">
+    <div class="pagination">
+      <div style="float: left; margin-right:10px; right: 10px;" class="loader" *ngIf="pageLoading">Loading...</div>
+      <a *ngFor="let page of pagination.pages; let i = index" (click)="Page(page.page_endpoint)"
+        [ngClass]="{'active': pagination.current_page == page.page_number}">{{page.page_number}}</a>
+    </div>
+  </div>
+</div>
+
+<div class="popup_modal_fade" [style.display]="opendataSource ? 'none' : ''">
+  <div *ngIf="addDataFormInitialized" class="popup_modal_content_area" id="adddatasource">
+    <button class="close_popup_modal" (click)="closeDataSource()">X</button>
+    <form [formGroup]="datasourceFormDynamic" (ngSubmit)="onSubmitDatasourceFormDynamic(datasourceFormDynamic)">
+      <div class="row">
+        <div class="col-md-12 margin_top" *ngFor="let itemdata of addDataForm_value">
+          <div *ngIf="itemdata.formType.controlType==='checkbox'">{{itemdata.field_label}}</div>
+          <input [type]="itemdata.formType.controlType" class="form-control" [placeholder]="itemdata.field_label"
+            [formControlName]="itemdata.field_name" autocorrect="off"/>
+
+            <div *ngIf="datasourceFormDynamic.invalid && (datasourceFormDynamic.controls[itemdata.field_name].dirty || datasourceFormDynamic.controls[itemdata.field_name].touched || submitted)"
+                >
+
+              <div class="text-danger" *ngIf="datasourceFormDynamic.controls[itemdata.field_name].errors && datasourceFormDynamic.controls[itemdata.field_name].errors.required">
+                {{itemdata.field_label}} is required.
+              </div>
+              <div class="text-danger" *ngIf="datasourceFormDynamic.controls[itemdata.field_name].errors && datasourceFormDynamic.controls[itemdata.field_name].errors.pattern">
+                {{itemdata.field_label}} is invalid
+              </div>
+
+            </div>
+        </div>
+        <div class="add_content_popup_submit">
+          <button>Add</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- <div class="popup_modal_fade" [style.display]="addfile ? '' : 'none'">
+  <div id="addfile" class="popup_modal_content_area">
+    <h3>File upload</h3>
+    <button class="close_popup_modal" (click)="closeFileUpload()">X</button>
+    <div class="area_content showDiv"> -->
+      <!-- <div>
+        <input type="file" name="snippet_file" id="snippet_file" (change)="Validate($event)" accept=".xlsx" />
+        <input type="text" name="snippet_file" id="snippet_file" (change)="Validate($event)" accept=".xlsx" />
+        <label for="snippet_file">
+          <i class="fas fa-cloud-upload-alt"></i>
+          <span>Upload File</span>
+        </label>
+      </div> -->
+      <!-- <div class="user_image_area">
+        <div class="loader" *ngIf="uploading">Loading...</div>
+  
+        <p class="danger_input_box" *ngIf="excel_file_Error">
+          {{ excel_file_Error }}
+        </p>
+        <p class="info_input_box" *ngIf="excel_file_Info">
+          {{ excel_file_Info }}
+        </p> -->
+        <!-- <input type="text" name="snippet_file" id="snippet_file" (change)="Validate($event)" accept=".xlsx" /> -->
+        <!-- <div class="text-center">
+          <label class="theme-color custom-file-upload">
+            <input
+              type="text"
+              name="snippet_file"
+              id="snippet_file"
+              (change)="Validate($event)"
+              accept=".xlsx"
+            />
+            Upload Data Excel File
+          </label>
+          <button
+            class="theme-color custom-file-upload ml-1"
+            [ngClass]="{ disable_style: uploading }"
+            [disabled]="uploading"
+            *ngIf="excel_loaded"
+            (click)="uploadExcelFile()"
+          >
+            {{ file_status }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<app-file-upload
+  *ngIf="addfile"
+  [(validation)]="validation"
+  (displayAddFileAreaBoolean)="closeFileUpload()"
+  (emitTmpIDForExcelUpload)="receiveTmpIDForExcelUpload($event)"
+  filter={{filter}}
+  key={{key}}
+>
+</app-file-upload>
+
+<!-- <div class="popup_modal_fade" [style.display]="addfile ? '' : 'none'">
+  <div id="addfile" class="popup_modal_content_area">
+    <h3>File upload</h3>
+    <button class="close_popup_modal" (click)="closeFileUpload()">X</button>
+    <div class="area_content showDiv">
+      <input type="file" name="snippet_file" id="snippet_file" (change)="Validate($event)" accept=".xlsx" />
+      <label for="snippet_file">
+        <i class="fas fa-cloud-upload-alt"></i>
+        <span>Choose File</span>
+      </label>
+    </div>
+  </div>
+</div> -->
+
+<!-- <div class="popup_modal_fade" [style.display]="addfile ? '' : 'none'">
+  <div id="addfile" class="popup_modal_content_area">
+    <h3>File upload</h3>
+    <button class="close_popup_modal" (click)="closeFileUpload()">X</button>
+    <div class="area_content showDiv">
+      <div class="user_image_area">
+        <div class="loader" *ngIf="uploading">Loading...</div>
+  
+        <p class="danger_input_box" *ngIf="excel_file_Error">
+          {{ excel_file_Error }}
+        </p>
+        <p class="info_input_box" *ngIf="excel_file_Info">
+          {{ excel_file_Info }}
+        </p>
+        <div class="text-center">
+          <label class="theme-color custom-file-upload" *ngIf="excel_loaded">
+            <input
+              type="file"
+              name="snippet_file"
+              id="snippet_file"
+              (change)="Validate($event)"
+              accept=".xlsx"
+            />
+            Upload Data Excel File
+          </label>
+          <button
+            class="theme-color custom-file-upload ml-1"
+            [ngClass]="{ disable_style: uploading }"
+            [disabled]="uploading"
+            *ngIf="excel_loaded"
+            (click)="uploadExcelFile()"
+          >
+            {{ file_status }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->

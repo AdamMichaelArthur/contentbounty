@@ -1,0 +1,130 @@
+<div class="popup_modal_fade">
+  <div
+    class="popup_modal_content_area"
+    id="adddatasource"
+    [style.display]="opendataSource ? 'none' : ''" 
+  >
+    <h3>Add Data To Source</h3>
+    <span>
+      {{ addsourceTest }} try some test
+    </span>
+    <button class="close_popup_modal" (click)="closeDataSource()">X</button>
+    <form
+      [formGroup]="datasourceFormDynamic"
+      (ngSubmit)="onSubmitDatasourceFormDynamic(datasourceFormDynamic)"
+    >
+      <div class="row">
+        <div
+          class="col-md-4 margin_top"
+          *ngFor="let itemdata of addDataForm_value"
+        >
+          <div class="add_content_desc">
+            <label *ngIf="itemdata.type !== 'Boolean'" for="itemdata.field_name"
+              >{{ itemdata.field_label }}</label
+            >
+            <!--               <span
+                  *ngIf="
+                    submitted &&
+                    datasourceFormDynamic.get(itemdata.field_name).errors
+                      ?.required
+                  "
+                  class="text-danger"
+                >
+                  {{ itemdata.field_label }} is required!
+                </span> -->
+            <input
+              *ngIf="itemdata.type == 'String' || itemdata.type == 'Number'"
+              [type]="itemdata.formType.controlType"
+              class="form-control"
+              [placeholder]="itemdata.field_label"
+              [formControlName]="itemdata.field_name"
+            />
+            <div
+              *ngIf="itemdata.type == 'Boolean'"
+              class="add_content_popup_check margin_top"
+            >
+              <label class="cb_container">
+                {{ itemdata.field_label }}
+                <input
+                  [type]="itemdata.formType.controlType"
+                  (change)="updatePublished($event.target.checked)"
+                />
+                <span class="checkmark"></span>
+              </label>
+            </div>
+            <select
+              [formControlName]="itemdata.field_name"
+              *ngIf="itemdata.type == 'Array'"
+              class="brand"
+            >
+              <option value="">Select an option!</option>
+              <option
+                *ngFor="
+                      let option of itemdata.formType.options;
+                      let i = index
+                    "
+                [value]="option"
+              >
+                {{ option }}
+              </option>
+            </select>
+            <input
+              type="date"
+              *ngIf="itemdata.type == 'Date'"
+              [formControlName]="itemdata.field_name"
+              placeholder="Choose a date"
+              onkeypress="return false;"
+            />
+          </div>
+        </div>
+        <div class="add_content_popup_submit">
+          <button>Add</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="popup_modal_fade">
+  <div
+    id="addfile"
+    class="popup_modal_content_area"
+    [style.display]="addfile ? 'none' : ''"
+  >
+    <h3>File upload</h3>
+    <button class="close_popup_modal" (click)="closeFileUpload()">X</button>
+
+    <div class="area_content showDiv">
+      <div class="user_image_area">
+        <p class="danger_input_box" *ngIf="excel_file_Error">
+          {{ excel_file_Error }}
+        </p>
+        <p class="info_input_box" *ngIf="excel_file_Info">
+          {{ excel_file_Info }}
+        </p>
+        <div class="text-center">
+          <label class="theme-color custom-file-upload" *ngIf="!excel_loaded">
+            <input
+              type="file"
+              name="snippet_file"
+              id="snippet_file"
+              (change)="Validate($event)"
+              accept=".xlsx, .csv"
+              [ngClass]="{ 'float-left': loaded }"
+            />
+            Upload Data Excel File
+          </label>
+          <button
+            class="theme-color custom-file-upload ml-1"
+            [ngClass]="{ disable_style: uploading }"
+            [disabled]="uploading"
+            *ngIf="excel_loaded"
+            (click)="uploadExcelFile()"
+          >
+            {{ file_status }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

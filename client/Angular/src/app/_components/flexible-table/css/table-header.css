@@ -1,0 +1,491 @@
+/* page conatiner css */
+.page_container {
+  padding: 0px;
+  width: 100%;
+  height: auto;
+  float: left;
+  position: relative;
+}
+/* page conatiner css ends */
+
+/* page header css */
+.page_header {
+  width: 100%;
+  height: auto;
+  float: left;
+  position: relative;
+  padding: 15px 0;
+}
+/* page header css ends */
+
+/* file_add css  */
+.file_add_up {
+  float: left;
+  display: -webkit-inline-box;
+  display: inline-flex;
+}
+.users_balance{
+  float: right;
+  display: -webkit-inline-box;
+  display: inline-flex;
+}
+.users_balance h2{
+  margin: 0;
+  line-height: 36px;
+}
+/* add class css  */
+.file_add_up button {
+  border-radius: 5px !important;
+}
+.file_add_up button {
+  color: #333;
+  border: 1px solid #dededf;
+  font-size: 14px;
+  padding: 5px 15px;
+  border-radius: 25px;
+  margin-right: 10px;
+  cursor: pointer;
+  background: none;
+  -webkit-transition: 0.2s ease-in-out;
+  transition: 0.2s ease-in-out;
+}
+.add {
+  background: #327dfd !important;
+  color: #ffffff !important;
+  border: 0 !important;
+  padding: 0 10px 0 0!important;
+}
+.add i{
+  padding: 10px;
+  background: #196cfb;
+  border-radius: 5px 0 0 5px;
+}
+/* add class css ends */
+/* upload class css */
+.file_add_up button {
+  border-radius: 5px !important;
+}
+.file_add_up button {
+  color: #333;
+  border: 1px solid #dededf;
+  font-size: 14px;
+  /* padding: 0; */
+  border-radius: 25px;
+  margin-right: 10px;
+  cursor: pointer;
+  background: none;
+  -webkit-transition: 0.2s ease-in-out;
+  transition: 0.2s ease-in-out;
+}
+.upload {
+  background: none !important;
+  /* color: #ffffff !important; */
+  border: 0 !important;
+}
+.upload input{
+  display: none;
+}
+.upload label{
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  cursor: pointer;
+}
+.upload label i{
+  font-size: 24px;
+  margin-right: 5px;
+}
+/* upload class css ends */
+
+/* select css */
+.file_add_up_select {
+  width: 100px;
+  float: left;
+}
+
+.dropdown_container {
+  width: 100%;
+  float: left;
+  position: relative;
+  padding-left: 10px;
+}
+
+.dropdown_container select {
+  width: 100%;
+  float: left;
+  border: 1px solid #dededf;
+  border-radius: 5px;
+  padding: 5px 10px;
+  font-size: 14px;
+  padding-left: 10px;
+}
+.dropdown_container::after {
+  content: "";
+  width: 0;
+  height: 0;
+  
+  border: 5px solid transparent;
+  border-color: #4d4d4d transparent transparent transparent;
+  position: absolute;
+  top: 16px;
+  right: 10px;
+}
+/* select css ends */
+
+/* file add up select */
+.dropdown_container_popup {
+  width: 100%;
+  float: left;
+  border: 1px solid #dfdfdf;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  position: relative;
+  padding-left: 5px;
+  padding-right: 20px;
+}
+
+.dropdown_container_popup select {
+  width: 100%;
+  height: 32px;
+  float: left;
+  position: relative;
+  border: 0;
+  font-size: 13px;
+  color: #b5b5b5;
+  z-index: 9;
+  background: none;
+}
+
+.dropdown_container_popup::after {
+  content: "";
+  width: 0;
+  height: 0;
+  border: 5px solid transparent;
+  border-color: #4d4d4d transparent transparent transparent;
+  position: absolute;
+  top: 14px;
+  right: 6px;
+}
+/* file add up select ends */
+
+/* search css  */
+.header_search {
+  width: 350px;
+  float: right;
+  position: relative;
+}
+/* search css ends */
+/* search header fill */
+.header_search_fill {
+  border-radius: 5px !important;
+  width: 100%;
+  float: left;
+  position: relative;
+  border: 1px solid #dededf;
+  border-radius: 30px;
+  display: -webkit-box;
+  display: flex;
+}
+/* search header fill end */
+/* search fill select */
+.header_search_fill_select {
+  width: fit-content;
+  float: left;
+  position: relative;
+  z-index: 9;
+}
+
+.table_search_fill {
+  border-radius: 5px !important;
+  width: 20px;
+  float: left;
+  position: relative;
+  border: 1px solid #dededf;
+  border-radius: 30px;
+  display: -webkit-box;
+  display: flex;
+  height:10px;
+}
+/* search header fill end */
+/* search fill select */
+.table_search_fill_select {
+  width: 20px;
+  float: left;
+  position: relative;
+  height:10px;
+  z-index: 9;
+}
+
+/* search fill select end */
+/* search select itself */
+.header_search_fill_select select {
+  width: fit-content;
+  float: left;
+  position: relative;
+  border: 0px;
+  font-size: 14px;
+  height: 34px;
+  background: none;
+  padding-left: 30px;
+  padding-right: 5px;
+  cursor: pointer;
+  text-transform: capitalize;
+}
+
+.header_search_fill_input {
+  width: 100%;
+  height: auto;
+  float: left;
+  position: relative;
+}
+
+.header_search_fill_input input {
+  width: 100%;
+  float: left;
+  position: relative;
+  font-size: 14px;
+  color: #333333;
+  padding: 4px 10px;
+  line-height: 14px;
+  height: 34px;
+  padding-left: 5px;
+  border: 0px;
+  background: none;
+}
+
+.header_search_fill_input button {
+  position: absolute;
+  background-color: inherit;
+  border: none;
+  right: 0;
+  bottom: 0;
+  padding: 5px 12px;
+  cursor: pointer;
+  display: flex;
+  height: 100%;
+  align-items: center;
+}
+
+.header_search_fill_input button i {
+  font-size: 12px;
+  color: #b5b5b5;
+}
+
+.header_search_fill::after {
+  content: "";
+  width: 0;
+  height: 0;
+  border: 5px solid transparent;
+  border-color: #4d4d4d transparent transparent transparent;
+  position: absolute;
+  top: 14px;
+  left: 10px;
+}
+/* search select itself ends */
+/* file_add css ends */
+
+/*Add Content Bounty Popup*/
+.add_content_popup {
+  width: 100%;
+  max-width: 700px;
+  height: auto;
+  position: absolute;
+  background: #ffffff;
+  z-index: 9;
+  margin: 66px auto auto auto;
+  padding: 15px;
+  border-radius: 4px;
+  background: #ffffff;
+  -webkit-box-shadow: 0px 1px 6px 0px rgba(143, 143, 143, 0.5);
+  -moz-box-shadow: 0px 1px 6px 0px rgba(143, 143, 143, 0.5);
+  box-shadow: 0px 1px 6px 0px rgba(143, 143, 143, 0.5);
+  overflow: hidden;
+  top: 0;
+  right: 0;
+  left: 0;
+}
+
+.add_content_desc {
+  width: 100%;
+  height: auto;
+  float: left;
+  position: relative;
+}
+
+.add_content_desc label {
+  width: 100%;
+  height: auto;
+  float: left;
+  position: relative;
+  font-size: 14px;
+  color: #333333;
+  margin-bottom: 5px;
+}
+
+.add_content_desc input {
+  width: 100%;
+  float: left;
+  position: relative;
+  border: 1px solid #e2e2e3;
+  border-radius: 4px;
+  padding: 0px 10px;
+  height: 32px;
+  font-size: 14px;
+  line-height: 14px;
+}
+
+.add_content_desc select {
+  width: 100%;
+  float: left;
+  position: relative;
+  border: 1px solid #e2e2e3;
+  border-radius: 4px;
+  padding: 0px 10px;
+  height: 32px;
+  font-size: 14px;
+  line-height: 14px;
+}
+
+.add_content_desc .calender_input {
+  width: 80%;
+}
+
+.add_content_desc .calender_icon {
+  float: right;
+  margin-top: -5px;
+}
+
+.add_content_popup_check {
+  width: 100%;
+  float: left;
+  position: relative;
+}
+
+.cb_container {
+  display: block;
+  position: relative;
+  padding-left: 25px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 14px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  color: #3a3a3a;
+}
+
+.cb_container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 16px;
+  width: 16px;
+  border: 1px solid #95c8da;
+  border-radius: 4px;
+}
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.cb_container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+.cb_container .checkmark:after {
+  left: 4px;
+  top: 1px;
+  width: 6px;
+  height: 10px;
+  border: solid black;
+  border-width: 0 2px 2px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+.add_content_popup_submit {
+  width: 100%;
+  float: left;
+  position: relative;
+  text-align: right;
+  padding: 15px;
+  padding-bottom: 0;
+}
+
+.add_content_popup_submit button {
+  padding: 5px 15px;
+  background: #e0e1e2;
+  color: #5a5a5a;
+  font-size: 16px;
+  font-weight: 500;
+  border-radius: 4px;
+  border: 0;
+  cursor: pointer;
+}
+
+.editorial_proc_check p {
+  font-size: 14px;
+  float: left;
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-bottom: 0;
+  margin-left: 8px;
+  font-weight: 400;
+  color: #414141;
+}
+
+.editorial_proc_check i {
+  font-size: 14px;
+  float: left;
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-bottom: 0;
+  margin-left: 8px;
+  font-weight: 400;
+  color: #414141;
+}
+
+.editorial_proc_check .bounty_prise {
+  width: 65px;
+  height: 24px;
+  font-size: 12px;
+  border-radius: 7px;
+  border: 1px solid #e2e2e3;
+  padding: 0 5px;
+}
+
+.close_popup {
+  position: absolute;
+  right: 0;
+  top: 0;
+  border: 0;
+  padding: 5px 15px;
+  background: #f1f1f1;
+  cursor: pointer;
+}
+
+/*Add Content Bounty Popup End*/
+
+/* search area styling by Noor */
+/* .fa-search::before {
+  display: none;
+  content: none;
+} */
+/* search area styling by Noor */

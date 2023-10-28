@@ -1,0 +1,13 @@
+:host ::ng-deep .decreased_pad{
+    padding-top: 1px !important;
+    padding-bottom: 1px !important;
+    min-height: 31px !important;
+}
+
+.table_container{
+    width: 100%;
+    height: auto;
+    float: left;
+    position: relative;
+    padding: 15px;
+}

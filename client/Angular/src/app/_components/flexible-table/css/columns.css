@@ -1,0 +1,39 @@
+ .column1 {
+	background-color:green;
+} 
+
+.column2 {
+	width: 315px;
+}
+
+/* .column3 {
+	background-color: orange;
+}
+
+.column4 {
+	background-color: blue;
+}
+
+.column5 {
+	background-color: purple
+}
+
+.column6 {
+	background-color: grey;
+} */
+
+.smallrow {
+
+  padding: 0px;                   /* Controls the height of the cell.  You may need to adjust flexcheckbox padding */
+  border-bottom: solid 1px #ccc;  /* Controls the line.  Delete to have a table without a bottom border */
+  color: rgba(0,0,0,0.87);        /* Controls the color of the text inside of the table cells */
+  /* background: white;           /* Controls the background color.  The effect is to change the entire bk color */
+  font-size: 14px;                /* If you change the font size, you may  need to adjust the padding of flexcheckbox */
+  /* border-left: solid 1px #ccc; /* Creates horizontal lines */
+  /* border-right: solid 1px #ccc;/* Creates horizontal lines */
+  /*max-width:300px;*/
+  max-height:70px;
+  padding-left: 10px;
+  padding-right: 10px;
+  position: relative;
+}

@@ -1,0 +1,40 @@
+
+  <div class="flextable">
+      <ul>
+        <div class='flexcontainer'>
+        <li class='flexbody' *ngFor="let tableHeader of table_Header"><div class='flexheader'>{{tableHeader}}</div>
+           <div class='flexrow' *ngFor="let dataSource of dataSource_list; let i = index">
+            <div *ngFor="let row of table_Header; let y = index">
+                <div class="flexcell" *ngIf="tableHeader == row">
+                <!--<div *ngFor="let typeArr of addDataForm_value; let t = index"></div>-->
+                  
+                
+                <div *ngFor="let typeArr of addDataForm_value; let t = index">
+                  <div *ngIf="table_Header[t] == row">
+                    <!--{{dataSource[row]}}-->
+                    <input class='flexcell' size="{{dataSource[row].length}}" *ngIf="typeArr.formType.controlType == 'text'" 
+                      type="{{ typeArr.formType.controlType }}"  [(ngModel)]="dataSource[row]"/>
+                      <input class='flexcell' size="4" *ngIf="typeArr.formType.controlType == 'number'" 
+                      type="text"  [(ngModel)]="dataSource[row]"/>
+                       <input class='flexcell' size="{{dataSource[row].length}}" *ngIf="typeArr.formType.controlType == 'date'" 
+                      type="{{ typeArr.formType.controlType }}"  [(ngModel)]="dataSource[row]"/>
+                      <input class='flexcell' size="5" *ngIf="typeArr.formType.controlType == 'radio' && dataSource[row] != true"
+                        type="{{ typeArr.formType.controlType }}" [(ngModel)]="dataSource[row]"/>
+                      <!--<input size="5"*ngIf="typeArr.formType.controlType == 'radio' && dataSource[row] == true"
+                        type="{{ typeArr.formType.controlType }}" [(ngModel)]="dataSource[row]" checked/>-->
+                        <div class='flexcell' *ngIf="typeArr.formType.controlType == 'select'">
+                            <select class='flexcell' >
+                              <option class='flexcell' *ngFor="let option of dataSource[row]" value="option">{{ option }}</option>
+                            </select>
+                        </div>
+                  </div>
+                </div>
+
+
+              </div>
+            </div>
+          </div>
+        </li>
+      </div>
+      </ul>
+  </div>

@@ -1,0 +1,10 @@
+{
+    "$schema": "../../../node_modules/@angular-devkit/schematics/collection-schema.json",
+    "schematics": {
+      "component-header": {
+        "description": "Generate a component with header in the project.",
+        "factory": "./component-header/index#componentHeader",
+        "schema": "./component-header/schema.json"
+      }
+    }
+}

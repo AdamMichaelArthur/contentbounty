@@ -1,0 +1,291 @@
+<!--         headerIcons="email,phone,role,account_type"
+        headerIconNames="email,local_phone,donut_large,account_box" -->
+
+<div style="background-color:white; width:100%; height:100%">
+  <div style="margin:auto; padding-top:0px;">
+    <div style="width:1155px; margin:auto;">
+      <!--       <flexible-table
+        key="user"
+        headerButtons="Send Email,Delete User,Suspend User"
+        columns="email"
+        displayFileUpload=false
+        displayAddDataToSource=false
+        displayPagination=false
+        all="all"
+        filter="{'account_type' : 'creator'}"
+        (tableButtonClicked)="tableButtonClicked($event)"
+        (sendHeaderButtons)="updateHeaderButtons($event)"
+        (sendTableButtons)="updateTableButtons($event)"
+        displaySearch=false
+        displayDelete=false
+        displayClone=false
+        (sendHeaderButtons)="updateHeaderButtons($event)"
+        (onHeaderButtonClicked)="flextableHeaderButtonClicked($event)"
+        buttons="email,email,email,email"
+        buttonNames="Suspend,Test1,Test,Change"
+        (tableButtonClicked)="tableButtonClicked($event)"
+        (sendTableButtons)="updateTableButtons($event)"
+        >
+      </flexible-table>  -->
+
+      <!-- 
+      Table Buttons Example -->
+      <!--         <flexible-table
+        key="user"
+        columns="email"
+        all="all"
+        filter="{'account_type' : 'authority'}"
+
+        buttons="email"
+        buttonNames="Suspend"
+        (tableButtonClicked)="tableButtonClicked($event)"
+        (sendTableButtons)="updateTableButtons($event)"
+        >
+      </flexible-table>  
+ -->
+      <!--         <flexible-table
+        key="user"
+        tableIcons="email"
+        tableIconNames="local_phone"
+        columns="email,phone,role,account_type"
+        displayPagination=false
+        headerButtons="Kill User"
+        buttons="email,email,email,email"
+        buttonNames="Suspend,Test1,Test,Change"
+        (onHeaderButtonClicked)="flextableHeaderButtonClicked($event)"
+        all="all"
+        filter="{'account_type' : 'authority'}"
+        (tableButtonClicked)="tableButtonClicked($event)"
+        (sendHeaderButtons)="updateHeaderButtons($event)"
+        (sendTableButtons)="updateTableButtons($event)"
+        displaySearch=false
+        >
+      </flexible-table>  
+ -->
+
+      <!--
+        FLEXTABLE OPTIONS
+          /* Flexible Table Options */
+            displaySearch = false;          // Default is true.  Set to false to remove search bar
+            displayFileUpload = false;      // Default is true.  Set to false to remvoe the upload
+            displayAddDataToSource = false; // Default is true.  Set to false to remove the add data to source button
+            displayPageLength = false;      // Default is true.  Set to false to remove the max records dropdown
+            displayPagination = false;      // Default is true.  Set to false to remove the pagination at the bottom 
+            displayDelete = false;           // Default is true.  Set to false to remove the delete row button
+            displayClone = false;            // Default is true.  Set to false to remove the copy row button
+            displayExport = false;           // Default is true.  Set to false to remove the export file button
+            displayFullLines = false;        // Default is true.  Set to false to stop lines from going across whole page 
+            isDraggable = false;
+            displayHeaders = true;
+            displayHeader = false;
+            displayOptions = true;
+            compact = false;
+            borders = true;
+            headerDisplayText = "Flexible Table"
+            displayRecord = 10;
+            dragAccept: any = "";
+            headerButtons = "";
+            currencySymbol = "$";
+            currencyColumns = "";
+            columns = "";
+            buttons = "";
+            dragdrop = "";
+            buttonsAr = [];
+            buttonNames = "";
+            all = "all";
+            filter = "{}";
+            headerIcons = ""
+            headerIconNames = "";
+            tableIcons = ""
+            tableIconNames = "";
+
+            filters = {{filtersStr}}// Set this if you want a dropdown of additional
+                                    // filters to sort the data by.  Supports any valid
+                                    // MongoDB Find query.  Override the 'filters' variable
+                                    // in the *.component.ts file subclass of BaseComponent to
+                                    //  set           
+
+            noTextColumns = ""      // This causes rows that otherwise would have
+                                    // text to not have text.  Typically would be
+                                    // used in conjunction with an tooltop icon replacing
+                                    // it
+            
+            toggleIcons = ""        // These are icons that can be used as an 'on' or 'off'
+                                    // typically intended to be used for any data column that
+                                    // is true or false
+            menuIcons = ""          // These are used to make clickable menu icons for the table
+                                    // You can add a series of additional options here
+            menuIconOptions = ""    // These are the options for the menu icon.
+
+            tooltipIcons = ""       // These are icons that display the {{row}} as a tooltip
+
+        -->
+
+      <!-- <flexible-table
+        key="user"
+        columns="email,phone,role,account_type"
+        displayPagination=false
+        headerButtons="Kill User"
+        (onHeaderButtonClicked)="flextableHeaderButtonClicked($event)"
+        all="all"
+        (sendHeaderButtons)="updateHeaderButtons($event)"
+        displaySearch=false
+        filters={{filtersStr}}
+        displayClone=false
+        displayFileUpload=false
+        displayAddDataToSource=false
+        buttons="email"
+        buttonNames="Test"
+        (tableButtonClicked)="tableButtonClicked($event)"
+        (sendTableButtons)="updateTableButtons($event)"
+        (iconClicked)="showIconMenu($event)"
+        > -->
+
+      <flexible-table
+        key="user"
+        columns="email,phone,role,account_type"
+        displayPagination="false"
+        headerButtons="Kill User"
+        (onHeaderButtonClicked)="flextableHeaderButtonClicked($event)"
+        all="all"
+        (sendHeaderButtons)="updateHeaderButtons($event)"
+        displaySearch="false"
+        filters="{{ filtersStr }}"
+        displayClone="false"
+        displayFileUpload="false"
+        displayAddDataToSource="false"
+        buttons="email"
+        buttonNames="Test"
+        (tableButtonClicked)="tableButtonClicked($event)"
+        (sendTableButtons)="updateTableButtons($event)"
+        (iconClicked)="showIconMenu($event)"
+        filter="{'account_type': 'creator'}"
+      >
+      </flexible-table>
+
+      <div
+        id="id-Action1"
+        (mouseleave)="hideHeaderButtonArea()"
+        [style.display]="displayButtonArea ? 'none' : ''"
+        style="position: relative; width:600px; height: 200px; left:0px; top:90px; left:1px; background-color:orange; padding: 0px;"
+      >
+        <div
+          *ngIf="buttonSubviews[0] == true"
+          style="position: absolute; width:100%; height: 100%; background-color:blue;"
+        >
+          Send Email UI
+        </div>
+
+        <div
+          *ngIf="buttonSubviews[1] == true"
+          style="position: absolute; width:100%; height: 100%; background-color:yellow;"
+        >
+          Delete User UI
+        </div>
+
+        <div
+          *ngIf="buttonSubviews[2] == true"
+          style="position: absolute; width:100%; height: 100%;background-color:green;"
+        >
+          Suspend User UI
+        </div>
+
+        <div
+          *ngIf="buttonSubviews[3] == true"
+          style="position: absolute; width:100%; height: 100%;background-color:purple;"
+        >
+          Example 3 Area
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div
+    *ngIf="displayTableButtonArea"
+    (mouseleave)="hideTableButtonArea()"
+    style="margin:auto;"
+  >
+    <div
+      *ngIf="tableButtonSubviews[0]"
+      style="background-color: #FF4136;
+      width: 90%;
+      height: 90%;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      opacity:1;
+      border: 20px #000000;
+      background-color:lightgreen;
+      z-index:100;
+      transform: translate(-50%, -50%);"
+    >
+      {{ response.message }}
+    </div>
+
+    <div
+      *ngIf="tableButtonSubviews[1]"
+      style="background-color: #FF4136;
+      width: 90%;
+      height: 90%;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      opacity:1;
+      border: 20px #000000;
+      background-color:lightyellow;
+      z-index:100;
+      transform: translate(-50%, -50%);"
+    >
+      {{ response.message }}
+    </div>
+
+    <div
+      *ngIf="tableButtonSubviews[2]"
+      style="background-color: #FF4136;
+      width: 90%;
+      height: 90%;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      opacity:1;
+      border: 20px #000000;
+      background-color:red;
+      z-index:100;
+      transform: translate(-50%, -50%);"
+    >
+      {{ response.message }}
+    </div>
+
+    <div
+      *ngIf="tableButtonSubviews[3]"
+      style="background-color: #FF4136;
+      width: 90%;
+      height: 90%;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      opacity:1;
+      border: 20px #000000;
+      background-color:lightblue;
+      z-index:100;
+      transform: translate(-50%, -50%);"
+    >
+      {{ response.message }}
+    </div>
+  </div>
+</div>
+
+<div
+  class="iconcontainer"
+  [style.display]="displayIconMenu ? '' : 'none'"
+  id="iconmenu"
+  (mouseleave)="hideIconMenu()"
+>
+  <div
+    class="iconmenu"
+    data-identifier="icon.identifier"
+    *ngFor="let icon of iconMenus"
+  >
+    {{ icon.menu_label }}
+  </div>
+</div>

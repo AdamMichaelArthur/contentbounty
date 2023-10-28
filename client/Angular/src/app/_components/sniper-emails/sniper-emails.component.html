@@ -1,0 +1,22 @@
+
+<div class="loader" *ngIf="globalVars.isLoading"></div>
+<div *ngIf="!globalVars.isLoading">
+	<div class="row">
+		<div class="col-sm-12">
+			<div *ngIf="emailCount" class="margin-top-20 text-center font-weight-bold">
+				<h4>There are {{emailCount}} emails left</h4>
+			</div>
+		</div>
+	</div>
+	<div class="errorMessageDisplay" *ngIf="errorMessage">
+		<h4>
+			{{errorMessage}}
+		</h4>
+	</div>
+	
+	<div *ngFor="let email of emails">
+		<app-email-send [sendEmailsData]="email" (loadNextEmail)="loadNextEmail()" [emailSentSuccessfully]="emailSentSuccessfully"></app-email-send>
+	</div>
+	
+	<div *ngIf="noEmails">There are no emails to send at the moment.  Please check back later.</div>
+</div>

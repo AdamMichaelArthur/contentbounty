@@ -1,0 +1,47 @@
+<div>
+    <flexible-table
+      key="outreach"
+      columns="first_name,last_name,email"
+      displayOptions=false
+      displayClone=false
+      displayDelete=false
+      displayPagination=false
+      buttons="email,email"
+      buttonNames="Email,Text"
+      (tableButtonClicked)="tableButtonClicked($event)"
+      (sendTableButtons)="updateTableButtons($event)"
+      noTextColumns="last_name"
+      tableIcons="last_name,email"
+      tableIconNames=",attach_money,email"
+      >
+    </flexible-table>
+</div>
+
+<div *ngIf="displayTableButtonArea" (mouseleave)="hideTableButtonArea()" style="margin:auto;">
+        <div *ngIf="tableButtonSubviews[0]" style="background-color: #FF4136;
+      width: 600px;
+      height: 400px;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      opacity:1;
+      border: 20px #000000;
+      background-color:lightgreen;
+      z-index:100;
+      transform: translate(-50%, -50%);">
+      {{response.user.settings.first_name}}
+    </div>
+    <div *ngIf="tableButtonSubviews[1]" style="background-color: #FF4136;
+      width: 90%;
+      height: 90%;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      opacity:1;
+      border: 20px #000000;
+      background-color:lightblue;
+      z-index:100;
+      transform: translate(-50%, -50%);">
+      {{response.message}}
+    </div>
+</div>

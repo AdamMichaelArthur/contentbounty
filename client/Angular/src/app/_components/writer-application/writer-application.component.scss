@@ -1,0 +1,249 @@
+// Done
+.page_container{
+    width: 100%;
+    height: 100%;
+    background-color: #f8f9fa;
+}
+.container{
+    width: 100%;
+    max-width: 600px;
+    display: block;
+    margin: auto;
+}
+.campaign_header{
+    width: 100%;
+    padding: 20px 40px;
+    background: #ffffff;
+    box-shadow: 0px 1px 6px 0px rgba(143, 143, 143, 0.5);
+}
+.campaign_header h2{
+    font-size: 16px;
+    font-weight: 500;
+    margin: 0;
+    color: #34393d;
+    text-align: center;
+}
+
+.box_area{
+    width: 100%;
+    float: left;
+    position: relative;
+    height: 100vh;
+    overflow: hidden;
+    padding-top: 80px;
+    margin-top: -80px;
+}
+.box{
+    width: 100%;
+    min-height: 100px;
+    float: left;
+    background-color: #ffffff;
+    border: 1px solid #e4e5e9;
+    padding: 15px;
+    margin-top: 50px;
+    position: absolute;
+}
+.box h2{
+    font-size: 16px;
+    font-weight: 500;
+    color: #2a2f33;
+    margin-top: 0;
+    margin-bottom: 15px;
+    text-align: center;
+}
+.next_prev{
+    margin: 20px 0 0px;
+    width: 100%;
+    float: left;
+    text-align: center;
+}
+.next_prev button{
+    background: #2699fb;
+    color: #ffffff;
+    border: 0;
+    padding: 3px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-size: 14px;
+    min-width: 100px;
+}
+
+.input_area{
+    width: 100%;
+    float: left;
+}
+.input_area label{
+    width: 100%;
+    float: left;
+    font-size: 14px;
+    color: #2a2f33;
+    font-weight: 600;
+    margin: 10px 0 5px;
+}
+.input_area input{
+    width: 100%;
+    padding: 5px 10px;
+    border: 1px solid #c5c5c5;
+    border-radius: 4px;
+    font-size: 14px;
+    outline: none;
+}
+
+// Skill Area 
+.skils_area{
+    width: 100%;
+    float: left;
+}
+.skils_area h3{
+    font-size: 16px;
+    font-weight: 400;
+    color: #333333;
+    margin-top: 0;
+}
+.cb_container {
+    display: block;
+    position: relative;
+    padding-left: 22px;
+    margin-bottom: 0px;
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 16px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    color: #2a2f33;
+    margin-bottom: 10px;
+  }
+  .cb_container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  }
+  .checkmark {
+    position: absolute;
+    top: -1px;
+    left: 0;
+    height: 18px;
+    width: 18px;
+    border-radius: 3px;
+    border: 2px solid #327dfd;
+  }
+  .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+  .cb_container input:checked ~ .checkmark:after {
+    display: block;
+  }
+  .cb_container .checkmark:after {
+    left: 4px;
+    top: 0px;
+    width: 6px;
+    height: 10px;
+    border: solid #327dfd;
+    border-width: 0 2px 2px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+// Skill Area 
+
+// Drag Drop Area 
+.dragdrop_area{
+    width: 100%;
+    float: left;
+    padding: 15px;
+    text-align: center;
+    min-height: 200px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    border: 1px dashed #327dfd;
+}
+.dragdrop_area input{
+    display: none;
+}
+.dragdrop_area p{
+    font-size: 14px;
+    font-weight: 500;
+    margin: 0;
+    color: #333333;
+}
+.dragdrop_area label{
+    font-size: 16px;
+    color: #ffffff;
+    background: #327dfd;
+    padding: 5px 15px;
+    margin: 0;
+    border-radius: 4px;
+}
+.files-list {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin: 10px auto;
+    background: #ffffff;
+    border: 1px dashed;
+    padding: 5px;
+    color: #1c8adb;
+    align-items: center;
+    float: left;
+}
+.files-list p{
+    margin: 0px;
+}
+.files-list .delete-file {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+.files-list .delete-file img {
+    width: 30px;
+}
+// Drag Drop Area 
+
+// Slide Animation 
+.slide_default{
+    transform: translateX(0%);
+    transition: 0.5s ease-in-out;
+}
+.slide_left{
+    transform: translateX(-100%);
+    transition: 0.5s ease-in-out;
+}
+.slide_right{
+    transform: translateX(100%);
+    transition: 0.5s ease-in-out;
+}
+
+// interview_area
+.interview_area{
+    width: 100%;
+    height: auto;
+    float: left;
+    position: relative;
+    text-align: center;
+    min-height: 200px;
+    align-items: center;
+    justify-content: center;
+    display: inline-flex;
+}
+.interview_area a{
+    background: #f8f9fa;
+    padding: 10px 25px;
+    color: #333333;
+}
+.interview_area a i{
+    margin-right: 6px;
+}
+:host ::ng-deep ._2LpwQ___Wrapper__cls1._1cMla___Wrapper__media-tablet-up{
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+}
+// interview_area end

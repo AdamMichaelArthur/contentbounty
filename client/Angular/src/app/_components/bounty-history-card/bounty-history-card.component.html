@@ -1,0 +1,25 @@
+
+
+<div class="example-container mat-elevation-z8">
+  <div *ngFor="let text of summaryText">
+    {{text}}
+  </div>
+  <div (click)="onCloseClick()"><button  mat-button color="primary" style="float: right;" >Close</button>
+  </div>
+  <mat-table [dataSource]="dataSource" matSort *ngIf="dataSource">
+
+    
+    <ng-container matColumnDef="brand_name" (>
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Bounty Summary </mat-header-cell>
+      <mat-cell *matCellDef="let row" (click)="onCellClick(row)"> {{row.first_name[0]?row.first_name[0]:""}} {{row.last_name[0]?row.last_name[0]:''}} {{row.last_name[0]?'completed the step':''}} {{row.name}} for a {{row.content_type}} for {{row.brand_name}} </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;">
+    </mat-row>
+  </mat-table>
+
+  <mat-paginator *ngIf="this.dataSource" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+
+</div>
+

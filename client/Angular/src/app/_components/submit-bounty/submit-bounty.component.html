@@ -1,0 +1,85 @@
+<div class="page_container">
+    <div class="col-md-12">
+        <div class="page_header">
+            <h3>Bounty Submit</h3>
+        </div>
+    </div>
+
+    <div class="page_container">
+        <div class="row" *ngFor="let authority of authorityInfo">
+            <div class="col-md-9">
+                <div class="bounty_submit_opt">
+                    <div class="bounty_submit_opt_header">
+                        <ul>
+                            <li><i class="material-icons">business_center</i>{{authority.content_type}}</li>
+                            <li><i class="material-icons">present_to_all</i>{{authority.editorial_process}}</li>
+                            <li><i class="material-icons">event</i>{{authority.created | date}}</li>
+                        </ul>
+                    </div>
+                    <div class="bounty_submit_opt_body">
+                        <!--<h3 *ngIf="isNewBounty">New Bounty</h3>-->
+                        <div *ngFor="let dummy_bounty_submit of dummy_bounty_submits">
+                            <p>{{dummy_bounty_submit.message}}</p>
+                            <span>Link:<label>{{dummy_bounty_submit.link}}</label></span>
+                        </div>
+                    </div>
+                    <div class="bounty_submit_opt_footer">
+                        <div class="bounty_submit_link border_bottom">
+                            <div class="bounty_submit_link_link">
+                                <i class="material-icons">reply_all</i>
+                                <input type="text" [(ngModel)]="link" name="link" placeholder="Share Link">
+                            </div>
+                            <div class="bounty_submit_link_attach">
+                                <input type="file" id="attach_file">
+                                <label for="attach_file"><i class="material-icons">attachment</i></label>
+                            </div>
+                        </div>
+                        <div class="bounty_submit_link margin_top_30">
+                            <div class="bounty_submit_link_link">
+                                <i class="material-icons">comment</i>
+                                <input type="text" [(ngModel)]="message" name="message" placeholder="Type your message here">
+                            </div>
+                            <div class="bounty_submit_link_attach">
+                                <button (click)="sendBounty()"><i class="material-icons">send</i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="bounty_woner_profile">
+                    <div class="bounty_post">
+                        <table>
+                            <tr>
+                                <td><img src="" alt="" alt=""></td>
+                                <td>
+                                    <h4>{{authority.brand_name}}</h4>
+                                    <!--<p>Bangladesh</p>-->
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="bounty_details_table">
+                        <h3>Bounty Title: {{authority.bounty_title}}</h3>
+                        <table>
+                            <tr>
+                                <td>Bounty Status:</td>
+                                <td>{{authority.editorial_process}}</td>
+                            </tr>
+                            <tr>
+                                <td>Bounty Size:</td>
+                                <td>{{authority.word_count}} Word</td>
+                            </tr>
+                            <tr>
+                                <td>Budget:</td>
+                                <td>{{authority.budget | currency}}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>

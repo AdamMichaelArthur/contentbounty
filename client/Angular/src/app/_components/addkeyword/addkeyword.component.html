@@ -1,0 +1,119 @@
+<div cdkDropListGroup>
+<div class="add_keyword_container">
+    <h2>Add Keywords, Prompts & Title</h2>
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="bounty_area" style="overflow:hide">
+              <flexible-table
+                key="bounty"
+                displaySearch=false
+                displayAddDataToSource=false
+                displayPageLength=false
+                columns="release_for_bounty,content_type,keywords,titles"
+                displayFileUpload=false
+                displayClone=false
+                displayDelete=false
+                dragdrop="content_type"
+                filter='{"batch":"{{bountyBatch}}" }'
+                (receivedDropItem)="dropItemReceived($event)"
+                widths="0,200,125"
+                viewSelectColumns="keywords,titles"
+                (onDragEnd)="onDragEnd($event)" 
+                (onDragEnter)="onDragEnter($event)" 
+                (onDragLeave)="onDragLeave($event)" 
+                (onDragOver)="onDragOver($event)" 
+                (onDropEvent)="onDropEvent($event)"
+                >
+              </flexible-table>
+            </div>
+        </div>
+        <div class="col-lg-8">
+          <div class="bounty_popup_tab">
+            <flexible-table
+              key="keywords"
+              columns={{columnsStr}}
+              headerButtons="Show All Columns" 
+              (onHeaderButtonClicked)="flextableHeaderButtonClicked($event)" 
+              (sendHeaderButtons)="updateHeaderButtons($event)"
+              displayPagination=false
+              displaySearch=false
+              displayAddDataToSource=false
+              displayPagination=false
+              displayPageLength=false
+              deleteOnDrop=true
+              dragdrop="Keyword"
+              filter={{filter}}
+              widths="0,200,400,100,200,200"
+              (onDragStart)="onDragStart($event, 'content_type')" 
+              filters="{{ filtersStr }}"
+              (receivedTableData)="receivedTableData($event)"
+              >
+            </flexible-table>
+
+            
+
+            <!-- <div class="tabslidernav">
+              <ul>
+                <li [class.tabActive]="viewMode == 'keywords'" rel="keywords" (click)="viewMode ='keywords'">Keywords</li>
+                <li [class.tabActive]="viewMode == 'process'" rel="process" (click)="viewMode ='process'">Prompts</li>
+                <li [class.tabActive]="viewMode == 'title'" rel="title" (click)="viewMode ='title'">Title</li>
+              </ul>
+            </div> -->
+            
+            <!-- <div [ngSwitch]="viewMode">
+              <div id="keywords" *ngSwitchCase="'keywords'">
+                <div class="process_tab_table">
+
+                    
+
+                </div>
+              </div>
+              <div id="process" *ngSwitchCase="'process'">
+                <div class="process_tab_table">
+
+                    <flexible-table
+                      key="keywords"
+                      columns="Prompt"
+                      displaySearch=false
+                      displayAddDataToSource=false
+                      displayClone=false
+                      displayFileUpload=false
+                      displayDelete=false
+                      deleteOnDrop=true
+                      dragdrop="Prompt"
+                      displayPageLength=false
+                      filter='{"brand_name":"{{ brandName }}" }'
+                      filters="{{ filtersStr }}"
+                      >
+                    </flexible-table>
+
+                </div>
+              </div>
+              <div id="title" *ngSwitchCase="'title'">
+                <div class="process_tab_table">
+
+                    <flexible-table
+                      key="keywords"
+                      displayHeaders=1
+                      columns="Title"
+                      displaySearch=false
+                      displayAddDataToSource=false
+                      displayFileUpload=false
+                      displayClone=false
+                      displayDelete=false
+                      deleteOnDrop=true
+                      dragdrop="Title"
+                      displayPageLength=false
+                      filter='{"brand_name":"{{ brandName }}" }'
+                      >
+                    </flexible-table>
+
+                </div>
+              </div> 
+            </div> -->
+
+          </div>
+        </div>
+    </div>
+</div>
+</div>

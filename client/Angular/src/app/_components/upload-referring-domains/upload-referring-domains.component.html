@@ -1,0 +1,17 @@
+<p>upload-referring-domains works!</p>
+
+	<div *ngIf="loadFlextable">
+	    <flexible-table
+	      key="referring_domains"	
+	      [(validation)]="validation"
+	      headerButtons="Complete Bounty" 
+	      (sendHeaderButtons)="updateHeaderButtons($event)"
+	      (onHeaderButtonClicked)="completeBounty($event)" 
+	      columns="selected,Referring Page URL,target_url,Domain Rating" 
+	      displayClone="false"
+	      displayAddDataToSource="false"
+	      widths="0,50,250,200,600,600"
+	      filter="{{filterStr}}"
+	      >
+	    </flexible-table>
+	</div>

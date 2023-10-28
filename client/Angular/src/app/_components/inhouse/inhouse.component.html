@@ -1,0 +1,37 @@
+
+<div class="table_container" cdkDropListGroup>
+    <flexible-table
+    key="bounty"
+    columns="brand_name,content_type,pipeline,keywords,titles,prompts,bounty,name,description,completion_order,refDocId"
+    displayFileUpload="false"
+    displayAddDataToSource="false"
+    viewSelectColumns="keyword"
+    filters={{filtersStr}}
+    tableIcons="description" 
+    tableIconNames="local_phone,local_phone,format_paint,local_phone,local_phone,local_phone,local_phone"
+    aggregate="{{aggregateStr}}"
+    currencyColumns="bounty"
+    noDisplayColumns="refDocId"
+    noTextColumns="completion_order,description,refDocId"
+    displayClone=false
+    displayDelete=false
+    buttons="brand_name,brand_name"
+    buttonNames="Claim,Files"
+    viewSelectColumns="keywords,titles,prompts"
+    (tableButtonClicked)="tableButtonClicked($event)"
+    (receivedTableData)="receivedTableData($event)"
+    (sendTableButtons)="updateTableButtons($event)"
+    widths="0,350,150,250,100,100,300,50"
+    >
+  </flexible-table>
+</div>
+
+<div *ngIf="displayTableButtonArea" style="margin: auto;" class="popup_modal_fade">
+  <div class="popup_modal_content_area" *ngIf="tableButtonSubviews[1]">
+    <button class="close_popup_modal" (click)="hidePopup()">X</button>
+     <!-- <a href="{{response.localFolder}}" target="_blank">Click here to access the assets directly on contentbounty.com</a> -->
+     <p><a href="{{response.localFolder}}" target="_blank">All Files</a>&nbsp;||&nbsp;<a (click)="openSpreadsheet($event)" href="#" target="_blank">Spreadsheet</a>&nbsp;||&nbsp;<a (click)="openDocument($event)" href="#" target="_blank">Document</a></p>
+
+    <div id="my-box-content-explorer"></div>
+  </div>
+</div>

@@ -1,0 +1,374 @@
+<div class="register">
+  <div class="row" style="height: 100%; background: #fbfbff">
+    <div class="col-md-5 desktop">
+      <div class="login_image">
+        <img src="../../../assets/img/login-page.png" alt="" />
+      </div>
+    </div>
+    <div class="col-md-7">
+      <div class="form_top desktop">
+        <img class="logo_img" src="../../../assets/img/Logo.png" alt="" />
+        <p>Already have an account? <a [routerLink]="['/login']">Sign In</a></p>
+      </div>
+      <div class="form_top mobile margin_bottom_15">
+        <span [routerLink]="['/login']">
+          <i class="fas fa-chevron-left"></i> Back
+        </span>
+        <p><a [routerLink]="['/login']">Sign In</a></p>
+      </div>
+
+      <div
+        *ngIf="errorMessage"
+        class="absulut_top_center alert alert-dismissible error-class fade show"
+        role="alert"
+      >
+        <span class="para">{{ errorMessage }}</span>
+        <a class="forgot-pass" [routerLink]="['/login']" *ngIf="!forget"
+          >Login</a
+        >
+        <button
+          type="button"
+          class="close cross-button"
+          data-dismiss="alert"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div
+        *ngIf="registerErrorMessage1"
+        class="absulut_top_center alert alert-dismissible error-class fade show mt-3"
+        role="alert"
+      >
+        <span class="para">{{ registerErrorMessageString1 }}</span>
+        <button
+          type="button"
+          class="close cross-button"
+          data-dismiss="alert"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="mt-3 absulut_top_center" *ngIf="registrationSuccess">
+        <div
+          class="popup"
+          [ngClass]="registrationSuccess ? 'show_popup' : 'hide_popup'"
+        >
+          <h3>
+            <img
+              class="logo_img"
+              src="../../../assets/img/check_circle_outline-24px.png"
+              alt=""
+            />Signup Success!
+          </h3>
+        </div>
+      </div>
+
+      <div class="center_align">
+        <div class="register-form-area">
+          <div class="reg_form_header">
+            <h3><strong>Sign Up</strong></h3>
+            <p>Please sign in or sign up for an account</p>
+            <span [routerLink]="['/login']">
+              <img src="../../../assets/img/back_arrow.png" alt="" />
+              Back
+            </span>
+          </div>
+          <!--After account recover reset password form-->
+          <form
+            [formGroup]="registerForm"
+            (ngSubmit)="onFormSubmit(registerForm.value, 'register-account')"
+          >
+            <div class="row">
+              <div class="col-md-6">
+                <div class="input-padding text_input text-left">
+                  <label for="first_name"> First Name </label>
+                  <div *ngIf="f.first_name.invalid && (f.first_name.touched || submitted)">
+                    <label
+                    for="first_name"
+                    *ngIf="f.first_name.errors?.required"
+                    class="text-danger text_right"
+                    >First name is required!</label
+                    >
+                    <label
+                      for="first_name"
+                      *ngIf="f.first_name.errors?.minlength"
+                      class="text-danger text_right"
+                      >Invalid first name!</label
+                    >
+                  </div>
+                  <input
+                    type="text"
+                    id="first_name"
+                    placeholder="Enter your first name"
+                    formControlName="first_name"
+                    class="w-100 input-box"
+                  />
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="input-padding text_input text-left">
+                  <label for="last_name">Last Name</label>
+                  <label
+                    for="last_name"
+                    *ngIf="f.last_name.invalid && (f.last_name.touched || submitted) && f.last_name.errors?.minlength"
+                    class="text-danger text_right"
+                    >Invalid last name!</label
+                  >
+                  <input
+                    type="text"
+                    id="last_name"
+                    placeholder="Enter your last name"
+                    formControlName="last_name"
+                    class="w-100 input-box"
+                  />
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div
+                  class="input-padding text_input text-left"
+                  [ngClass]="{ emailError: emailDupOrInvalid }"
+                >
+                  <label for="email">Email Address</label>
+                  <div *ngIf="f.email.invalid && (f.email.touched || submitted)">
+                    <label
+                      for="email"
+                      *ngIf="f.email.errors?.required"
+                      class="text-danger text_right"
+                      >Email is required!</label
+                    >
+                    <label
+                      for="email"
+                      *ngIf="f.email.errors?.email"
+                      class="text-danger text_right"
+                      >Invalid email!</label
+                    >
+                  </div>
+                  <input
+                    type="email"
+                    id="email"
+                    placeholder="Enter your email"
+                    formControlName="email"
+                    required
+                    class="w-100 input-box"
+                  />
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div
+                  class="input-padding text_input text-left"
+                  [ngClass]="{ emailError: phoneDuplicate }"
+                >
+                  <!-- <label for="phone">Cell Phone <span style="color: red">*</span></label> -->
+                  <label for="phone">Cell Phone</label>
+                  <div *ngIf="f.phone.invalid && (f.phone.touched || submitted)">
+                    <label
+                      for="phone"
+                      *ngIf="f.phone.errors?.required"
+                      class="text-danger text_right"
+                      >Number is required!</label
+                    >
+                    <label
+                      for="phone"
+                      *ngIf="f.phone.errors?.minlength"
+                      class="text-danger text_right"
+                      >Invalid phone number!</label
+                    >
+                    <label
+                      for="phone"
+                      *ngIf="f.phone.errors?.invalidPhone"
+                      class="text-danger text_right"
+                      >Invalid phone number!</label
+                    >
+                  </div>
+                  <input
+                    type="tel"
+                    id="phone"
+                    placeholder="Enter your phone number"
+                    formControlName="phone"
+                    maxlength="14"
+                    (click)="valPhone()"
+                    class="w-100 input-box"
+                    (keypress)="valPhone()"
+                  />
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="input-padding text_input text-left">
+                  <label for="password">Password</label>
+                  <div *ngIf="f.password.invalid && (f.password.touched || submitted)">
+                    <label
+                      for="password"
+                      *ngIf="f.password.errors?.required"
+                      class="text-danger text_right"
+                      >Password is required!</label
+                    >
+                    <label
+                      for="password"
+                      *ngIf="f.password.errors?.minlength"
+                      class="text-danger text_right"
+                      >Invalid password!</label
+                    >
+                  </div>
+                  <div class="form_input">
+                    <input
+                      [type]="hidep ? 'text' : 'password'"
+                      id="password"
+                      placeholder=""
+                      formControlName="password"
+                      required
+                      class="w-100 input-box"
+                      [(ngModel)]="password"
+                      (click)="OnClick()"
+                      (focus)="OnClick()"
+                      (keyup)="previewPassword()"
+                    />
+                    <i
+                      class="fas show_pass"
+                      [class.fa-eye]="hidep"
+                      [class.fa-eye-slash]="!hidep"
+                      (click)="hidep = !hidep"
+                    >
+                    </i>
+                    <ul class="password_preview">
+                      <li [ngClass]="passLength1 ? 'active' : 'inactive'"></li>
+                      <li [ngClass]="passLength2 ? 'active' : 'inactive'"></li>
+                      <li [ngClass]="passLength3 ? 'active' : 'inactive'"></li>
+                      <li [ngClass]="passLength4 ? 'active' : 'inactive'"></li>
+                      <li [ngClass]="passLength5 ? 'active' : 'inactive'"></li>
+                      <li [ngClass]="passLength6 ? 'active' : 'inactive'"></li>
+                      <li [ngClass]="passLength7 ? 'active' : 'inactive'"></li>
+                      <li [ngClass]="passLength8 ? 'active' : 'inactive'"></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="input-padding text_input text-left">
+                  <label for="confirm_password">Confirm Password</label>
+                  <div *ngIf="f.confirm_password.invalid && (f.confirm_password.touched || submitted)">
+                    <label
+                      for="confirm_password"
+                      *ngIf="f.confirm_password.errors?.required"
+                      class="text-danger text_right"
+                      >Required!</label
+                    >
+                    <!-- <label
+                      for="confirm_password"
+                      *ngIf="f.confirm_password.errors?.mustMatch"
+                      class="text-danger text_right"
+                      >not matched!</label
+                    > -->
+                    <label
+                      for="confirm_password"
+                      *ngIf="pass_error"
+                      class="text-danger text_right"
+                      >not matched!</label
+                    >
+                  </div>
+                  <div class="form_input">
+                    <input
+                      [type]="hidecf ? 'text' : 'password'"
+                      id="confirm_password"
+                      placeholder=""
+                      formControlName="confirm_password"
+                      required
+                      class="w-100 input-box"
+                      [(ngModel)]="confirm_password"
+                      (focusout)="focusOutFunction()"
+                      (focus)="OnClick()"
+                      (click)="OnClick()"
+                    />
+                    <i
+                      class="fas show_pass"
+                      [class.fa-eye]="hidecf"
+                      [class.fa-eye-slash]="!hidecf"
+                      (click)="hidecf = !hidecf"
+                    >
+                    </i>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="input-padding text-left">
+                  <label>I am a</label><br />
+                  <div class="row">
+                    <div class="col-6">
+                      <label
+                        for="creator"
+                        class="register-btn"
+                        [ngClass]="{
+                          'btn-blue': f.account_type.value == 'creator',
+                          'btn-grey': f.account_type.value == 'authority'
+                        }"
+                      >
+                        Content Creator
+                      </label>
+                      <input
+                        type="radio"
+                        value="creator"
+                        formControlName="account_type"
+                        style="display: none"
+                        id="creator"
+                      />
+                    </div>
+                    <div class="col-6">
+                      <label
+                        for="authority"
+                        class="register-btn"
+                        [ngClass]="{
+                          'btn-blue': f.account_type.value == 'authority',
+                          'btn-grey': f.account_type.value == 'creator'
+                        }"
+                      >
+                        Authority Site
+                      </label>
+                      <input
+                        type="radio"
+                        value="authority"
+                        formControlName="account_type"
+                        style="display: none"
+                        id="authority"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12 display-inline mt-3 center-content">
+                <div class="signup_btn">
+                  <input
+                    type="submit"
+                    id="register-account"
+                    value="Sign Up"
+                    [ngClass]="loading ? 'disable' : ''"
+                  />
+                  <div class="loader" *ngIf="loading">Loading...</div>
+                </div>
+              </div>
+            </div>
+          </form>
+          <p class="termsandconditiontext">
+            By clicking "Sign Up" you agree to our company's
+            <b>Terms and Conditions</b> and <b>Privacy Policy</b>
+          </p>
+          <!--After account recover reset password form-->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="loading_popup"
+  [ngClass]="registrationSuccessLoader ? 'show_toster' : 'hide_toster'"
+>
+  <!-- <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span> -->
+  <span>
+    <img src="../../../assets/img/pancil_loader_l.gif" alt="" />
+  </span>
+</div>

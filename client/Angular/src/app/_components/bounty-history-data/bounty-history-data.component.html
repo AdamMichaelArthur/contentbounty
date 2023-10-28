@@ -1,0 +1,15 @@
+<div style="width: 95%; margin-left:10px;">
+<div class="row" *ngIf="!showdetails">
+  <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6" *ngFor="let data of allSummary;let idx=index" >
+    <app-bounty-summary (showDetailsEvent)="onClick($event,data.method)"  [data]="data" ></app-bounty-summary>
+    
+  </div>
+</div>
+<div class="row">
+  <div class="col-12"><div *ngIf="showdetails">
+    <app-bounty-history-card (closeEvent)="onCloseClick($event)" [method]="method"></app-bounty-history-card>
+  </div></div>
+</div>
+
+</div >
+  

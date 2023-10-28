@@ -1,0 +1,71 @@
+
+<div class="container row_background_color rounded-top-0">
+    <!-- <div class="row m-b-15">
+        <div class="col-sm-12">
+            Add More Actions
+        </div>
+        <div class="col-sm-12">
+            <button type="button" class="btn btn-primary" (click)="displayAddForm('addButton')">Add button</button>
+            <button type="button" class="btn btn-primary" (click)="displayAddForm('addDropdown')">Add dropdown</button>
+        </div>
+    </div> -->
+    <div class="row m-b-15">
+        <!-- <div class="col-sm-12">
+            Action Buttons
+        </div> -->
+        <div class="col-sm-12">
+            <div *ngFor="let button of buttons" style="display: inline-block">
+                <div *ngIf="button.buttonType == 'normal'">
+                    <button type="button" (click)="raiseEvent(button.buttonType, button.buttonValue)" class="btn btn-primary" style="display: inline-block">
+                        {{button.buttonValue}}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row m-b-15">
+        <!-- <div class="col-sm-12">
+            Boolean Buttons
+        </div> -->
+        <div class="col-sm-12">
+            <div *ngFor="let button of buttons" style="display: inline-block">
+                <div *ngIf="button.buttonType == 'toggle'">
+                    <mat-button-toggle (click)="raiseEvent(button.buttonType, button.buttonValue)" style="display: inline-block">
+                        {{button.buttonValue}}
+                    </mat-button-toggle>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row m-b-15" *ngIf="dropdowns.length>0">
+        <div class="col-sm-12">
+            Dropdowns
+        </div>
+        <div class="col-sm-12">
+            <div *ngFor="let dropdown of dropdowns" style="display: inline-block">
+                <mat-form-field appearance="fill">
+                    <mat-label>Select From Options</mat-label>
+                    <mat-select #mySelect (selectionChange)="raiseEvent('select', mySelect.value)">
+                      <mat-option *ngFor="let item of dropdown" [value]="item">
+                        {{item}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                <!-- <select #mySelect (change)="raiseEvent('select', mySelect.value)">  
+                    <option disabled>Select From Options</option>
+                    <option *ngFor="let item of dropdown" value="{{item}}">{{item}}</option>
+                </select> -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="displayAddFormArea" class="popup_modal_fade">
+    <div class="popup_modal_content_area">
+      <button type="button" class="close_popup_modal" (click)="displayAddFormArea = !displayAddFormArea">X</button>
+      <div>
+        <app-form-generator (emitFormData)="receieveFormData($event)" [formDetail]="formDetail" [formType]="formType">
+        </app-form-generator>
+      </div>
+    </div>
+</div>

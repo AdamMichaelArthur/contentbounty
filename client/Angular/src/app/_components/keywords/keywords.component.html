@@ -1,0 +1,136 @@
+<div class="table_container">
+
+        <!-- <flexible-table key="bounty" 
+        all="account" 
+        widths="0,50,280,250,300,375,75,75,60,60,60" 
+        displayAddDataToSource="false" 
+        columns="selected,brand_name,release_for_bounty,spend,content_type,keywords,titles,prompts" 
+        displayFileUpload="false" 
+        headerButtons="Add Bounty" 
+        (onHeaderButtonClicked)="flextableHeaderButtonClicked($event)" 
+        (sendHeaderButtons)="updateHeaderButtons($event)" 
+        filters="{{ filtersStr }}" 
+        filter="{{queueFilter}}"
+        maxCharacters="150" 
+        (tableButtonClicked)="tableButtonClicked($event)" 
+        (sendTableButtons)="updateTableButtons($event)" 
+        currencyColumns="m_b,spend,c_b" 
+        (iconClicked)="showIconMenu($event)" 
+        (tableDataChanged)="dateChanged($event)"
+        noTextColumns="selected,queued_content" 
+        menuColumns="queued_content"
+        tableIcons="queued_content" 
+        tableIconNames="local_phone,local_phone,format_paint,local_phone,local_phone" 
+        sortableColumns="release_for_bounty" 
+        viewSelectColumns="keywords,titles,prompts" 
+        dragdrop="keywords,prompts,titles,prompts" 
+        (receivedDropItem)="dropItemReceived($event)"
+        (onDragStart)="onDragStart($event)" 
+        (onDragEnd)="onDragEnd($event)" 
+        (onDragEnter)="onDragEnter($event)" 
+        (onDragLeave)="onDragLeave($event)" 
+        (onDragOver)="onDragOver($event)" 
+        (onDropEvent)="onDropEvent($event)"
+        displayHeaderText="This is my text"
+        (headerDropdownChanged)="headerDropdownChanged($event)"
+        maxCharactersStr="20,50,20,20,20,50,10,10"
+        buttons="brand_name,brand_name,brand_name"
+        buttonNames="Template,Files,Details"
+        selectedButtons="Delete Selected,Undeploy Keywords,Archive,Edit Bulk,Select All"
+        (dropdownItemDeleted)="dropdownItemDeleted($event)"
+        >
+        </flexible-table>
+         -->
+
+  <div *ngIf="dataLoaded">
+    <flexible-table
+      key="keywords"
+      columns="selected,Keyword,Content Type,Published Link"
+      (tableButtonClicked)="tableButtonClicked($event)" 
+      linkColumns="published_link"
+      displayClone="false"
+      displayFileUpload="false"
+      [(validation)]="validation"
+      noTextColumns="bKeywordDeployed"
+      widths="0,75,550,450,550,550,550,60,600,600,600,600"
+      all="account"
+      displayAddDataToSource="false"
+      headerButtons="Show All Columns"
+        (sendHeaderButtons)="updateHeaderButtons($event)"
+      (onHeaderButtonClicked)="flextableHeaderButtonClicked($event)"
+        (headerDropdownChanged)="headerDropdownChanged($event)"
+      all="account"
+      filter={{filter}}
+      filters="{{ filtersStr }}" 
+      selectedButtons="Select All,Delete Selected"
+      aggregate={{aggregateStr}}
+      [textCutoff]="textCutoff"
+      buttons="Keyword,Keyword"
+      buttonNames="Files"
+      (sendTableButtons)="updateTableButtons($event)" 
+        >
+    </flexible-table>
+  </div>
+
+    <!-- <div *ngIf="dataLoaded">
+    <flexible-table
+      key="keywords"
+      columns="selected,Keyword,Content Type,Published Link"
+      (tableButtonClicked)="tableButtonClicked($event)" 
+      linkColumns="published_link"
+      displayClone="false"
+      displayFileUpload="false"
+      [(validation)]="validation"
+      noTextColumns="bKeywordDeployed"
+      widths="0,75,450,450,550,550,550,60,600,600,600,600"
+      all="account"
+      displayAddDataToSource="false"
+      headerButtons="Show All Columns"
+        (sendHeaderButtons)="updateHeaderButtons($event)"
+      (onHeaderButtonClicked)="flextableHeaderButtonClicked($event)"
+        (headerDropdownChanged)="headerDropdownChanged($event)"
+      all="account"
+      filter={{filter}}
+      filters="{{ filtersStr }}" 
+      selectedButtons="Select All,Delete Selected"
+      aggregate={{aggregateStr}}
+      [textCutoff]="textCutoff"
+      buttons="Keyword,Keyword,Keyword"
+      buttonNames="Template,Files,Details"
+      (sendTableButtons)="updateTableButtons($event)" 
+      >
+    </flexible-table>
+  </div> -->
+<!--     
+
+
+  -->
+  <!-- 
+        buttonNames="Deploy Keyword,Create Bounty Now"
+    (tableButtonClicked)="tableButtonClicked($event)"
+    (sendTableButtons)="updateTableButtons($event)" -->
+<div *ngIf="displayTableButtonArea" style="margin: auto;" class="popup_modal_fade">
+  <div class="popup_modal_content_area" *ngIf="tableButtonSubviews[0]">
+    <button class="close_popup_modal" (click)="hidePopup()">X</button>
+     <!-- <a href="{{response.localFolder}}" target="_blank">Click here to access the assets directly on contentbounty.com</a> -->
+     <p><a href="{{response.localFolder}}" target="_blank">All Files</a>&nbsp;||&nbsp;<a (click)="openSpreadsheet($event)" href="#" target="_blank">Spreadsheet</a>&nbsp;||&nbsp;<a (click)="openDocument($event)" href="#" target="_blank">Document</a></p>
+
+     <span *ngIf="bHasCodeGenerator">
+      <br>
+      <a href="{{code_generator_url}}" target="_blank">Code Generator</a>
+    </span>
+    <div id="my-box-content-explorer"></div>
+  </div>
+</div>
+<!--   <div id="id-Action1" *ngIf="displayButtonArea" class="popup_modal_fade">
+    <div *ngIf="buttonSubviews[0] == true" class="popup_modal_content_area">
+      <button class="close_popup_modal" (click)="hidePopup()">X</button>
+      <app-bounty-create content_type="Link Building" [(currentBounty)]="currentBounty"
+        (passBountyTemplate)="addGuide($event)">
+
+      </app-bounty-create>
+      <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    </div>
+  </div>
+
+</div> -->

@@ -1,0 +1,26 @@
+<div *ngIf="displayTableButtonArea" style="margin: auto;" class="popup_modal_fade">
+  <div class="popup_modal_content_area" [ngClass]="isMinMax ? 'max':'min'" *ngIf="tableButtonSubview">
+    <button class="close_popup_modal" (click)="hidePopup()">X</button>
+    <button class="minimized_maximized" (click)="minMaxPopup()">
+      <i class="fas" [ngClass]="isMinMax ? 'fa-compress':'fa-expand'"></i>
+    </button>
+    <flexible-table
+      key="keyword"
+      all="account"
+      [(validation)]="validation"
+      headerButtons="Show All Columns" 
+      (sendHeaderButtons)="updateHeaderButtons($event)"
+      (onHeaderButtonClicked)="flextableHeaderButtonClicked($event)" 
+      columns="Keyword,KD,Volume,Category"
+      displayClone="false"
+      addDataToSourceDesc="Add Keyword"
+      addDataFormStr="{{ addDataFormStr }}"
+      widths="0,400,170,300,400"
+      displaySearch="false"
+      filter='{"brand_id":"{{ filterVariable.brand_id }}" }'
+      flextableName="keywords"
+    >
+    </flexible-table>
+  </div>
+</div>
+<!-- fileUploadJsonFormat={{fileUploadJsonFormat}} -->

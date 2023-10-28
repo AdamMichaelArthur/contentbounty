@@ -1,0 +1,4 @@
+<div>
+    <a (click)="badgesClicked(c)" style="cursor: pointer;" role="button"[ngClass]="this.badges[i%this.badges.length]+' ' +'m-1'"
+        *ngFor="let c of this.inputList;let i=index ">{{c}} </a>
+</div>

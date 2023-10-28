@@ -1,0 +1,232 @@
+/* Done */
+.page_container {
+    width: 100%;
+    height: auto;
+    float: left;
+    position: relative;
+    padding: 15px;
+}
+/*Page Header*/
+.page_header {
+    width: 100%;
+    height: auto;
+    float: left;
+    position: relative;
+    padding: 15px 0;
+    border-bottom: 1px solid #ebebeb;
+    margin-bottom: 30px;
+}
+.page_header h3{
+    font-size: 20px;
+    font-weight: bold;
+    color: #505050;
+    margin: 0;
+}
+/*Page Header*/
+
+.bounty_submit_opt{
+    width: 100%;
+    height: auto;
+    float: left;
+    border-radius: 4px;
+    background: #ffffff;
+    -webkit-box-shadow: 0px 1px 6px 0px rgba(143,143,143,0.5);
+    -moz-box-shadow: 0px 1px 6px 0px rgba(143,143,143,0.5);
+    box-shadow: 0px 1px 6px 0px rgba(143,143,143,0.5);
+}
+.bounty_woner_profile{
+    width: 100%;
+    height: auto;
+    float: left;
+    border-radius: 4px;
+    background: #ffffff;
+    -webkit-box-shadow: 0px 1px 6px 0px rgba(143,143,143,0.5);
+    -moz-box-shadow: 0px 1px 6px 0px rgba(143,143,143,0.5);
+    box-shadow: 0px 1px 6px 0px rgba(143,143,143,0.5);
+}
+
+.bounty_post{
+    width: 100%;
+    height: auto;
+    float: left;
+    position: relative;
+    border-bottom: 1px solid #EBEBEB;
+    padding: 20px;
+}
+.bounty_post table tr td img{
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 1px solid #333;
+}
+.bounty_post table tr td h4{
+    font-size: 18px;
+    font-weight: 300;
+    color: #505050;
+    margin: 0;
+    padding-left: 10px;
+}
+.bounty_post table tr td p{
+    font-size: 14px;
+    font-weight: 500;
+    color: #505050;
+    margin: 0;
+    padding-left: 10px;
+}
+
+.bounty_details_table{
+    font-size: 12px;
+    width: 100%;
+    padding: 20px;
+    float: left;
+}
+.bounty_details_table table tr td:first-child{
+    min-width: 100px;
+}
+.bounty_details_table h3{
+    font-size: 18px;
+    color: #505050;
+    font-weight: 500;
+}
+.bounty_submit_opt_header{
+    width: 100%;
+    height: auto;
+    padding: 20px;
+    float: left;
+    border-bottom: 1px solid #ebebeb;
+}
+.bounty_submit_opt_header ul{
+    width: 100%;
+    float: left;
+    position: relative;
+    padding: 0;
+    margin: 0;
+}
+.bounty_submit_opt_header ul li{
+    list-style: none;
+    display: inline-flex;
+    font-size: 14px;
+    color: #999999;
+    margin-right: 15px;
+    float: left;
+}
+.bounty_submit_opt_header ul li i{
+    margin-right: 5px;
+}
+.bounty_submit_opt_header ul li:last-child{
+    float: right;
+    margin-right: 0;
+}
+.bounty_submit_opt_body{
+    width: 100%;
+    height: auto;
+    min-height: 300px;
+    padding: 20px;
+    float: left;
+    position: relative;
+    border-bottom: 1px solid #ebebeb;
+}
+.bounty_submit_opt_body h3{
+    max-width: 300px;
+    max-height: 34px;
+    font-size: 24px;
+    color: #D0D0D0;
+    text-align: center;
+    display: block;
+    margin: auto;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+.bounty_submit_opt_body p{
+    font-size: 14px;
+    color: #363636;
+    font-weight: normal;
+}
+.bounty_submit_opt_body span{
+    font-size: 14px;
+    color: #626262;
+    font-weight: normal;
+}
+.bounty_submit_opt_body div{
+    padding-left: 20px;
+    border-bottom: 1px solid #ebebeb;
+}
+.bounty_submit_opt_body div:last-child{
+    border-bottom: 0px solid #ebebeb;
+}
+.bounty_submit_opt_body div:first-child{
+    padding-left: 0px;
+}
+.bounty_submit_opt_body span label{
+    font-size: 14px;
+    color: #0090E9;
+}
+.bounty_submit_opt_footer{
+    width: 100%;
+    height: auto;
+    padding: 10px 20px;
+    float: left;
+}
+.bounty_submit_link{
+    width: 100%;
+    height: auto;
+    float: left;
+    position: relative;
+    display: inline-flex;
+}
+.bounty_submit_link_link{
+    width: 100%;
+    height: auto;
+    float: left;
+    position: relative;
+    display: inline-flex;
+}
+.bounty_submit_link_link i{
+    font-size: 20px;
+    color: #999999;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.bounty_submit_link_link input{
+    font-size: 14px;
+    line-height: 14px;
+    color: #999999;
+    border: 0;
+    background: none;
+    width: 100%;
+    padding: 5px;
+    outline: none;
+}
+.bounty_submit_link_attach input{
+    display: none;
+}
+.bounty_submit_link_attach label, .bounty_submit_link_attach button{
+    cursor: pointer;
+    margin: 0;
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+    background: none;
+    border: 0;
+    padding: 0;
+}
+.bounty_submit_link_attach label i, .bounty_submit_link_attach button i{
+    font-size: 20px;
+    color: #999999;
+}
+.bounty_submit_link_attach label i:hover, .bounty_submit_link_attach button i:hover{
+    color: #0090E9;
+}
+/*Comon CSS*/
+.border_bottom{
+    border-bottom: 1px solid #ebebeb;
+}
+.margin_top_30{
+    margin-top: 30px;
+}
+/*Comon CSS*/

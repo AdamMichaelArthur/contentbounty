@@ -1,0 +1,922 @@
+<!-- <div class="container"> -->
+<div class="login_area">
+  <!-- <div *ngIf="signingIn" class="row">
+        <div class="col-md-7 align-self-center image-holder">
+          <img class="logo_img" src="../../../assets/img/login-page.png" alt="" />
+        </div>
+    
+        <div class="col-md-5 align-self-center">
+          <div *ngIf="signingIn">
+            <form [formGroup]="loginForm" (ngSubmit)="onFormSubmit(loginForm.value)" class="text-center login-form-padding">
+              <h3><strong>Content Bounty</strong></h3>
+              <img src="../../../assets/img/Logo.png" alt="" width="150" />
+              <p>Please log in or sign up for an account</p>
+              <div class="input-padding text-left">
+                <label for="username">Username</label>
+                <input type="text" id="username" formControlName="username" placeholder="Enter your email"
+                  autocomplete="off" class="w-100 input-box" value="authority@contentbounty.com" />
+                <span *ngIf="submitted && f.username.errors?.required" class="text-danger">
+                  Username is required!
+                </span>
+                <span *ngIf="submitted && f.username.errors?.email" class="text-danger">
+                  Invalid username!
+                </span>
+              </div>
+              <div class="input-padding text-left pb-0">
+                <label for="password">Password</label>
+                <input id="password" formControlName="password" placeholder="Enter Your Password" required
+                  autocomplete="off" class="w-100 input-box" value="dino" [type]="hideUserPass ? 'password' : 'text'" />
+                <span *ngIf="submitted && f.password.errors?.required" class="text-danger">
+                  Password is required!
+                </span>
+              </div>
+              <div class="error-area">
+                <div *ngIf="errorMessage" class="alert alert-dismissible error-class fade show mt-3" role="alert">
+                  <span class="para">{{ errorMessage }}</span>
+                  <a class="forgot-pass" (click)="getAccessCode()" *ngIf="!forget">Forgot?</a>
+                  <button type="button" class="close cross-button" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+              </div>
+              <div class="input-padding mb-4-5">
+                <div class="float-left">
+                  <label class="cb_container">Remember me
+                    <input type="checkbox" checked="checked" id="Remember"/>
+                    <span class="checkmark"></span>
+                  </label>
+                </div>
+                <div class="float-right">
+                  <span class="text-primary" (click)="getAccessCode()" *ngIf="!forget"><u>Forgot Password</u></span>
+                </div>
+              </div>
+    
+              <div class="input-padding">
+                <div class="float-left">
+                  <input type="submit" class="login-btn btn-blue" value="Log In" />
+                </div>
+                <div class="float-right">
+                  <a class="login-btn btn-grey" [routerLink]="['/registration']" *ngIf="!forget">Sign Up</a>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        Login Form
+      </div> -->
+
+  <div *ngIf="signingIn" class="row">
+    <div class="col-md-6 desktop">
+      <div class="login_image">
+        <img src="../../../assets/img/login-page.png" alt="" />
+      </div>
+    </div>
+    <div class="login_image mobile">
+      <img src="../../../assets/img/login_header_img.png" alt="" />
+    </div>
+
+    <div class="col-md-6">
+      <!-- <div class="col-md-12" style="padding: 10px">
+        <div class="left_float">
+          <img src="../../../assets/img/Logo.png" alt="" width="150" />
+        </div>
+        <div class="left_float1">
+          Don't have account? <span style="color:#0dd6d8;cursor: pointer;" [routerLink]="['/registration']"
+            (click)="callLoader()"> Create Account</span>
+
+        </div>
+      </div> -->
+
+      <div class="form_top desktop">
+        <img class="logo_img" src="../../../assets/img/Logo.png" alt="" />
+        <p>
+          Don't have account?
+          <a [routerLink]="['/registration']" (click)="callLoader()"
+            >Create Account</a
+          >
+        </p>
+      </div>
+
+      <div
+        *ngIf="errorMessage"
+        class="absulut_top_center alert alert-dismissible error-class fade show mt-3"
+        role="alert"
+      >
+        <span class="para">{{ errorMessage }}</span>
+        <!-- <a class="forgot-pass" (click)="getAccessCode()" *ngIf="!forget">Forgot?</a> -->
+        <button
+          type="button"
+          class="close cross-button"
+          data-dismiss="alert"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div
+        *ngIf="loginErrorMessage"
+        class="absulut_top_center alert alert-dismissible error-class fade show mt-3"
+        role="alert"
+      >
+        <span class="para">{{ loginErrorMessageString }}</span>
+        <!-- <a class="forgot-pass" (click)="getAccessCode()" *ngIf="!forget">Forgot?</a> -->
+        <button
+          type="button"
+          class="close cross-button"
+          data-dismiss="alert"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="absulut_top_center mt-3" *ngIf="loginSuccess">
+        <div
+          class="toster"
+          [ngClass]="loginSuccess ? 'show_toster' : 'hide_toster'"
+        >
+          <h3>
+            <img
+              class="logo_img"
+              src="../../../assets/img/check_circle_outline-24px.png"
+              alt=""
+            />Login Success!
+          </h3>
+        </div>
+      </div>
+      <div class="main_login">
+        <!-- <div class="error_msg" *ngIf="ifNoResponsed">
+          <p>
+            Something went wrong: Please reload your browser and try some time
+            later!
+          </p>
+        </div> -->
+        <!-- <div class="toster" [ngClass]="loginSuccess ? 'show_toster' : 'hide_toster'">
+          <h3>
+            <img
+              class="logo_img"
+              src="../../../assets/img/check_circle_outline-24px.png"
+              alt=""
+            />Login Success!
+          </h3>
+  
+          <span
+            *ngIf="global"
+            class="spinner-grow spinner-grow-sm"
+            role="status"
+            aria-hidden="true"
+          ></span>
+          Loading...
+        </div> -->
+
+        <div class="login_form" *ngIf="signingIn">
+          <form
+            [formGroup]="loginForm"
+            (ngSubmit)="onFormSubmit(loginForm.value, 'login-button')"
+          >
+            <!-- <img src="../../../assets/img/Logo.png" alt="" width="150" /> -->
+            <div style="width: 100%; float: left">
+              <span class="Sign_font">Sign In</span>
+            </div>
+            <div style="width: 100%; float: left">
+              <p class="Sign_font_p">
+                Please sign in or
+                <span [routerLink]="['/registration']" style="cursor: pointer"
+                  >sign up</span
+                >
+                for an account
+              </p>
+            </div>
+
+            <div class="form_input">
+              <label for="username">Username/Email</label>
+              <label
+                for="username"
+                class="error_validation"
+                *ngIf="submitted && f.username.errors?.required"
+                >Username is required!</label
+              >
+              <label
+                for="username"
+                class="error_validation"
+                *ngIf="submitted && f.username.errors?.email"
+                >Invalid username!</label
+              >
+              <input
+                type="text"
+                id="username"
+                formControlName="username"
+                placeholder="Enter your email"
+                autocomplete="off"
+                class="w-100 input-box"
+                value="authority@contentbounty.com"
+              />
+            </div>
+            <div class="form_input">
+              <label for="password">Password</label>
+              <label
+                for="password"
+                class="error_validation"
+                *ngIf="submitted && f.password.errors?.required"
+                >Password is required!</label
+              >
+              <input
+                id="password"
+                formControlName="password"
+                placeholder="Enter Your Password"
+                required
+                autocomplete="off"
+                class="w-100 input-box"
+                value="dino"
+                [type]="hideUserPass ? 'password' : 'text'"
+              />
+            </div>
+
+            <div class="remember_area">
+              <div class="checkbox_container">
+                <label class="cb_container"
+                  >Remember me
+                  <input type="checkbox" checked="checked" id="Remember" />
+                  <span class="checkmark"></span>
+                </label>
+              </div>
+              <label
+                class="fg_pass"
+                (click)="getAccessCode()"
+                style="color: #0dd6d8 !important"
+              >
+                Forget Password
+              </label>
+            </div>
+
+            <div class="login_signup">
+              <div class="login_btn">
+                <!-- <input type="submit" class="login-btn btn-blue" value="Sign In"
+                  [ngClass]="isLoading ? 'disable' : ''" />
+                <div class="loader" *ngIf="isLoading">Loading...</div> -->
+
+                <app-LoginComponent
+                  id="login-button"
+                  [buttom_Config]="buttom_Config_text"
+                ></app-LoginComponent>
+              </div>
+            </div>
+            <div class="agree_div">
+              <p>
+                By clicking "Sign In" you agree to our's company's <b>Terms </b>
+                <b>and conditions and Privacy and Policy</b>
+              </p>
+            </div>
+            <div class="form_bottom mobile">
+              <p>
+                Don't have account?
+                <a [routerLink]="['/registration']" (click)="callLoader()"
+                  >Create Account</a
+                >
+              </p>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--Account recover Form-forgetrec-->
+  <div class="row" *ngIf="forgetRec">
+    <div class="col-md-6">
+      <div class="login_image">
+        <img src="../../../assets/img/login-page.png" alt="" />
+      </div>
+    </div>
+    <!-- <div class="col-md-6" style="display: flex; align-items: center; justify-content: center"> -->
+    <!-- <div class="recovery-form-area"> -->
+    <div class="col-md-6">
+      <div class="form_top">
+        <img class="logo_img" src="../../../assets/img/Logo.png" alt="" />
+        <p>
+          Don't have account?
+          <a [routerLink]="['/registration']" (click)="callLoader()"
+            >Create Account</a
+          >
+        </p>
+      </div>
+      <div class="main_login">
+        <div class="recovery_form">
+          <div class="login_cont">
+            <form
+              [formGroup]="accountRecoveryForm"
+              (ngSubmit)="
+                accountRecovery(accountRecoveryForm.value, 'acRecFormButton')
+              "
+              *ngIf="!recover"
+            >
+              <div class="clearfix pass-recovery">
+                <h5 class="Sign_font float-left">
+                  <strong>Password Recovery</strong>
+                </h5>
+                <span (click)="goBackToLogin()">
+                  <img src="../../../assets/img/back_arrow.png" alt="" />
+                  Back
+                </span>
+                <!-- <span class="float-right" (click)="goBackToLogin()">
+                  <i class="fas fa-arrow-left"></i>
+                  Back
+                </span> -->
+              </div>
+
+              <div class="recovery-padding text-left">
+                <label for="email">Email Address</label>
+
+                <span
+                  *ngIf="getAccessCodeSubmitted && r.email.errors?.required"
+                  class="text-danger float-right"
+                >
+                  Email is required!
+                </span>
+                <span
+                  *ngIf="r.email.errors?.email"
+                  class="text-danger float-right"
+                >
+                  Invalid email!
+                </span>
+                <div class="form_input">
+                  <input
+                    type="text"
+                    id="email"
+                    formControlName="email"
+                    placeholder="name@domain.com"
+                    autocomplete="off"
+                    class="w-100 input-box"
+                    value="authority@contentbounty.com"
+                    [class.input-error]="recoveryFormInvalid"
+                    [class.input-success]="recoveryFormValid"
+                    (keypress)="testEmail(r.email.value)"
+                  />
+                  <i
+                    *ngIf="recoveryFormValid"
+                    class="fa fa-check-circle valid-icon"
+                    aria-hidden="true"
+                  ></i>
+                </div>
+              </div>
+              <div class="error-area">
+                <div
+                  *ngIf="errorMessage"
+                  class="alert alert-dismissible error-class fade show mt-3"
+                  role="alert"
+                >
+                  <span class="para">{{ errorMessage }}</span>
+                  <button
+                    type="button"
+                    class="close cross-button"
+                    data-dismiss="alert"
+                    aria-label="Close"
+                  >
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div
+                  *ngIf="connectionErrorMessage1"
+                  class="alert alert-dismissible error-class fade show mt-3"
+                  role="alert"
+                >
+                  <span class="para">{{ connectionMessageString1 }}</span>
+                  <button
+                    type="button"
+                    class="close cross-button"
+                    data-dismiss="alert"
+                    aria-label="Close"
+                  >
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+              </div>
+              <div class="display-inline mt-4">
+                <input
+                  id="acRecFormButton"
+                  type="submit"
+                  class="recovery-button btn-blue"
+                  value="Reset Password"
+                  [ngClass]="isLoading ? 'disable' : ''"
+                />
+                <div class="loader" *ngIf="isLoading">Loading...</div>
+                <!-- <input
+                  type="submit"
+                  class="login-btn btn-blue btn-block"
+                  value="Next"
+                /> -->
+                <!-- <div class="input-padding text-center">
+                  <span class="mr-3 back-button" (click)="goBackToLogin()"
+                    ><i class="fas fa-arrow-circle-left font-icon mr-2"></i>Go
+                    Back</span
+                  >
+                  <input type="submit" class="login-btn btn-blue" value="Next" />
+                </div> -->
+              </div>
+              <div class="grey-p text-center mt-4">
+                <h6>
+                  <small>
+                    Receive an access code to reset your password. It will also
+                    be texted to the phone number we have on file.</small
+                  >
+                </h6>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- <div class="recovery" *ngIf="forgetRec">
+    <div class="recovery-form-area">
+      <div class="login_cont">
+        <form
+          [formGroup]="accountRecoveryForm"
+          (ngSubmit)="accountRecovery(accountRecoveryForm.value)"
+          *ngIf="!recover"
+        >
+          <h3><strong>Content Bounty</strong></h3>
+          <p>
+            Receive an Access Code to Reset Your Password. It will also be
+            texted to the phone number we have on file
+          </p>
+
+          <div class="input-padding text-left">
+            <label for="email">Email</label>
+            <input
+              type="text"
+              id="email"
+              formControlName="email"
+              placeholder="name@domain.com"
+              autocomplete="off"
+              class="w-100 input-box"
+              value="authority@contentbounty.com"
+            />
+            <span
+              *ngIf="getAccessCodeSubmitted && r.email.errors?.required"
+              class="text-danger"
+            >
+              Email is required!
+            </span>
+            <span
+              *ngIf="getAccessCodeSubmitted && r.email.errors?.email"
+              class="text-danger"
+            >
+              Invalid email!
+            </span>
+          </div>
+          <div class="error-area">
+            <div
+              *ngIf="errorMessage"
+              class="alert alert-dismissible error-class fade show mt-3"
+              role="alert"
+            >
+              <span class="para">{{ errorMessage }}</span>
+              <button
+                type="button"
+                class="close cross-button"
+                data-dismiss="alert"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          </div>
+          <div class="login_signup_button display-inline mt-4">
+            <div class="input-padding text-center">
+              <span class="mr-3 back-button" (click)="goBackToLogin()"
+                ><i class="fas fa-arrow-circle-left font-icon mr-2"></i>Go
+                Back</span
+              >
+              <input type="submit" class="login-btn btn-blue" value="Next" />
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div> -->
+  <!--Account recover Form-->
+  <!--After account recover reset password form-->
+
+  <div class="row" *ngIf="sendingRecoveryEmail">
+    <div class="col-md-6">
+      <div class="login_image">
+        <img src="../../../assets/img/login-page.png" alt="" />
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form_top">
+        <img class="logo_img" src="../../../assets/img/Logo.png" alt="" />
+        <p>
+          Don't have account?
+          <a [routerLink]="['/registration']" (click)="callLoader()"
+            >Create Account</a
+          >
+        </p>
+      </div>
+
+      <div class="main_login">
+        <div class="recovery_form">
+          <div class="login_cont">
+            <div class="row">
+              <div
+                class="col-md-12"
+                style="
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  font-size: 50px;
+                "
+              >
+                <i class="fas fa-envelope-open-text"></i>
+              </div>
+              <div class="clearfix pass-recovery text-center">
+                <h5 class="Sign_font mt-4">
+                  <strong>Sending</strong>
+                </h5>
+                <div class="text-center">
+                  <p class="Sign_font_p_center mb-4">Sending Recovery Email</p>
+                </div>
+              </div>
+              <!-- <div class="col-md-12 text-center mt-4">
+                <h4><strong>Sending</strong></h4>
+              </div>
+              <div class="col-md-12 text-center">
+                <h6><small>Sending Recovery Email</small></h6>
+              </div> -->
+              <div class="col-md-12">
+                <div class="display-inline">
+                  <input
+                    type="submit"
+                    class="recovery-button btn-blue"
+                    value="Check My Email"
+                  />
+                </div>
+                <div class="display-inline mt-4">
+                  <input
+                    type="submit"
+                    class="recovery-button btn-blue"
+                    value="Next"
+                    (click)="goTopasswordResetForm()"
+                  />
+                </div>
+                <!-- <div class="display-inline">
+                  <input
+                    type="submit"
+                    class="recovery-button btn-blue btn-block"
+                    value="Check My Email"
+                  />
+                </div> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="forget">
+    <div class="col-md-6">
+      <div class="login_image">
+        <img src="../../../assets/img/login-page.png" alt="" />
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form_top">
+        <img class="logo_img" src="../../../assets/img/Logo.png" alt="" />
+        <p>
+          Don't have account?
+          <a [routerLink]="['/registration']" (click)="callLoader()"
+            >Create Account</a
+          >
+        </p>
+      </div>
+      <div class="main_login">
+        <div class="recovery_form">
+          <div class="login_cont">
+            <form
+              [formGroup]="passwordResetForm"
+              (ngSubmit)="
+                passwordForget(passwordResetForm.value, 'passReFormButton')
+              "
+            >
+              <div class="clearfix pass-recovery">
+                <h5 class="Sign_font float-left">
+                  <strong>Setup New Password</strong>
+                </h5>
+                <span (click)="goBackToRecoveryEmail()">
+                  <img src="../../../assets/img/back_arrow.png" alt="" />
+                  Back
+                </span>
+                <div>
+                  <p class="Sign_font_p">
+                    Check your email box for the access code
+                  </p>
+                </div>
+              </div>
+              <div class="recovery-padding text-left">
+                <label
+                  for="recoveryCode"
+                  [class.label-success]="recoveryCodeValid"
+                  >Access Code</label
+                >
+                <span
+                  *ngIf="
+                    forgetPassSubmitted && pr.recoveryCode.errors?.required
+                  "
+                  class="text-danger float-right"
+                >
+                  Required!
+                </span>
+                <span
+                  *ngIf="
+                    forgetPassSubmitted && pr.recoveryCode.errors?.maxlength
+                  "
+                  class="text-danger float-right"
+                >
+                  Max 6 characters allowed!
+                </span>
+                <span
+                  *ngIf="
+                    forgetPassSubmitted && pr.recoveryCode.errors?.minlength
+                  "
+                  class="text-danger float-right"
+                >
+                  Min 6 characters needed!
+                </span>
+                <input
+                  type="text"
+                  id="recoveryCode"
+                  formControlName="recoveryCode"
+                  placeholder="Enter the recovery code sent to your email"
+                  autocomplete="off"
+                  value=""
+                  class="w-100 input-box"
+                  [class.access-code-error]="recoveryCodeInvalid"
+                  [class.access-code-success]="recoveryCodeValid"
+                  (keypress)="testAccessCode(pr.recoveryCode.value)"
+                />
+              </div>
+              <div class="recovery-padding text-left">
+                <label for="password">New Password</label>
+                <span
+                  *ngIf="forgetPassSubmitted && pr.password.errors?.required"
+                  class="text-danger float-right"
+                >
+                  Required!
+                </span>
+                <span
+                  *ngIf="forgetPassSubmitted && pr.password.errors?.minlength"
+                  class="text-danger float-right"
+                >
+                  At least 8 characters needed!
+                </span>
+                <div class="form_input">
+                  <input
+                    [type]="hidep ? 'text' : 'password'"
+                    id="password"
+                    placeholder="at least 8 characters"
+                    formControlName="password"
+                    required
+                    class="w-100 input-box"
+                    [(ngModel)]="password"
+                    (click)="OnClick()"
+                    (focus)="OnClick()"
+                  />
+                  <i
+                    class="fas show_pass"
+                    [class.fa-eye]="hidep"
+                    [class.fa-eye-slash]="!hidep"
+                    (click)="hidep = !hidep"
+                  >
+                  </i>
+                </div>
+              </div>
+              <div class="recovery-padding text-left">
+                <label for="confirm_password">Re-Enter New Password</label>
+                <span
+                  *ngIf="
+                    forgetPassSubmitted && pr.confirm_password.errors?.required
+                  "
+                  class="text-danger float-right"
+                >
+                  Required!
+                </span>
+                <span
+                  *ngIf="
+                    forgetPassSubmitted && pr.confirm_password.errors?.mustMatch
+                  "
+                  class="text-danger float-right"
+                >
+                  Passwords mismatch!
+                </span>
+                <div class="form_input">
+                  <input
+                    [type]="hidenp ? 'text' : 'password'"
+                    id="confirm_password"
+                    placeholder="at least 8 characters"
+                    formControlName="confirm_password"
+                    required
+                    class="w-100 input-box"
+                    [(ngModel)]="confirm_password"
+                    (click)="OnClickNP()"
+                    (focus)="OnClickNP()"
+                  />
+                  <i
+                    class="fas show_pass"
+                    [class.fa-eye]="hidenp"
+                    [class.fa-eye-slash]="!hidenp"
+                    (click)="hidenp = !hidenp"
+                  >
+                  </i>
+                </div>
+              </div>
+
+              <div class="error-area" *ngIf="forgetPassSubmitted">
+                <div
+                  *ngIf="accCodeInvalid"
+                  class="alert alert-dismissible error-class fade show mt-3"
+                  role="alert"
+                >
+                  <span class="para">{{ errorMessage }}</span>
+                  <span
+                    *ngIf="resend"
+                    (click)="resendCode('passReFormButton')"
+                    class="forgot-pass"
+                    >Resend?</span
+                  >
+                  <button
+                    type="button"
+                    class="close cross-button"
+                    data-dismiss="alert"
+                    aria-label="Close"
+                  >
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div
+                  *ngIf="sameNewPass"
+                  class="alert alert-dismissible error-class fade show mt-3"
+                  role="alert"
+                >
+                  <span class="para">{{ errorMessage }}</span>
+                  <button
+                    type="button"
+                    class="close cross-button"
+                    data-dismiss="alert"
+                    aria-label="Close"
+                  >
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div
+                  *ngIf="connectionErrorMessage1"
+                  class="alert alert-dismissible error-class fade show mt-3"
+                  role="alert"
+                >
+                  <span class="para">{{ connectionMessageString1 }}</span>
+                  <button
+                    type="button"
+                    class="close cross-button"
+                    data-dismiss="alert"
+                    aria-label="Close"
+                  >
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+              </div>
+
+              <div class="display-inline mt-4">
+                <input
+                  type="submit"
+                  id="passReFormButton"
+                  class="recovery-button btn-blue"
+                  value="Next"
+                  [ngClass]="isLoading ? 'disable' : ''"
+                />
+                <div class="loader" *ngIf="isLoading">Loading...</div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="pass-reset"> -->
+    </div>
+  </div>
+
+  <!-- <div class="login_cont" *ngIf="forget">
+    <div class="pass-reset">
+      <div class="pass-reset-form-area">
+        <form
+          [formGroup]="passwordResetForm"
+          (ngSubmit)="passwordForget(passwordResetForm.value)"
+        >
+          <h3><strong>Content Bounty</strong></h3>
+          <p>Type In Your Access Code Here to Reset Your Account</p>
+          <div class="input-padding text-left">
+            <label for="recoveryCode">Access Code</label>
+            <input
+              type="text"
+              id="recoveryCode"
+              formControlName="recoveryCode"
+              placeholder="Enter the recovery code sent to your email"
+              autocomplete="off"
+              value=""
+              class="w-100 input-box"
+            />
+            <span
+              *ngIf="forgetPassSubmitted && pr.recoveryCode.errors?.required"
+              class="text-danger"
+            >
+              Recovery code is required!
+            </span>
+          </div>
+          <div class="input-padding text-left">
+            <label for="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              formControlName="password"
+              placeholder=""
+              autocomplete="off"
+              value=""
+              class="w-100 input-box"
+            />
+            <span
+              *ngIf="forgetPassSubmitted && pr.password.errors?.required"
+              class="text-danger"
+            >
+              Password is required!
+            </span>
+          </div>
+          <div class="input-padding text-left">
+            <label for="confirm_password">Confirm Password</label>
+            <input
+              type="password"
+              id="confirm_password"
+              formControlName="confirm_password"
+              placeholder=""
+              autocomplete="off"
+              class="w-100 input-box"
+            />
+            <span
+              *ngIf="
+                forgetPassSubmitted && pr.confirm_password.errors?.required
+              "
+              class="text-danger"
+            >
+              Confirm password is required!
+            </span>
+            <span
+              *ngIf="
+                forgetPassSubmitted && pr.confirm_password.errors?.mustMatch
+              "
+              class="text-danger"
+            >
+              Passwords must match!
+            </span>
+          </div>
+
+          <div class="error-area" *ngIf="forgetPassSubmitted">
+            <div
+              *ngIf="errorMessage"
+              class="alert alert-dismissible error-class fade show mt-3"
+              role="alert"
+            >
+              <span class="para">{{ errorMessage }}</span>
+              <span *ngIf="resend" (click)="resendCode()" class="forgot-pass"
+                >Resend?</span
+              >
+              <button
+                type="button"
+                class="close cross-button"
+                data-dismiss="alert"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="login_signup_button mt-4">
+            <span class="mr-3 back-button" (click)="goBackToRecoveryEmail()"
+              ><i class="fas fa-arrow-circle-left font-icon mr-2"></i>Go
+              Back</span
+            >
+            <input type="submit" class="login-btn btn-blue" value="Next" />
+          </div>
+        </form>
+      </div>
+    </div>
+  </div> -->
+</div>
+<!-- </div> -->
+
+<div
+  class="loading_popup"
+  [ngClass]="loginSuccessLoader ? 'show_toster' : 'hide_toster'"
+>
+  <!-- <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span> -->
+  <span>
+    <img src="../../../assets/img/pancil_loader_l.gif" alt="" />
+  </span>
+</div>

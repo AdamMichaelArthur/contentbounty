@@ -1,0 +1,23 @@
+
+    <h3>{{keywords[0]}}</h3>
+    <button class="close_popup_modal" (click)="hidePopup()">X</button>
+     <p><a href="{{response.localFolder}}" target="_blank">All Files</a>&nbsp;||&nbsp;&nbsp;&nbsp;<a (click)="openPopup('spreadsheet')">&#9998;</a>&nbsp;&nbsp;<a (click)="openSpreadsheet($event)" href="{{spreadsheetLink}}" target="_blank">Spreadsheet</a>&nbsp;<a href="{{spreadsheetDownloadLink}}">&darr;</a>&nbsp;||&nbsp;&nbsp;&nbsp;<a (click)="openPopup('document')">&#9998;</a>&nbsp;&nbsp;<a (click)="openDocument($event)" href="{{documentLink}}" target="_blank">Document</a>&nbsp;||&nbsp;&nbsp;<a (click)="openPopup('script')">&#9998;</a>&nbsp;&nbsp;<a *ngIf="hasBountyScript; else elseBlock" (click)="openScript($event)" href="{{scriptLink}}" target="_blank">Script</a>&nbsp;&nbsp;||&nbsp;<a href="{{documentDownloadLink}}">&darr;</a><a (click)="completeBounty($event)" href="/">Complete</a>&nbsp;
+
+     <span *ngIf="code_generator_available">&nbsp;||&nbsp;<a href="{{code_generator_url_prefilled}}" target="_blank">Code Generator</a>&nbsp;||&nbsp;<a href="{{response.new_page_link}}" target="_blank">Publish</a></span>
+     <div *ngFor="let doc of googleDocs"><a (click)="openFile($event, doc.id, doc.filename)" href="{{doc.link}}" target="_blank">{{doc.filename}}</a><i>&nbsp;</i><a href="{{doc.download_link}}">&darr;</a></div>
+     <p>Brand Spreadsheets</p>
+	 <div *ngFor="let spreadsheet of googleSheets">
+	 	<a (click)="openSpreadsheet($event, spreadsheet.id)" href="#" target="_blank">{{spreadsheet.title}}</a>
+	 </div>
+    <div id="my-box-content-explorer"></div>
+  
+<ng-template #elseBlock><a (click)="openPopup('script')">Add Script</a></ng-template>
+
+<div class="popup-overlay" id="popup-overlay">
+  <div class="popup">
+    <h2>Enter The Google Document ID Here</h2>
+    <input type="text" id="name-input" [(ngModel)]="scriptId">
+    <button (click)="updateBounty($event)">Submit</button>
+    <button (click)="closePopup()">Close</button>
+  </div>
+</div>

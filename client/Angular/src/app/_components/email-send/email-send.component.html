@@ -1,0 +1,127 @@
+<div class="container row_background_color m-t-15">
+    <div class="row">
+        <div class="col-sm-12 p-10">
+            <form
+                [formGroup]="sendEmailForm"
+                (ngSubmit)="onFormSubmit(sendEmailForm.value)"
+            >
+                <div class="row">
+                    <div class="col-sm-1">
+                        <label for="to">To</label>
+                    </div>
+                    <div class="col-sm-11">
+                        <input type="text" formControlName="to" id="to" class="input_class" name="to" placeholder="To">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-1">
+                        <label for="from">From</label>
+                    </div>
+                    <div class="col-sm-11">
+                        <input type="text" formControlName="from" id="from" class="input_class" name="from" placeholder="From">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-1">
+                        <label for="subject">Subject</label>
+                    </div>
+                    <div class="col-sm-11">
+                        <div *ngIf="sendEmailForm.invalid && (sendEmailForm.controls['subject'].dirty || sendEmailForm.controls['subject'].touched || submitted)"
+                            >
+                            <div class="text-danger" *ngIf="sendEmailForm.controls['subject'].errors && sendEmailForm.controls['subject'].errors.required">
+                                Subject is required.
+                            </div>
+                        </div>
+                        <input type="text" formControlName="subject" id="subject" class="input_class" name="subject" placeholder="Subject">
+                    </div>
+                </div>
+
+                <div class="row">
+                        <app-email-received-actions #emailActions (buttonClickEvent)="buttonClickedInChild($event)" (selectChangeEvent)="selectChangedInChild($event)" [buttons]="buttons"></app-email-received-actions>
+                </div>
+
+                <div class="row m-both-negative-10">
+                    <div class="col-sm-12">
+                        <div *ngIf="templates" style="display: inline-block">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Select A Template</mat-label>
+                                <mat-select #mySelect (selectionChange)="templateSelected(mySelect.value)">
+                                    <mat-option *ngFor="let template of templates" [value]="template._id">
+                                        {{template.template_name}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row m-b-25">
+                    <div class="col-sm-1">
+                        <label for="body">Body</label>
+                    </div>
+                    <div class="col-sm-11">
+                        <div *ngIf="sendEmailForm.invalid && (sendEmailForm.controls['body'].dirty || sendEmailForm.controls['body'].touched || submitted)"
+                            >
+                            <div class="text-danger" *ngIf="sendEmailForm.controls['body'].errors && sendEmailForm.controls['body'].errors.required">
+                                Body is required.
+                            </div>
+                        </div>
+                        <div>
+                            <editor 
+                            [(ngModel)]="dataModel"
+                            [ngModelOptions]="{standalone:true}"
+                            apiKey="7muf998f2qego6kngecif60kw1wvnp4q3frj489rbub8vmhz"
+                            required
+                            initialValue="<p><b>{{sendEmailsData.Body}}</b></p>"
+                            [init]="{
+                            base_url: '/assets/tinymce',
+                            suffix: '.min',
+                                height: 300,
+                                menubar: false,
+                                plugins: [
+                                'emoticons',
+                                'advlist autolink lists link image charmap print',
+                                'preview anchor searchreplace visualblocks code',
+                                'fullscreen insertdatetime media table paste',
+                                'help wordcount'
+                                ],
+                                toolbar:
+                                'emoticons undo redo | formatselect | bold italic | \
+                                alignleft aligncenter alignright alignjustify | \
+                                bullist numlist outdent indent | help'
+                            }"
+                            >
+                            </editor>
+                        </div>
+                        <!-- <div *ngIf="emailReceived">
+                            <textarea type="text" formControlName="body" id="body" class="input_class" name="body" placeholder="Body"></textarea>
+                        </div> -->
+                    </div>
+                </div>
+
+                <!-- <div class="row" *ngIf="!emailReceived"> -->
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="row float-right m-0">
+                            <animatedbutton
+                                (textBtnClickEmt)="onFormSubmit(sendEmailForm.value)"
+                                id="send-button"
+                                [buttom_Config]="buttom_Config_text"
+                            ></animatedbutton>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" *ngIf="emailSendErrorMessage">
+                    <div class="col-sm-12">
+                        <h3 class="text-danger">{{emailSendErrorMessage}}</h3>
+                    </div>
+                </div>
+            
+            </form>
+        </div>
+    </div>
+</div>

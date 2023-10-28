@@ -1,0 +1,173 @@
+<p>flextable-examples works!</p>
+
+<!-- A Basic Flextable.  In this example, the mongodb collection is "bounties" -->
+<!-- 
+    <flexible-table
+      key="bounties"		
+      columns="selected,published_link,brand_name,titles,keywords" 
+      displayClone="false"
+      widths="0,50,500,500,100,60">
+    </flexible-table> -->
+
+<!-- This is about as basic as the flextable can get.  Here you are setting the column widths to 50, 500, 500, 100 and 60 -->
+
+<!-- Understanding how FlexTable Buttons Work! 
+
+	You can put a button in any column you want.  I typically put them in the first column, but you don't have to.
+	To Define buttons, you need to add four things to the <flextable> input parameters:
+
+	  buttons="brand_name,brand_name,brand_name,brand_name,brand_name,brand_name,brand_name"
+      buttonNames="Keywords,Prompts,Titles,Products,Links,Site Info,Templates"
+      (tableButtonClicked)="tableButtonClicked($event)"
+      (sendTableButtons)="updateTableButtons($event)"
+
+	"buttons" is a comma seperated list of column names.  Here, you put the name of the column where you want the button to appear.
+	So, in our example, if you want the your first button in the published_link column and your second button in the brand_name column,
+	you would write:
+
+	buttons="published_link,brand_name"
+
+	This would create two buttons and display them in the column you chose.
+
+	buttonNames is a comma seperated list of what you want the button name to display.  
+
+	In this example we want our button name to be "Test Button" and "Brand Name Button":
+
+	buttonNames="Test Button,Brand Name Button"
+
+	Finally, you must add:
+	      (tableButtonClicked)="tableButtonClicked($event)"
+      	  (sendTableButtons)="updateTableButtons($event)"
+
+    exactly as you see here.  This is the code that initializes the buttons and makes them work.  
+-->
+
+<!--     <flexible-table
+      key="bounties"		
+      columns="selected,published_link,brand_name,titles,keywords" 
+      displayClone="false"
+      widths="0,50,500,500,100,60"
+      buttons="published_link,brand_name"
+      buttonNames="Test Button,Brand Name Button"
+      (tableButtonClicked)="tableButtonClicked($event)"
+      (sendTableButtons)="updateTableButtons($event)"
+      >
+    </flexible-table> -->
+
+<!-- 
+
+	It's important that you understand the dynamic between the buttons and the backend API.  Using buttons gives you an opportunity
+	to make a call to the database, get a response, and do something with that response.  You don't HAVE to do this, but it can become very
+	useful.
+
+	In the api, open the "actions.js" we would create two functions for these buttons:
+		async published_link() {} and async brand_name() {}
+
+	Depending on our use case and what we are trying to do, would depend on what we write here.  
+
+	Upon a successful call to the API, displayTableButton area will be set to true, and it's associated <div> -- if present 
+	-- will become displayed.  Create an area in the code for your buttons like so:
+
+	<div *ngIf="displayTableButtonArea"></div>
+
+	You may want to use our existing styling, 'style="margin: auto;" class="popup_modal_fade"' but this is not necessary
+
+	Next, you will use *ngIf="tableButtonSubviews[0]" to create divs for each button
+
+	Button 1 = tableButtonSubviews[0]
+	Button 2 = tableButtonSubviews[1]
+	Button 3 = tableButtonSubviews[2]
+
+	And so on...
+
+-->
+
+<!-- <div *ngIf="displayTableButtonArea" style="margin: auto;" class="popup_modal_fade">
+  <div *ngIf="tableButtonSubviews[0]">
+
+  </div>
+  <div *ngIf="tableButtonSubviews[1]">
+
+  </div>
+    <div *ngIf="tableButtonSubviews[2]">
+
+  </div>
+</div> -->
+
+
+
+
+    <!--
+
+    key is where you put the name of your mongo db collections...
+
+	Put the column names here.  If you want a "selected" checkbox, leave that in place
+
+	filter is where things can get a bit tricky...  You need to create a filter string that can be correctly processed by the
+	backend to serve you the data you need.
+
+	This is a simple example of a filter -- I don't need to use any string interpolation to get this to work.
+
+	Let's save this and see what happens...
+
+	So as you can see, it basically worked -- it displayed the data we wanted.  The formatting is way off, but that
+	can be handled as needed.
+
+	Now, I can already see a problem -- the table is displaying data from ALL bounties that match the criteria, not just the "Too Cute For Me"
+	brand.  So, we need to make our filter a little bit more complex to handle that.
+
+	The shared service is used in this case to get the brand_id of the referring table.
+
+	Let's take a look at the data we're getting from the shared service
+
+	This component isn't -- yet -- using the sharedService, so let's change that.
+
+	In this case, the _id in the sharedService is the _id of the referring document.  We know that we were just referred from the "brands" collection
+	so this is a "brand_id" -- which we can use to filter our documents because our bounties collections always have a "brand_id" for us to refer to
+
+	Notice the use of string interpolation here.  This should translate into something like this:
+
+	{"published_link": {"$exists": true} }, "brand_id": {{ this.sharedService._id }}
+
+	Ok -- well, I just discovered a fairly major bug.......the bounties collections SHOULD have a "brand_id" associated with them, but they do not
+	So I'm going to take a bit of a detour to create some bounties that have this.
+
+	So I'm going to revert the project a little bit, create some bounties, and then come back to this.
+
+	I'm going to have to stop the video here because this brand_id missing is a major bug that needs to be addressed before I can continue.
+
+	OK....continuing from where we left off.  It's been a few hours since I recorded the first part of the video, so I'm going to check and see where I left
+	off....
+
+	I had a lot of database problems here....so I need to do some databsae updates to make this work for us.
+
+	Ok, we're back to where we left off.  But, we need to be sure that our "brand_id" is used as a filter.
+
+	So we're going to check our shared service and make it it matches what we expect.
+
+	Now we're going to see how the filter is sent...
+
+	Lost internet there for a few minutes.
+
+	So -- the filter is passed to the server as a base64 encoded URI string.  As you can see, we got it right...mostly....we forogt quotation marks!
+	let's add them and see if it works then...
+
+	I've still made some mistakes in my filter.
+
+	Let's see if it works now...
+
+	and there it is....We've got a list of published bounties, the brand name, titles (if present) and keywords (if present)
+
+	-->
+
+
+
+
+
+
+
+
+
+
+
+

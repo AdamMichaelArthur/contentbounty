@@ -1,0 +1,20 @@
+<div class="loader" *ngIf="globalVars.isLoading"></div>
+<div *ngIf="!globalVars.isLoading">
+	<div class="errorMessageDisplay" *ngIf="errorMessage">
+		<h4>
+			{{errorMessage}}
+		</h4>
+	</div>
+	
+	<!-- In this component you will respond to incoming emails, which will usually be replies to outreach. -->
+	
+	<div *ngFor="let email of emails; let i = index;" >
+	
+		 <!-- app-email-response displays an INCOMING email, which is typically expected to be a response to an outreach email -->
+		 <app-email-response [emailReceived]="email"></app-email-response>
+	
+		<!-- <app-email-received-actions (buttonClickEvent)="buttonClickedInChild($event)" (selectChangeEvent)="selectChangedInChild($event)" [buttons]="buttons"></app-email-received-actions> -->
+	
+		<app-email-send [sendEmailsData]="email" [emailReceived]="emailReceivedComponent" ></app-email-send>
+	</div>
+</div>

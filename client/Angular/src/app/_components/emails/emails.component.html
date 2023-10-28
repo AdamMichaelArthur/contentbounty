@@ -1,0 +1,65 @@
+<div style="margin: auto;">
+  <div style="width: 1100px; margin: auto;">
+
+  <p>emails works!</p>
+
+	<div>
+	    <flexible-table
+	      key="gmails"	
+	      headerButtons="Add Gmail Account" 
+      	  (sendHeaderButtons)="updateHeaderButtons($event)"
+      	  (onHeaderButtonClicked)="flextableHeaderButtonClicked($event)" 
+	      (sendHeaderButtons)="updateHeaderButtons($event)"
+        displayUpload="false"
+        columns="email,first,last" 
+	      displayClone="false"
+	      displayAddDataToSource="false"
+	      widths="0,250,150,150"
+        filter="{{filterStr}}"
+	      all="account"
+        [textCutoff]="textCutoff"
+	      >
+	    </flexible-table>
+	</div>
+
+	<div id="id-Action1" [style.display]="displayButtonArea ? 'none' : ''" class="popup_modal_fade">
+  <div *ngIf="buttonSubviews[0] == true" class="popup_modal_content_area">
+   
+    <button class="close_popup_modal" (click)="hidePopup()">X</button>
+    <div class="form_header">
+      <h3>Add User</h3>
+    </div>
+
+    <form [formGroup]="addGmailForm" (ngSubmit)="addGmail()">
+      <div class="form_input">
+        <div class="row">
+          <div class="col-md-6">
+            <label>First Name</label>
+            <input name="first" formControlName="first">
+            <div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <label>Last Name</label>
+            <input name="last" formControlName="last">
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <label>Email</label>
+            <input name="email" formControlName="email">
+          </div>
+        </div>
+      </div>
+
+      <div class="form_submit">
+        <input type="submit" value="Create User" onsubmit="linkGmail()">
+      </div>
+    </form>
+  </div>
+  </div>
+
+  </div>
+</div>

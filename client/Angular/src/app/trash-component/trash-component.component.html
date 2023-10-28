@@ -1,0 +1,36 @@
+<p>You have created a new component in Content Bounty</p>
+
+This document describes how to use some of the complex custom components that we use frequently in CB.
+
+The most complex component we have is the "FlexTable"
+
+What Is The Flex Table?
+-----------------------
+
+The FlexTable is a table that is designed to easily and directly interface with almost any
+MongoDB collection.  Out of the box, with minimal configuration, is supports:
+
+1.	Search
+2.	Data / Spreadsheet Uploads
+3.	Drag and Drop Functionality
+4.	Unlimited and Fast Pagination
+5.	Easy to implement filters
+... and much much more
+
+What makes FlexTable so powerful is it's easy and seamless ability to integrate with almost
+any MongoDB datasource.  If you have data in a MongoDB database, you can have a Flextable up
+and running in as litle as a few minutes.
+<!-- 
+<flexible-table
+                key="items"
+                columns="email">
+</flexible-table> -->
+
+While a flextable doesn't necessarily need to know the columns for a given datasource, it's probably
+a good idea.  In this first example, we're going to build the simplest Flextable we can -- a table
+that lists our users email addresses.
+
+The second thing to understand is that, by default, the flextable ONLY RETURNS data that is owned or 
+created by the user.  It is possible to override that, but there are security questions if you choose to
+do so.
+

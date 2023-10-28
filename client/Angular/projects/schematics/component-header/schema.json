@@ -1,0 +1,45 @@
+{
+    "$schema": "http://json-schema.org/schema",
+    "id": "SchematicComponentHeader",
+    "title": "My Component Header Schema",
+    "type": "object",
+    "properties": {
+      "author": {
+        "type": "string",
+        "minLength": 1,
+        "default": "world",
+        "x-prompt": "What is your author name?"
+      },
+      "path": {
+        "type": "string",
+        "format": "path",
+        "description": "The path at which to create the component file, relative to the current workspace. Default is a folder with the same name as the component in the project root.",
+        "visible": false
+      },
+      "project": {
+        "type": "string",
+        "description": "The name of the project.",
+        "$default": {
+          "$source": "projectName"
+        }
+      },
+      "name": {
+        "type": "string",
+        "description": "The name of the component.",
+        "$default": {
+          "$source": "argv",
+          "index": 0
+        },
+        "x-prompt": "What name would you like to use for the component?"
+      },
+      "selector": {
+        "type": "string",
+        "format": "html-selector",
+        "description": "The HTML selector to use for this component."
+      }
+    },
+    "required": [
+      "name",
+      "author"
+    ]
+  }

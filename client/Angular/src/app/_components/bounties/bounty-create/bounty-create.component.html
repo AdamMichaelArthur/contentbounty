@@ -1,0 +1,119 @@
+<div class="popup_modal_fade">
+  <div class="popup_modal_content_area">
+    <button class="close_popup_modal" (click)="disapparePopup()">X</button>
+    <div *ngIf="bShowKeywords"><input [(ngModel)]="add_keywords"> type="text" placeholder="Optional keywords"></div>
+    <div class="row">
+      <div class="col-md-3">
+        <div class="starting_date_area" *ngIf="bShowDateTimePicker">
+          <h4>Select Start Date</h4>
+          <mat-form-field>
+            <mat-label>Starting Date</mat-label>
+            <input matInput [matDatepicker]="picker" [(ngModel)]="myDate" placeholder="Starting Date"/>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="select_frequency_area" *ngIf="bShowFrequencyPicker">
+          <h4>Select Frequency</h4>
+          <mat-form-field>
+            <mat-label>Space Out Bounties</mat-label>
+            <mat-select [(value)]="selected">
+              <mat-option *ngFor="let frequency of frequencies" [value]="frequency.value">
+                {{frequency.viewValue}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+
+    <mat-accordion>
+      <mat-expansion-panel *ngFor="let section of sections">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            {{section}}
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="bounty_popup_tab">
+              <div class="process_tab_table">
+                <h2>Total Cost of Bounty: {{total_bounty}}</h2>
+                <table>
+                  <tr>
+                    <th>Process</th>
+                    <th>In House</th>
+                    <th>Check In</th>
+                    <th>Bounty</th>
+                  </tr>
+                  <tr *ngFor="let proc of data; let i = index">
+                    <td *ngIf="proc.stage == section">
+                      <div class="editorial_proc_check">
+                        <label class="switch" (change)="stepChecked(proc)">
+                          <input type="checkbox" [(ngModel)]="proc.process" />
+                          <span class="slider round"></span>
+                        </label>
+                        <h3> {{proc.step}} </h3>
+                        <p [ngClass]="{'disabled':proc.process === false}">
+                          <textarea type="text" placeholder="Simple Descripti…"
+                            [(ngModel)]="proc.step_description"> </textarea>
+                        </p>
+                      </div>
+                    </td>
+                    <td *ngIf="proc.stage == section">
+                      <div class="add_content_popup_check_bounty">
+                        <label class="cb_container_bounty" [ngClass]="{'disabled':proc.process === false}">
+                          <input type="checkbox" (change)="onCheckinHouse($event, i)" [(ngModel)]="proc.inhouse" />
+                          <span class="checkmark_bounty"></span>
+                        </label>
+                      </div>
+                      <div class="add_content_popup_select_bounty">
+                        <select [ngClass]="{'displaynone':proc.inhouse === false}" [(ngModel)]="proc.inhouseUser">
+                          <option *ngFor="let user of inhouseUsers; let i = index" value="{{i}}">
+                            {{user.first_name}} {{ user.last_name.substring(0, 1) | titlecase }}
+                          </option>
+                        </select>
+                      </div>
+                    </td>
+                    <td *ngIf="proc.stage == section">
+                      <div class="add_content_popup_check_bounty">
+                        <label class="cb_container_bounty" [ngClass]="{'disabled':proc.process === false}">
+                          <input type="checkbox" (change)="onCheckcheckIn($event, i)" [(ngModel)]="proc.checkin" />
+                          <span class="checkmark_bounty"></span>
+                        </label>
+                      </div>
+                      <div class="add_content_popup_select_bounty">
+                        <select [ngClass]="{'displaynone':proc.checkin === false}" [(ngModel)]="proc.checkinUser">
+                          <option *ngFor="let user of inhouseUsers; let i = index" value="{{i}}">
+                            {{user.first_name}} {{ user.last_name.substring(0, 1) | titlecase }}
+                          </option>
+                        </select>
+                      </div>
+                    </td>
+                    <td *ngIf="proc.stage == section">
+                      <div class="editorial_proc_bounty">
+                        <p [ngClass]="{'disabled':proc.process === false}">
+                          <input type="number" class="text" (ngModelChange)="updateBountyTotal($event, proc)"
+                            [(ngModel)]="proc.bounty">
+                        </p>
+                      </div>
+                    </td>
+                  </tr>
+
+
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </mat-expansion-panel>
+    </mat-accordion>
+    <div class="bounty_popup_footer">
+      <button (click)="addGuide()">Save</button>
+    </div>
+  </div>
+
+</div>

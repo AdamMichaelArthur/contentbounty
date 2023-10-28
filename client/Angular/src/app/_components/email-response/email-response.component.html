@@ -1,0 +1,100 @@
+<div class="container row_background_color m-t-15 rounded-bottom-0">
+    <div class="row">
+        <div class="col-sm-12 p-10">
+            <div class="row row_background_color">
+                <div class="col-sm-1">
+                    <label for="to">To:</label>
+                </div>
+                <div class="col-sm-11">
+                    <span>{{emailReceived.to}} <{{emailReceived.firstNameTo}} {{emailReceived.lastNameTo}}></span>
+                </div>
+            </div>
+            <div class="row row_background_color">
+                <div class="col-sm-1">
+                    <label for="from">From:</label>
+                </div>
+                <div class="col-sm-11">
+                    <span>{{emailReceived.from}} <{{emailReceived.firstName}} {{emailReceived.lastName}}></span>
+                </div>
+            </div>
+            <div class="row row_background_color">
+                <div class="col-sm-1">
+                    <label for="subject">Subject:</label>
+                </div>
+                <div class="col-sm-11">
+                    <span>{{emailReceived.subject}}</span>
+                 </div>
+            </div>
+            <div class="row row_background_color">
+                <div class="col-sm-1">
+                    <label for="body">Body</label>
+                </div>
+                <div class="col-sm-11">
+                    <editor 
+                    apiKey="7muf998f2qego6kngecif60kw1wvnp4q3frj489rbub8vmhz"
+                    [disabled]="true"
+                    initialValue="{{emailReceived.body[1].body}}"
+                    [init]="{
+                    base_url: '/assets/tinymce',
+                    suffix: '.min',
+                        height: 200,
+                        menubar: false,
+                        statusbar: false,
+                        toolbar: false
+                        }"
+                    >
+                    </editor>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <div class="container">
+        <div class="row row_background_color">
+            <div class="col-sm-1">
+                <label for="to">To:</label>
+            </div>
+            <div class="col-sm-11">
+                <span>{{emailReceived.to}} <{{emailReceived.firstNameTo}} {{emailReceived.lastNameTo}}></span>
+            </div>
+        </div>
+        <div class="row row_background_color">
+            <div class="col-sm-1">
+                <label for="from">From:</label>
+            </div>
+            <div class="col-sm-11">
+                <span>{{emailReceived.from}} <{{emailReceived.firstName}} {{emailReceived.lastName}}></span>
+            </div>
+        </div>
+        <div class="row row_background_color">
+            <div class="col-sm-1">
+                <label for="subject">Subject:</label>
+            </div>
+            <div class="col-sm-11">
+                <span>{{emailReceived.subject}}</span>
+             </div>
+        </div>
+        <div class="row row_background_color">
+            <div class="col-sm-1">
+                <label for="body">Body</label>
+            </div>
+            <div class="col-sm-11">
+                <editor 
+                apiKey="7muf998f2qego6kngecif60kw1wvnp4q3frj489rbub8vmhz"
+                [disabled]="true"
+                initialValue="{{emailReceived.body[1].body}}"
+                [init]="{
+                base_url: '/assets/tinymce',
+                suffix: '.min',
+                    height: 200,
+                    menubar: false,
+                    statusbar: false,
+                    toolbar: false
+                    }"
+                >
+                </editor>
+            </div>
+        </div>
+
+</div> -->

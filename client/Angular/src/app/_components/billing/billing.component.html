@@ -1,0 +1,304 @@
+<!-- We'll put the error messages in this element -->
+
+<div class="container">
+  <div class="lds-ripple" *ngIf="loadingStripe">
+    <div></div>
+    <div></div>
+  </div>
+  <div class="payment_method_container" [hidden]="!loadedStripe">
+
+    <div class="payment_method_area_add">
+      <p>Add Payment Method</p>
+      <div class="add-payment-area" [ngClass]="isCardElementShow ? 'card_area_on':'card_area_off'">
+        <div class="display_card_button">
+          <button (click)="showCardElement()" [ngClass]="isCardElement ? 'active_card_button':''">
+            <i class="fas fa-credit-card"></i><br />
+            Credit Card 
+          </button>
+        </div>
+        <div class="card_element" [ngClass]="isCardElement ? 'showcardelement':'hidecardelement'">
+          <p>Add Credit Card Details</p>
+          <div class="card_element_input">
+            <div id="card-element"></div>
+            <div id="card-errors" class="danger-notify" role="alert"></div>
+          </div>
+          <!-- <div *ngIf="cardError" class="error-danger" id="card-errors" role="alert">
+            <p>{{msg}}</p>
+            <ng-lottie
+              width="20px"
+              [options]="lottieConfigError" 
+              (animationCreated)="animationCreated($event)">
+            </ng-lottie>
+          </div> -->
+          <div class="purple-square-container">
+              <button [ngClass]="cardError ? 'error-danger':''" class="purple-square" id="submit" (click)="showLoadingPayment()">
+                <i class="fas fa-plus-circle"></i>Add
+                <div [ngClass]="isLoadingAddPaymentArea ? 'show_add_payment':'hide_add_payment'">
+                  <span *ngIf="isLoadingAddPayment">
+                    <ng-lottie
+                      width="20px"
+                      [options]="loading_spinner" 
+                      (animationCreated)="animationCreated($event)">
+                    </ng-lottie>
+                  </span> 
+                  <span *ngIf="isLoadingAddPaymentSuccess">
+                    <ng-lottie
+                      width="20px"
+                      [options]="lottieConfigChecked" 
+                      (animationCreated)="animationCreated($event)">
+                    </ng-lottie>
+                  </span> 
+                  <span *ngIf="cardError">
+                    <ng-lottie
+                      width="20px"
+                      [options]="lottieConfigError" 
+                      (animationCreated)="animationCreated($event)">
+                    </ng-lottie>
+                  </span>
+                </div>
+              </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="payment_method_area" *ngIf="loadedPaymentMethods">
+      <p>Payment Methods</p>
+      <div class="payment-methods-area">
+
+        <table *ngIf="payment_methods && payment_methods.length > 0">
+          <tr>
+            <th>PAYMENT METHODS</th>
+            <th>CARD NUMBER</th>
+            <th>EXP DATE</th>
+            <th></th>
+          </tr>
+          <tr *ngFor="let payment_method of payment_methods; index as i">
+            <td>{{ payment_method.brand }}</td>
+            <td>**** **** **** {{ payment_method.last4 }}</td>
+            <td>{{ payment_method.exp_month }}/{{ payment_method.exp_year}}</td>
+            <!-- <td>{{ payment_method.default }}</td> -->
+            <td style="text-align: right;">
+              <button class="btn_asdefault" (click)="defaultPaymentMethod(payment_method.id)"
+              *ngIf="payment_method.default === false">
+                Set As Default 
+                <div [ngClass]="isLoadingSetDefaultOp[payment_method.id] ? 'show_set_default':'hide_set_default'">
+                  <span *ngIf="isLoadingSetDefault[payment_method.id]">
+                    <ng-lottie
+                      width="20px"
+                      [options]="loading_spinner" 
+                      (animationCreated)="animationCreated($event)">
+                    </ng-lottie>
+                  </span> 
+                  <span *ngIf="setAsDefaultPaymentMethodeSuccess[payment_method.id]">
+                    <ng-lottie
+                      width="20px"
+                      [options]="lottieConfigChecked" 
+                      (animationCreated)="animationCreated($event)">
+                    </ng-lottie>
+                  </span> 
+                  <span *ngIf="setAsDefaultPaymentMethodeError[payment_method.id]">
+                    <ng-lottie
+                      width="20px"
+                      [options]="lottieConfigError" 
+                      (animationCreated)="animationCreated($event)">
+                    </ng-lottie>
+                  </span> 
+                </div>
+              </button>
+              <span 
+                style="margin-right: 10px; color: rgb(89, 177, 35); font-size: 14px; font-weight: 600;" 
+                *ngIf="payment_method.default === true">
+                Default Card
+              </span>
+              <button class="btn_remove" (click)="deletePaymentMethod(payment_method.id)">
+                Remove 
+                <div [ngClass]="isLoadingRemoveOp[payment_method.id] ? 'showremoveloader':'hideremoveloader'">
+                  <span *ngIf="isLoadingRemove[payment_method.id]">
+                    <ng-lottie
+                      width="20px"
+                      [options]="loading_spinner" 
+                      (animationCreated)="animationCreated($event)">
+                    </ng-lottie>
+                  </span> 
+                  <span *ngIf="removePaymentMethodeSuccess[payment_method.id]">
+                    <ng-lottie
+                      width="20px"
+                      [options]="lottieConfigChecked" 
+                      (animationCreated)="animationCreated($event)">
+                    </ng-lottie>
+                  </span> 
+                  <span *ngIf="removePaymentMethodeError[payment_method.id]">
+                    <ng-lottie
+                      width="20px"
+                      [options]="lottieConfigError" 
+                      (animationCreated)="animationCreated($event)">
+                    </ng-lottie>
+                  </span> 
+                </div>
+              </button>
+            </td>
+          </tr>
+        </table>
+        <div class="planconform_popup_loader" *ngIf="isLoadingAddPayment">
+          <ng-lottie
+            width="260px"
+            [options]="options" 
+            (animationCreated)="animationCreated($event)">
+          </ng-lottie>
+        </div>
+
+        <!-- <ul *ngIf="payment_methods && payment_methods.length > 0">
+          <li *ngFor="let payment_method of payment_methods; index as i">
+            <span class="mr-4">{{ payment_method.brand }}</span>
+            <span class="mr-4">**** **** **** {{ payment_method.last4 }}</span>
+            {{ payment_method.country }}
+            <span class="mr-4">
+              exp. {{ payment_method.exp_month }}.{{ payment_method.exp_year}}
+            </span>
+            <span class="mr-4" (click)="defaultPaymentMethod(payment_method.id)">
+              <input type="radio" name="default_method" value="payment_method.id"
+                [checked]="payment_method.default"/>
+              <span>default</span>
+            </span>
+            <span (click)="deletePaymentMethod(payment_method.id)">X</span>
+          </li>
+        </ul> -->
+        <ul *ngIf="loadedPaymentMethods && payment_methods.length == 0">
+          <li style="float:left; width: 100%; display: block; list-style: none;">
+            <span class="mr-4">No payment methods available!</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+
+    <!-- <div class="plan_area">
+      <div (click)="setOrUpdateSubscription(plan.id)" class="noMargin"
+        *ngFor="let plan of plans; index as i">
+        <div class="plan_box" style="border: 0px">
+          <h3>{{ plan.name }}</h3>
+          <div class="plan_box_body">
+            <div class="plan_box_header">
+              <h1>{{ plan.amount }}</h1>
+              <h2>{{ plan.interval }}</h2>
+            </div>
+            <div class="plan_box_opportunity">
+              <p>{{ plan.metadata.users }} Users </p>
+              <p>{{ plan.metadata.emails }} Emails</p>
+              <p>{{ plan.metadata.bounties }} Bounties</p>
+            </div>
+          </div>
+          <div class="plan_box_selected" *ngIf="numSubscriptions > 0 && subscriptions[0].plan.name == plan.name">
+            <span>Current Plan</span>
+          </div>
+        </div>
+
+        <div (click)="setOrUpdateSubscription(plan.id)">Choose Plan</div>
+      </div>
+    </div> -->
+
+    
+    <div class="plan_area">
+      <div class="plan_area_header">
+        <p>Subscriptions Plan</p>
+        <div>
+          <button (click)="previous()"><i class="fas fa-angle-left"></i></button>
+          <button (click)="next()"><i class="fas fa-angle-right"></i></button>
+        </div>
+      </div>
+
+      <div class="slider_width">
+        <div class="slider_row">
+
+          <div class="slider_grid" [ngStyle]="{'transform': 'translateX('+ transform + '%' +')', 'transition': '.8s'}"
+            *ngFor="let plan of plans; index as i">
+            <div class="plan_box" (click)="confirmPlanPopup(plan.id)"
+            *ngIf="numSubscriptions > 0 && subscriptions[0].plan.name != plan.name">
+              <h3>{{ plan.name }}</h3>
+              <div class="plan_box_body">
+                <div class="plan_box_header">
+                  <h1>{{ plan.amount }}</h1>
+                  <h2>{{ plan.interval }}</h2>
+                </div>
+                <div class="plan_box_opportunity">
+                  <p>{{ plan.metadata.users }} Users </p>
+                  <p>{{ plan.metadata.emails }} Emails</p>
+                  <p>{{ plan.metadata.bounties }} Bounties</p>
+                </div>
+              </div>
+              <div class="plan_box_selected" >
+                <i [ngClass]="numSubscriptions > 0 && subscriptions[0].plan.name == plan.name ? 'fa-check-circle':'fa-plus-circle'" class="fas"></i>
+              </div>
+            </div>
+            <div class="plan_box" *ngIf="numSubscriptions > 0 && subscriptions[0].plan.name == plan.name">
+              <h3>{{ plan.name }}</h3>
+              <div class="plan_box_body">
+                <div class="plan_box_header">
+                  <h1>{{ plan.amount }}</h1>
+                  <h2>{{ plan.interval }}</h2>
+                </div>
+                <div class="plan_box_opportunity">
+                  <p>{{ plan.metadata.users }} Users </p>
+                  <p>{{ plan.metadata.emails }} Emails</p>
+                  <p>{{ plan.metadata.bounties }} Bounties</p>
+                </div>
+              </div>
+              <div class="plan_box_selected" >
+                <i [ngClass]="numSubscriptions > 0 && subscriptions[0].plan.name == plan.name ? 'fa-check-circle':'fa-plus-circle'" class="fas"></i>
+              </div>
+            </div>
+            <div class="planconform_popup" *ngIf="isConfirmPlanPopUp[plan.id]">
+              <h3>Change Your Subscriptions</h3>
+              <div class="planconform_popup_button">
+                <button (click)="cancelSubscription(subscriptions[0].id, plan.id)">Remove</button>
+                <button (click)="setOrUpdateSubscription(plan.id)">Confirm</button>
+              </div>
+              <div class="planconform_popup_loader" *ngIf="isLoadingConfirmPlan[plan.id]">
+                <ng-lottie
+                  width="160px"
+                  [options]="options" 
+                  (animationCreated)="animationCreated($event)">
+                </ng-lottie>
+              </div>
+              <div class="planconform_popup_success" *ngIf="isConfirmPlanPopUpSuccess[plan.id]">
+                <p>Subscription Changed</p>
+                <button (click)="confirmPlanPopupHide(plan.id)">ok</button>
+              </div>
+              <div class="planconform_popup_failure" *ngIf="isConfirmPlanPopUpFailure[plan.id]">
+                <p>{{message }}</p>
+                <button (click)="confirmPlanPopupHide(plan.id)">Try Again</button>
+              </div>
+            </div>
+          </div>
+
+          <ul style="position: absolute;
+          left: 0;
+          right: 0;
+          top: 0;
+          bottom: 0;
+          display: flex;
+          background: rgba(0,0,0,0.5);" *ngIf="loadedPaymentMethods && payment_methods.length == 0">
+            <li style="float: left;
+            width: 100%;
+            display: flex;
+            list-style: none;
+            justify-content: center;
+            align-items: center;">
+              <span style="font-size: 18px;
+              color: #ffffff;" class="mr-4">No payment methods available right now! Please add a payment method to activate a plan.</span>
+            </li>
+          </ul>
+
+        </div>
+      </div>
+
+
+    </div>
+
+
+    <!-- <div class="plan_cancel" *ngIf="numSubscriptions > 0">
+        <button (click)="cancelSubscription(subscriptions[0].id)">Cancel Plan</button>
+    </div> -->
+
+  </div>
+</div>

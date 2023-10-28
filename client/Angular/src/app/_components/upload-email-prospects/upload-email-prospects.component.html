@@ -1,0 +1,17 @@
+<p>Upload Email Prospects Works</p>
+
+	<div *ngIf="loadFlextable">
+	    <flexible-table
+	      key="outreach_emails"	
+	      [(validation)]="validation"
+	      headerButtons="Download Referring Pages,Complete Bounty" 
+	      (sendHeaderButtons)="updateHeaderButtons($event)"
+	      (onHeaderButtonClicked)="flextableHeaderButtonClicked($event)" 
+	      columns="selected,Email,First,Last" 
+	      displayClone="false"
+	      displayAddDataToSource="false"
+	      widths="0,50,250,200,600,600"
+	      filter="{{filterStr}}"
+	      >
+	    </flexible-table>
+	</div>

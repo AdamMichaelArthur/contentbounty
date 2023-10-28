@@ -1,0 +1,38 @@
+.single-cell {
+  /* height: 40px; */
+  width: 100%;
+  height: 100%;
+  float: left;
+  overflow-y: auto;
+  overflow-x: hidden;
+  z-index: 9;
+}
+.single-cell span {
+  font-size: 14px;
+  font-family: OpenSans, sans-serif;
+  color: #333333;
+  float: left;
+  padding: 0 5px;
+  background-color: inherit !important;
+  opacity: 1 !important;
+}
+
+.circle {
+  /* margin-left: 50%;
+  margin-top: 50%;
+  width: 20px;
+  height: 20px;
+  background-color: blue;
+  border-radius: 50%;
+  color: black;
+  font-size: 10px; */
+
+  margin-left: 50%;
+  background-color: rgba(0, 118, 114, 0.5);
+  color: #007672;
+  font-size: 10px;
+  width: 100%;
+  float: left;
+  border-radius: 4px;
+  margin: 1px 0;
+}

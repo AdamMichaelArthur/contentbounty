@@ -1,0 +1,49 @@
+<ng-container *ngTemplateOutlet="buttonConfig['text'] ? text : image">
+</ng-container>
+
+<!-- Text Button -->
+
+<!-- Image Button -->
+<ng-template #image style="width: 200px">
+  <img
+    alt="image button"
+    [src]="buttonConfig.src"
+    [ngStyle]="buttonConfig.styles"
+    (click)="onImgBtnClick()"
+  />
+  <div class="loader" *ngIf="isLoading">Loading...</div>
+</ng-template>
+
+<!-- <ng-template #text>
+
+<button type="button"
+          [ngStyle]="buttonConfig.styles"
+          (click)="onTextBtnClick()">
+    {{ buttonConfig.text | uppercase}}
+  </button>
+</ng-template> -->
+
+<ng-template #text>
+  <!-- <button type="button"
+          [ngStyle]="buttonConfig.styles"
+          (click)="onTextBtnClick()">
+    {{ buttonConfig.text | uppercase}}
+  </button> -->
+  <!-- <button type="button"
+    class="login-btn btn-blue"
+    (click)="onSalmaBtnClick1()">
+  {{ buttonConfig.text | uppercase}}
+  </button> -->
+
+  <input
+    style="float: left"
+    id="button-id-new"
+    type="submit"
+    class="login-btn btn-blue"
+    value="Login"
+    [attr.disabled]="globalVars.isLoadingButton ? 'disabled' : null"
+  />
+  <div class="loader" style="float: right" *ngIf="globalVars.isLoadingButton">
+    Loading...
+  </div>
+</ng-template>

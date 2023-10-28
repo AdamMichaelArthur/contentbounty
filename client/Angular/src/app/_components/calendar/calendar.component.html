@@ -1,0 +1,145 @@
+<div class="loader" *ngIf="globalVars.isLoading"></div>
+<div class="padd_10" [ngClass]="{'hideContent': globalVars.isLoading}">
+  ​
+  <div class="calendar">
+    <div class="calendar__navs">
+      <div class="calendar__month-nav">
+
+        <div class="next_previous" *ngIf="monthlyView">
+          <button (click)="prevMonth()">
+            <i class="material-icons"> arrow_back_ios_new </i>
+          </button>
+          <span>
+            {{ currentDate.format("MMMM").toUpperCase() }}
+            {{ currentDate.format("YYYY") }}
+          </span>
+          <button (click)="nextMonth()">
+            <i class="material-icons"> arrow_forward_ios </i>
+          </button>
+        </div>
+        
+        <div class="next_previous" *ngIf="weeklyView">
+          <button (click)="prevWeek()">
+            <i class="material-icons"> arrow_back_ios_new </i>
+          </button>
+          <span>
+            {{ currentDate.format("MMMM").toUpperCase() }}
+            {{ currentDate.format("YYYY") }}
+            Week - {{weekIndex}}
+          </span>
+          <button (click)="nextWeek()">
+            <i class="material-icons"> arrow_forward_ios </i>
+          </button>
+        </div>
+
+        <div class="select_planner_area">
+            <ul>
+              <li>
+                  <div class="dropdown">
+                    <select (change)="selectTargetBrand($event)">
+                        <option value="">Brand</option>
+                        <option *ngFor="let brand of brands">{{brand.brand_name}}</option>
+                    </select>
+                  </div>
+              </li>
+              <!-- <li>
+                  <div class="dropdown">
+                    <select (change)="selectTargetPlatform($event)">
+                        <option value="">Target Platform</option>
+                        <option *ngFor="let platform of platforms" [value]="platform">{{platform}}</option>
+                    </select>
+                  </div>
+              </li> -->
+              <li>
+                  <div class="dropdown">
+                    <select (change)="selectContentType($event)">
+                        <option value="">Content Type</option>
+                        <option *ngFor="let type of content_type" [value]="type">{{type}}</option>
+                    </select>
+                  </div>
+              </li>
+              <li>
+                  <div class="dropdown">
+                    <select (change)="selectCurrentStatus($event)">
+                        <option value="">Current Status</option>
+                        <option *ngFor="let type of status" [value]="type">{{type}}</option>
+                    </select>
+                  </div>
+              </li>
+              <li>
+                <button (click)="activateWeeklyView()">WeeklyView</button>
+                <button (click)="activateMonthlyView()">MonthlyView</button>
+              </li>
+            </ul>
+        </div>
+
+      </div>
+    </div>
+    <div class="calendar__month">
+      <div class="calendar__day-names">
+        <div class="calendar__flex-row">
+          <div
+            class="calendar__day-name calendar_header"
+            *ngFor="let name of namesOfDays"
+          >
+            {{ name }}
+          </div>
+        </div>
+      </div>
+      <div style="height: 100%;" *ngIf="weeklyView">
+        <div
+          class="calendar__week"
+          style="height: 100%;"
+          *ngFor="let week of weeks; let i = index"
+        >
+        
+          <div class="calendar__flex-row">
+            <div
+              class="calendar__date"
+              (drop)="dropEvent($event)"
+              (dragover)="allowDrop($event)"
+              (dragleave)="dragLeave($event)"
+              *ngFor="let day of week; let j = index"
+              [attr.data-isodate]="day.isodate"
+            >
+              <app-calendar-cell
+                [recvCalendarItem]="recvCalendarItem"
+                [closeMenusEvent]="closeMenusEvent"
+                date="{{ day.date | customDate }}"
+                isodate="{{ day.isodate }}"
+                #cell
+              ></app-calendar-cell>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="height: 100%;" *ngIf="monthlyView">
+        <div
+          class="calendar__week"
+          style="height: 20%;"
+          *ngFor="let week of weeks; let i = index"
+        >
+        
+          <div class="calendar__flex-row">
+            <div
+              class="calendar__date"
+              (drop)="dropEvent($event)"
+              (dragover)="allowDrop($event)"
+              (dragleave)="dragLeave($event)"
+              *ngFor="let day of week; let j = index"
+              [attr.data-isodate]="day.isodate"
+            >
+              <app-calendar-cell
+                [recvCalendarItem]="recvCalendarItem"
+                [closeMenusEvent]="closeMenusEvent"
+                date="{{ day.date | customDate }}"
+                isodate="{{ day.isodate }}"
+                #cell
+              ></app-calendar-cell>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

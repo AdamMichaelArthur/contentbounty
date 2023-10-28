@@ -1,0 +1,388 @@
+.page_container {
+    width: 100%;
+    height: auto;
+    float: left;
+    position: relative;
+    padding: 15px;
+}
+/*Page Header*/
+.page_header {
+    width: 100%;
+    height: auto;
+    float: left;
+    position: relative;
+    padding: 15px 0;
+    border-bottom: 1px solid #CBCBCB;
+}
+.page_header h3{
+    font-size: 20px;
+    font-weight: bold;
+    color: #505050;
+    margin: 0;
+}
+/*Page Header*/
+
+.bounty_search_filter{
+    width: 100%;
+    float: left;
+    position: relative;
+}
+.bounty_search_filter h3{
+    font-size: 18px;
+    font-weight: 400;
+    color: #505050;
+}
+.add_content_popup_check {
+    width: 100%;
+    float: left;
+    position: relative;
+    margin-top: 30px;
+}
+.add_content_popup_check li{
+    display: list-item;
+    list-style: none;
+}
+
+/*For Check Box*/
+.cb_container {
+    display: inline-flex;
+    position: relative;
+    padding-left: 25px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.cb_container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+.checkmark {
+    position: absolute;
+    top: 0px;
+    left: 0;
+    height: 16px;
+    width: 16px;
+    border: 1px solid #95C8DA;
+    border-radius: 4px;
+    bottom: 0;
+    display: block;
+    margin: auto;
+}
+.checkmark_lable{
+    color: #3a3a3a;
+    font-size: 14px;
+}
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+.cb_container input:checked ~ .checkmark:after {
+    display: block;
+}
+.cb_container .checkmark:after {
+    left: 4px;
+    top: 1px;
+    width: 6px;
+    height: 10px;
+    border: solid black;
+    border-width: 0 2px 2px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+/*For Check Box*/
+
+
+.bounty_search_area{
+    width: 100%;
+    height: auto;
+    float: left;
+    position: relative;
+    margin-bottom: 30px;
+    margin-top: 15px;
+}
+.bounty_search_option{
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    float: left;
+    position: relative;
+}
+.bounty_search_option input{
+    width: 100%;
+    /*height: 35px;*/
+    float: left;
+    position: relative;
+    border: 1px solid #CACACA;
+    border-radius: 40px;
+    padding: 8px 40px 8px 15px;
+    font-size: 14px;
+    line-height: 14px;
+}
+.bounty_search_option i{
+    position: absolute;
+    right: 5px;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 8px;
+    color: #AEAEAE;
+}
+
+
+.bounty{
+    width: 100%;
+    height: auto;
+    float: left;
+    position: relative;
+    padding: 15px 0;
+    border-bottom: 1px solid #CBCBCB;
+    margin-bottom: 30px;
+}
+.bounty:last-child{
+    border-bottom: 0px solid #CBCBCB;
+}
+.bounty_content{
+    width: 100%;
+    height: auto;
+    float: left;
+    position: relative;
+    border-right: 1px solid #CBCBCB;
+    padding-right: 15px;
+}
+.bounty_content h3{
+    font-size: 18px;
+    font-weight: 500;
+    color: #505050;
+    margin: 0;
+}
+.bounty_content ul{
+    width: 100%;
+    height: auto;
+    float: left;
+    position: relative;
+    padding: 0;
+    margin-bottom: 5px;
+}
+.bounty_content ul li{
+    display: inline-block;
+    list-style: none;
+    font-size: 12px;
+    font-weight: 500;
+    color: #0090E9;
+    margin-right: 15px;
+}
+.bounty_content p{
+    font-size: 14px;
+    color: #363636;
+    float: left;
+    width: 100%;
+    line-height: 18px;
+}
+.bounty_content button{
+    background: #0090E9;
+    border: 0;
+    border-radius: 4px;
+    padding: 0px 10px;
+    margin-right: 10px;
+    font-size: 10px;
+    color: #ffffff;
+}
+
+
+.bounty_post{
+    width: 100%;
+    height: auto;
+    float: left;
+    position: relative;
+}
+.bounty_post h3{
+    font-size: 18px;
+    font-weight: 500;
+    color: #505050;
+}
+.bounty_post table tr td img{
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+}
+.bounty_post table tr td h4{
+    font-size: 18px;
+    font-weight: 300;
+    color: #505050;
+    margin: 0;
+    padding-left: 10px;
+}
+.bounty_post table tr td p{
+    font-size: 14px;
+    font-weight: 500;
+    color: #505050;
+    margin: 0;
+    padding-left: 10px;
+}
+
+/*Pageination*/
+.pageination{
+    width: 100%;
+    height: auto;
+    float: left;
+    position: relative;
+    padding: 15px 0;
+}
+.pageination ul{
+    padding: 0;
+    margin: 0;
+    text-align: center;
+}
+.pageination ul li{
+    list-style: none;
+    display: inline-block;
+    font-size: 14px;
+    color: #474747;
+    border-radius: 4px;
+    background: #ffffff;
+    -webkit-box-shadow: 0px 1px 6px 0px rgba(143,143,143,0.5);
+    -moz-box-shadow: 0px 1px 6px 0px rgba(143,143,143,0.5);
+    box-shadow: 0px 1px 6px 0px rgba(143,143,143,0.5);
+    padding: 0 10px;
+    margin: 05px;
+    cursor: pointer
+}
+.pageination ul li:hover{
+    color: #ffffff;
+    background: #0090E9;
+}
+/*Pageination end*/
+
+.warning_area{
+    background: rgba(31, 31, 31, 0.93);
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+.warning_content_area{
+    width: 60%;
+    height: 200px;
+    display: block;
+    margin: auto;
+}
+.warning_content_area h3{
+    font-size: 40px;
+    color: #ffffff;
+    font-weight: bold;
+    text-align: center;
+}
+
+/*Bounty Popup*/
+.popup_fade{
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    display: block;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(31, 31, 31, 0.76);
+    z-index: 999;
+}
+
+.popup_area{
+    width: 100%;
+    max-width: 990px;
+    height: 500px;
+    display: block;
+    margin: auto;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: #ffffff;
+    border-radius: 5px;
+    position: absolute;
+}
+.popup_header{
+    width: 100%;
+    height: auto;
+    float: left;
+    position: relative;
+    padding: 15px;
+    padding-bottom: 0;
+}
+.popup_header h3{
+    font-size: 18px;
+    color: #363636;
+    margin: 0;
+    font-weight: 500;
+}
+.popup_header span{
+    position: absolute;
+    right: 0;
+    top: 0;
+    color: #727272;
+    background: #F4F4F4;
+    padding: 5px 15px;
+    cursor: pointer;
+}
+.popup_body{
+    width: 100%;
+    height: auto;
+    float: left;
+    position: relative;
+    padding: 15px;
+}
+.popup_body .bounty{
+    border-bottom: 0px !important;
+    padding: 0;
+    margin: 0;
+}
+.popup_body .bounty .bounty_content button{
+    margin-top: 30px;
+}
+.popup_body .bounty .bounty_content ul{
+    margin-bottom: 15px;
+}
+.popup_body .bounty .bounty_content a{
+    width: 100%;
+    float: left;
+    color: #0090E9;
+    text-decoration: none;
+    font-size: 14px;
+}
+.popup_body .bounty .bounty_content p{
+    font-size: 12px;
+}
+.popup_body .bounty .bounty_content a span{
+    color: #363636;
+}
+.bounty_details_table{
+    font-size: 12px;
+    width: 100%;
+    margin-top: 15px;
+    float: left;
+}
+
+.show {
+  opacity: 1;
+  visibility: visible;
+  transition: all 1s cubic-bezier(0.335, 0.01, 0.03, 1.36);
+}
+.hide {
+  opacity: 0;
+  visibility: hidden;
+  transition: all 1s cubic-bezier(0.335, 0.01, 0.03, 1.36);
+}
+/*Bounty Popup end*/

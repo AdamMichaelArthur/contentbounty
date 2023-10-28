@@ -1,0 +1,483 @@
+<div class="page_container">
+
+    <div class="campaign_header">
+        <h2>New Campaign</h2>
+    </div>
+    <div class="tab_area">
+
+        <div class="tab_container">
+            <div class="tab_switch">
+                <ul>
+                    <li [class.active_tab]="viewMode == 'start'" rel="start" (click)="viewMode2('start')">Start</li>
+                    <li  [class.active_tab]="viewMode == 'recipient'" rel="recipient" (click)="viewMode2('recipient')">
+                        Recipients</li>
+                    <li  [class.active_tab]="viewMode == 'compose'" rel="compose" (click)="viewMode2('compose')">Compose
+                    </li>
+                    <li [class.active_tab]="viewMode == 'review'" rel="review" (click)="viewMode2('review')">Preview
+                    </li>
+                    <li [class.active_tab]="viewMode == 'send'" rel="send" (click)="viewMode2('send')">Send</li>
+                </ul>
+            </div>
+            <div class="tab_switch_container" [ngSwitch]="viewMode">
+                <div id="start" #start class="tab_switch_body" *ngSwitchCase="'start'">
+                    <h3>Let's get started!</h3>
+                    <div *ngIf="email_error">
+                        <p class="error text-danger">There is no email address setup with this Brand. This is not
+                            something that you can fix. We have emailed the site owner to address this problem.</p>
+                    </div>
+                    <div class="form_fild" style="max-width: 70%;">
+                        <label> Date </label>
+                        <input type="text" [(ngModel)]="date" placeholder="{{date}}">
+                    </div>
+                    <div *ngIf="ifErrorMessage && !campaign_name">
+                        <p class="error text-danger">{{"*Campaign name is required!"}}</p>
+                    </div>
+                    <div class="form_fild" style="max-width: 70%;">
+                        <label> Campaign name <span>(for your teams eyes only)</span> </label>
+                        <input [attr.disabled]="email_error? true : null"
+                            [ngClass]="ifErrorMessage && !campaign_name?'border border-warning':''" type="text"
+                            [(ngModel)]="campaign_name" placeholder="campaign name">
+                    </div>
+                    <div *ngIf="ifErrorMessage &&  !f_address">
+                        <p class="error text-danger">{{"*Email is required!"}}</p>
+                    </div>
+                    <div class="form_fild" style="max-width: 70%;">
+                        <label> From Address </label>
+                        <div class="drop_down_c">
+                            <input [attr.disabled]="email_error? true : null" type="text"
+                                [ngClass]="ifErrorMessage && !f_address?'border border-warning':''"
+                                placeholder="adamarthurssandiago@gmail.com" (click)="selectOptions()"
+                                [(ngModel)]="f_address">
+                            <span (click)="selectOptions()"></span>
+                        </div>
+
+                        <ul *ngIf="isDropdown">
+                            <li *ngFor="let value of select_val" (click)="selectVal(value)">{{value.email}}</li>
+                        </ul>
+                    </div>
+                    <div class="nxt_btn_area">
+                        <button [attr.disabled]="email_error? true : null"
+                            (click)="viewMode2('recipient')">Next</button>
+                    </div>
+                </div>
+                <div #recipient id="recipient" class="tab_switch_body " *ngSwitchCase="'recipient'">
+
+                    <div *ngIf="loadFlextable">
+                        <flexible-table key="outreach_emails" all="all" headerButtons="Select All, Unselect All"
+                            (sendHeaderButtons)="updateHeaderButtons($event)"
+                            (onHeaderButtonClicked)="flextableHeaderButtonClicked($event)"
+                            columns="selected,Email,First,Last" displayClone="false" displayAddDataToSource="false"
+                            widths="0,50,250,200,600,600" filter="{{filterStr}}">
+                        </flexible-table>
+                    </div>
+
+                    <div class="nxt_btn_area">
+                        <button (click)="viewMode2('compose')">Next</button>
+                    </div>
+
+
+
+                </div>
+                <div id="compose" #compose class="tab_switch_body" *ngSwitchCase="'compose'">
+                    <h3>Compose the emails in this campaign</h3>
+                    
+                    <div *ngIf="this.mergeFields">
+                        <app-badges-reuseable [inputList]="this.mergeFields" (outputEvent)="badgesEvent($event)">
+                        </app-badges-reuseable>
+                        
+                    </div>
+                    <div *ngIf="!this.mergeFields">
+                        <p class="text-danger error">{{"No merge fields found!"}}</p>
+                    </div>                    <br>
+                    <div *ngIf="ifErrorMessage && !template.subject">
+                        <p class="text-danger error">{{"*Subject is required"}}</p>
+                    </div>
+                    <div class="subjict_filled">
+                        <label>Subject</label>
+                        <div class="input">
+                            <input type="text"
+                                [ngClass]="ifErrorMessage && !template.subject?'border border-warning':''"
+                                placeholder="Demo text" [(ngModel)]="template.subject">
+                            <i class="far fa-question-circle"></i>
+                        </div>
+                    </div>
+                    <div *ngIf="ifErrorMessage && !template.body">
+                        <p class="text-danger error">{{"*Body is required"}}</p>
+                    </div>
+                    <div *ngIf="noTemplateData">
+                        <p class="text-danger error">{{"No Tempalte Data available!"}}</p>
+                    </div>
+                    <div *ngIf="ifErrorMessage">
+                        <p class="text-danger error">{{message}}</p>
+                    </div>
+                    
+
+                    <div *ngIf="ifErrorMessageSend">
+                        <p class="text-danger error">"Template subject and body is reuired"</p>
+                    </div>
+                    <div class="compose_area">
+                        <div class="compose_box">
+                            <div class="compose_tab">
+                                <ul>
+                                    <li (click)="templateSavePopup()"><i class="fas fa-save"></i> Save as Template</li>
+                                    <li (click)="templateChoosePopup()"><i class="fab fa-microsoft"></i> Choose Template
+                                    </li>
+                                    <li (click)="sendEmailPopup()"><i class="fas fa-paper-plane"></i> Send Test</li>
+                                </ul>
+                            </div>
+
+                            <editor [ngClass]="ifErrorMessage && !template.body?'border border-warning':''"
+                                [(ngModel)]="template.body" [ngModelOptions]="{standalone:true}"
+                                apiKey="7muf998f2qego6kngecif60kw1wvnp4q3frj489rbub8vmhz"
+                                initialValue="<p><b>this is</b></p>" [init]="{
+                            base_url: '/assets/tinymce',
+                            suffix: '.min',
+                              height: 500,
+                              menubar: false,
+                              plugins: [
+                                'emoticons',
+                                'advlist autolink lists link image charmap print',
+                                'preview anchor searchreplace visualblocks code',
+                                'fullscreen insertdatetime media table paste',
+                                'help wordcount'
+                              ],
+                              toolbar:
+                                'emoticons undo redo | formatselect | bold italic | \
+                                alignleft aligncenter alignright alignjustify | \
+                                bullist numlist outdent indent | help'
+                            }">
+                            </editor>
+                        </div>
+                    </div>
+                    <div class="nxt_btn_area">
+
+
+                        <br />
+                        <button (click)="viewMode2('review')">Next</button>
+                    </div>
+                </div>
+                <div id="review" #review class="tab_switch_body " *ngSwitchCase="'review'">
+                    <h3>Preview And Personalize Each Email</h3>
+                    <div *ngIf="ifErrorMessage">
+                        <p class="text-danger error">{{errorText}}</p>
+                    </div>
+                    <div *ngIf="ifErrorMessage">
+                        <p class="text-danger error">{{message}}</p>
+                    </div>
+                    <div class="nxt_btn_area">
+                        <button (click)="viewMode2('send')">Next</button>
+                    </div>
+
+                    <div class="preview_email_switcher">
+                        <h4>Edits are saved as you switch recipents or hit "Next"</h4>
+                        <div class="next_prev_recipents">
+                            <div class="current_recipent">
+                                <p>
+                                    {{recepit_email}}
+                                </p>
+                                <h5>{{decress_recipient}} of {{total_recipient}} recipient</h5>
+                            </div>
+                            <div class="recipent_controller">
+                                <div class="recipent_search" clickOutside (clickOutside)="clickOutside()">
+                                    <input type="text" placeholder="recipients" [(ngModel)]="recepit_email">
+                                </div>
+                                <div class="recipent_nextprev">
+                                    <button (click)="previousRecipient()"><i class="fas fa-arrow-left"></i></button>
+                                    <button (click)="nextRecipient()"><i class="fas fa-arrow-right"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="recipent_compose_area">
+                        <h4> <i class="fas fa-envelope"></i> Initial Campaign Email</h4>
+                        <div *ngIf="demoData.template">
+                            <div class="subjict_filled">
+                                <label>Subject</label>
+                                <div class="input">
+                                    <input readonly="true" type="text" placeholder="Demo text"
+                                        [(ngModel)]="demoData.template.subject">
+                                    <i class="far fa-question-circle"></i>
+                                </div>
+                            </div>
+                            <div class="compose_area">
+                                <div class="compose_box">
+                                    <div class="compose_body">
+                                        <editor [(ngModel)]="demoData.template.body" disabled={true}
+                                            [ngModelOptions]="{standalone:true}"
+                                            apiKey="7muf998f2qego6kngecif60kw1wvnp4q3frj489rbub8vmhz"
+                                            initialValue="<p><b>this is</b></p>" [init]="{
+                            base_url: '/assets/tinymce',
+                            suffix: '.min',
+                              height: 500,
+                              menubar: false,
+                              plugins: [
+                                'emoticons',
+                                'advlist autolink lists link image charmap print',
+                                'preview anchor searchreplace visualblocks code',
+                                'fullscreen insertdatetime media table paste',
+                                'help wordcount'
+                              ],
+                              toolbar:
+                                'emoticons undo redo | formatselect | bold italic | \
+                                alignleft aligncenter alignright alignjustify | \
+                                bullist numlist outdent indent | help'
+                            }">
+                                        </editor>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="send" #send class="tab_switch_body " *ngSwitchCase="'send'">
+                    <div *ngIf="isDisabled">
+                        <h3>Are You Ready To Start Your Campaign</h3>
+                        <div *ngIf="ifErrorMessage">
+                            <p class="text-danger error">{{message}}</p>
+                        </div>
+                        <div class="nxt_btn_area">
+                            <button style="text-transform: inherit" (click)="startCampaign()">Start Campaign</button>
+                            <button style="margin-left: 10px; background: #acacac; text-transform: inherit;">Pause
+                                Campaign</button>
+                        </div>
+                        <div class="send_box">
+                            <h5>Campaing Name</h5>
+                            <p>{{demoData.campaign_name}}</p>
+
+
+                            <h4>From Address</h4>
+                            <h5>Sending Account</h5>
+                            <p>{{demoData.address}}</p>
+                            <br>
+
+                            <h5>Sending Name</h5>
+                            <p>{{demoData.name}}</p>
+
+                            <br>
+                            <h5>Date</h5>
+                            <p>{{demoData.date}}</p>
+                        </div>
+                       <!--- <div class="send_box">
+                            <h4>Recipients</h4>
+                            <h5> Recipient will be sent this campaign immediately</h5>
+
+                        </div>
+                        <div class="send_box">
+                            <h4>Message</h4>
+                            <h5><i class="fas fa-envelope"></i>Initial Campaign Email</h5>
+                            <h4> {{demoData.template.subject}}</h4>
+                            <p> {{demoData.template.body}} </p>
+                        </div>
+                    </div> --->
+                    <div *ngIf="!isDisabled">
+                        <h3>Please go to preview screen to check your campaign and click next button</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- All Popup -->
+<div class="popup_fade" [ngClass]="save_as ? 'display_block' : 'display_none'">
+    <div class="blur"></div>
+    <div class="popup">
+        <button class="hide_btn" (click)="templateSaveFuncCancle()"></button>
+        <div class="popup_header">
+            <h3>Save email template</h3>
+        </div>
+        <div class="popup_body">
+            <div class="test_segment_popup_cot">
+                <p>Save this message as an email template for your team .</p>
+                <br>
+                <div class="drop_down_c">
+                    <select>
+                        <option value=""> Creat a new template</option>
+                    </select>
+                    <span></span>
+                </div>
+                <br>
+                <div *ngIf="this.errorForSave && !this.template_name">
+                    <p class="text-danger error">{{"*Name is required!"}}</p>
+                    <br>
+                </div>
+                <div class="form_fild">
+                    <input [ngClass]="this.errorForSave && !this.template_name?'border border-warning':''"
+                        [(ngModel)]="template_name" type="text" placeholder="Template name ">
+                </div>
+            </div>
+        </div>
+        <div *ngIf="this.ifErrorMessage">
+            <p class="text-danger error">{{message}}</p>
+            <br>
+        </div>
+        <div class="popup_footer" style="text-align: right;">
+            <button (click)="templateSaveFunc()" style="margin-right: 10px;">Save</button>
+            <button (click)="templateSaveFuncCancle()">Cancel</button>
+            <div class="loader" style="float: right;" *ngIf="loading">Loading...</div>
+        </div>
+    </div>
+</div>
+
+<div  class="popup_fade" [ngClass]="choose_template?'display_block':'display_none'">
+    <div #blur class="blur"></div>
+    <div #popup [ngClass]="maxClicked?'popup2':'popup'" [ngStyle]="maxClicked?{'max-width': ''} : {'max-width': '50%'}">
+        <button *ngIf="!this.maxClicked" class="max_btn"   (click)="maximizePopup()">+</button>
+        <button *ngIf="this.maxClicked" class="max_btn"   (click)="maximizePopup()">-</button>
+        <button class="hide_btn" (click)="templateChooseCancle()"></button>
+        <div class="popup_header">
+
+        </div>
+        <div [ngClass]="this.maxClicked?'popup2_body':'popup_body'">
+            <div class="row">
+                <div class="col-md-4">
+                    <div [ngClass]="this.maxClicked?'template_list':'template_list2'">
+                        <h3 class="font-weight-bold">Select an email template</h3>
+                        <p [ngClass]="template._id===this.currentSelected?'text-success':''"
+                            *ngFor="let template of new_templates;let i=index"
+                            (click)="previewTemplateFunc(template,i)">
+                            <strong>{{template.template_name}}</strong>
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-8">
+
+                    <div *ngIf="!unlockEmail" [ngClass]="this.maxClicked?'template_preview2':'template_preview'">
+                        <h3 class="text-info">{{template.subject}}</h3>
+                        <editor  *ngIf="!maxClicked" #editor2  [(ngModel)]="template.body" disabled [ngModelOptions]="{standalone:true}"
+                            apiKey="7muf998f2qego6kngecif60kw1wvnp4q3frj489rbub8vmhz"
+                            initialValue="<p><b>this is</b></p>" [init]="{
+                            base_url: '/assets/tinymce',
+                            suffix: '.min',
+                            menubar: false
+                            }">
+                        </editor>
+                        <editor *ngIf="maxClicked" #editor2 [(ngModel)]="template.body" disabled [ngModelOptions]="{standalone:true}"
+                            apiKey="7muf998f2qego6kngecif60kw1wvnp4q3frj489rbub8vmhz"
+                            initialValue="<p><b>this is</b></p>" [init]="{
+                                base_url: '/assets/tinymce',
+                                suffix: '.min',
+                                  height: 350,
+                                  menubar: false
+                            }">
+                        </editor>
+                    </div>
+                    <div  *ngIf="unlockEmail" [ngClass]="this.maxClicked?'template_preview2':'template_preview'">
+                        <h3 class="text-info">{{template.subject}}</h3>
+                        <editor *ngIf="!maxClicked" #editor2 [(ngModel)]="template.body" [ngModelOptions]="{standalone:true}"
+                            apiKey="7muf998f2qego6kngecif60kw1wvnp4q3frj489rbub8vmhz"
+                            initialValue="<p><b>this is</b></p>" [init]="{
+                            base_url: '/assets/tinymce',
+                            suffix: '.min',
+                            menubar: false
+                            }">
+                        </editor>
+                        <editor *ngIf="maxClicked" #editor2 [(ngModel)]="template.body" [ngModelOptions]="{standalone:true}"
+                            apiKey="7muf998f2qego6kngecif60kw1wvnp4q3frj489rbub8vmhz"
+                            initialValue="<p><b>this is</b></p>" [init]="{
+                                base_url: '/assets/tinymce',
+                                suffix: '.min',
+                                  height: 350,
+                                  menubar: false,
+                                  plugins: [
+                                    'emoticons',
+                                    'advlist autolink lists link image charmap print',
+                                    'preview anchor searchreplace visualblocks code',
+                                    'fullscreen insertdatetime media table paste',
+                                    'help wordcount'
+                                  ],
+                                  toolbar:
+                                    'emoticons undo redo | formatselect | bold italic | \
+                                    alignleft aligncenter alignright alignjustify | \
+                                    bullist numlist outdent indent | help'
+                            }">
+                        </editor>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="popup_footer" style="text-align: right;">
+            <div class="template_pagination">
+                <ul class="pagination" style="float:none !important" *ngIf="totalRecords>10">
+                    <li class="page-item">
+                    </li>
+                    <li class="page-item" *ngFor="let item of fakeArray;let i=index">
+                        <a [ngClass]="this.nextItem===i?'active':''" style="line-height: 20px !important;"
+                            class="page-link" (click)="pagination_template(i)">{{i+1}}</a>
+                    </li>
+                    <li>
+                        <div class="loader" *ngIf="loading">Loading...</div>
+                    </li>
+                </ul>
+
+            </div>
+            <button *ngIf="this.currentSelected &&!unlockEmail !" (click)="unlockEmailTemplate()" style="margin-right: 10px;">Unlock Template</button>
+            <button *ngIf="this.currentSelected &&unlockEmail" (click)="unlockEmailTemplate()" style="margin-right: 10px;">Lock Template</button>
+            <button (click)="templateChooseCancle()" style="margin-right: 10px;">Save</button>
+            <button (click)="templateChooseCancle()">Cancel</button>
+        </div>
+    </div>
+</div>
+<div class="popup_fade" [ngClass]="loader?'display_block' : 'display_none'">
+    <div class="blur"></div>
+    <div class="popup" style="text-align: center;">
+        <div class="popup_body">
+            <div class="spinner-border text-primary" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="popup_fade" [ngClass]="start_campaign ? 'display_block' : 'display_none'">
+    <div class="blur"></div>
+    <div class="popup" style="max-width: 50%;">
+        <button class="hide_btn" (click)="startCampaignClose()"></button>
+        <div class="popup_header">
+            <h3>Your Campaign Has Started!</h3>
+        </div>
+        <div class="popup_footer" style="text-align: center;">
+
+            <button (click)="startCampaignCancle()">Complete Bounty</button>
+        </div>
+    </div>
+</div>
+
+
+<div class="popup_fade" [ngClass]="showSendEmailPopup? 'display_block' : 'display_none'">
+    <div class="blur"></div>
+    <div class="popup">
+        <button class="hide_btn" (click)="cancelsendEmailTest()"></button>
+        <div class="popup_header">
+            <h3>Send test email template</h3>
+        </div>
+        <div class="popup_body">
+            <div class="test_segment_popup_cot">
+                <div *ngIf="!test_email&&test_email_clicked">
+                    <p class="text-danger error">{{"*Email is required!"}}</p>
+                    <br>
+                </div>
+                <div class="form_fild">
+                    <label> Email: </label>
+                    <input [ngClass]="test_email_clicked && !test_email?'border border-warning':''"
+                        [(ngModel)]="test_email" type="text" placeholder="Test email ">
+                </div>
+            </div>
+        </div>
+        <!-- <div *ngIf="this.ifErrorMessage">
+            <p class="text-danger error">{{message}}</p>
+            <br>
+        </div> -->
+        <div class="popup_footer" style="text-align: right;">
+            <button (click)="sendEmailTest()" style="margin-right: 10px;">Send</button>
+            <button (click)="cancelsendEmailTest()">Cancel</button>
+            <!-- <div class="loader" style="float: right;" *ngIf="loading">Loading...</div> -->
+        </div>
+    </div>
+</div>

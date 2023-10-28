@@ -1,0 +1,160 @@
+<!-- <dynamic-price refDocId="1234567"></dynamic-price> -->
+<div cdkDropListGroup>
+    <div class="table_container">
+        <flexible-table key="bounty" 
+        all="account" 
+        widths="0,50,480,150,200,275,350,75,60,60,60" 
+        displayAddDataToSource="false" 
+        columns="selected,brand_name,release_for_bounty,spend,pipeline,keywords,titles,prompts" 
+        displayFileUpload="false" 
+        headerButtons="Add Bounty" 
+        (onHeaderButtonClicked)="flextableHeaderButtonClicked($event)" 
+        (sendHeaderButtons)="updateHeaderButtons($event)" 
+        filters="{{ filtersStr }}" 
+        filter="{{queueFilter}}"
+        maxCharacters="150" 
+        (tableButtonClicked)="tableButtonClicked($event)" 
+        (sendTableButtons)="updateTableButtons($event)" 
+        currencyColumns="m_b,spend,c_b" 
+        (iconClicked)="showIconMenu($event)" 
+        (tableDataChanged)="dateChanged($event)"
+        noTextColumns="selected,queued_content" 
+        menuColumns="queued_content"
+        tableIcons="queued_content" 
+        tableIconNames="local_phone,local_phone,format_paint,local_phone,local_phone" 
+        sortableColumns="release_for_bounty" 
+        viewSelectColumns="titles,prompts" 
+        dragdrop="keywords,prompts,titles,prompts" 
+        (receivedDropItem)="dropItemReceived($event)"
+        (onDragStart)="onDragStart($event)" 
+        (onDragEnd)="onDragEnd($event)" 
+        (onDragEnter)="onDragEnter($event)" 
+        (onDragLeave)="onDragLeave($event)" 
+        (onDragOver)="onDragOver($event)" 
+        (onDropEvent)="onDropEvent($event)"
+        displayHeaderText="This is my text"
+        (headerDropdownChanged)="headerDropdownChanged($event)"
+        maxCharactersStr="20,50,20,20,20,50,10,10"
+        buttons="brand_name,brand_name,brand_name"
+        buttonNames="Template,Files,Details"
+        selectedButtons="Delete Selected,Undeploy Keywords,Open Docs,Open Scripts,Open Sheets,Archive,Edit Bulk,Select All"
+        (dropdownItemDeleted)="dropdownItemDeleted($event)"
+        >
+        </flexible-table>
+
+
+    </div>
+
+<!--             <div class="iconcontainer" [style.display]="displayIconMenu ? '' : 'none'" id="iconmenu" (mouseleave)="hideIconMenu()">
+        <div class="iconmenu" data-identifier="icon.identifier" *ngFor="let icon of iconMenus">
+            {{ icon.menu_label }}
+        </div>
+    </div> -->
+
+    <div class="table_container">
+        <div class="prompt_scroll">
+            <div class="tab_switch">
+                <ul>
+                    <li [class.active_tab]="viewMode == 'keyword'" rel="keyword" (click)="viewMode ='keyword'">Keyword</li>
+                    <li [class.active_tab]="viewMode == 'title'" rel="title" (click)="viewMode ='title'">Titles</li>
+                    <li [class.active_tab]="viewMode == 'prompt'" rel="prompt" (click)="viewMode ='prompt'">Prompts</li>
+                </ul>
+            </div>
+            
+            <div class="tab_switch_container" [ngSwitch]="viewMode">
+                <div id="keyword" class="tab_switch_body" *ngSwitchCase="'keyword'" style="height: 100%">
+                    <div class="keyword_and_promt_bucket" style="height: 100%">
+                        <div class="row" style="height: 100%">
+                            <div class="col-md-8" style="display: flex; flex-direction: column;">
+                                <label for="">Keyword and Prompt Bucket</label>
+                                <div class="textarea" style="height: 100%">
+                                    <div class="tag_container">
+                                        <span class="tag" *ngFor="let emailList of emailLists" draggable="true" (dragstart)="dragStart($event, 'add_keyword', emailList)">
+                                            {{ emailList }}
+                                            <span (click)="deleteEmail(emailList)"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="cut_and_peste_keywords" style="display: flex; flex-direction: column; height: 100%;">
+                                    <label for="">Cut and Paste Keywords Here </label>
+                                    <button (click)="addEmail(keyWord.value)">
+                                        <i class="fas fa-upload"></i>
+                                    </button>
+                                    <textarea #keyWord [(ngModel)]="keywordInput" style="height: 100% !important"></textarea>
+                                    <i class="fas fa-terminal"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="title" class="tab_switch_body" *ngSwitchCase="'title'" style="height: 100%">
+                    <div class="keyword_and_promt_bucket" style="height: 100%">
+                        <div class="row" style="height: 100%">
+                            <div class="col-md-8" style="display: flex; flex-direction: column;">
+                                <label for="">H2 Tags</label>
+                                <div class="textarea" style="height: 100%">
+                                    <div class="tag_container">
+                                        <span class="tag" *ngFor="let title of titleList" draggable="true" (dragstart)="dragStart($event, 'add_title',title)">
+                                            {{title}}
+                                            <span (click)="deleteTitle(title)"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="cut_and_peste_keywords" style="display: flex; flex-direction: column; height: 100%;">
+                                    <label for="">Cut and Paste H2 Titles Here </label>
+                                    <button (click)="addToBucket(titleList, 'titleList', Title.value, 'titleInput')">
+                                        <i class="fas fa-upload"></i>
+                                    </button>
+                                    <textarea #Title [(ngModel)]="titleInput" style="height: 100% !important"></textarea>
+                                    <i class="fas fa-terminal"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="prompt" class="tab_switch_body" *ngSwitchCase="'prompt'" style="height: 100%">
+
+                    <div class="content_queue_bottom">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="google_autocomplete_search">
+                                    <label for="">Prompts</label>
+                                    <input type="text" #prompts [(ngModel)]="promptInput" />
+                                    <button (click)="addPrompt(prompts.value)">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                </div>
+                                <div class="google_autocomplete_result" *ngIf="afterPrompt">
+                                    <span class="tag" *ngFor="let prompt of promptsList" draggable="true" (dragstart)="dragStart($event, 'add_prompt',prompt)">
+                                        {{prompt}}
+                                        <button (click)="deletePrompt(prompt)">x</button>
+                                    </span>
+                                </div> 
+                                <div class="google_autocomplete_result" *ngIf="beforePrompt">
+                                    <span class="tag"></span>
+                                    <span class="tag"></span>
+                                    <span class="tag"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="displayTableButtonArea" style="margin: auto;" class="popup_modal_fade">
+      <div class="popup_modal_content_area" *ngIf="tableButtonSubviews[1]">
+    <app-files [response]="response" (displayPopup)="hidePopup()"></app-files>
+    </div>
+
+      <div class="popup_modal_content_area" *ngIf="tableButtonSubviews[2]">
+        <app-bounty-detail (displayPopup)="hidePopup()"></app-bounty-detail>
+    </div>
+
+</div>

@@ -1,0 +1,14 @@
+.dropdown-menu dropdown-menu-right show .dropdown-item {
+  color: red;
+  font-size: 20px;
+}
+.navbar-form{
+  width: 70%;
+}
+.main-panel .navbar {
+    margin-bottom: 0;
+    width: 100%;
+    position: relative;
+    padding-left: 60px;
+    z-index: 999 !important;
+}

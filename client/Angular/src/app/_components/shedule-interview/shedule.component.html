@@ -1,0 +1,71 @@
+<div class="page_container">
+  <div class="page_header">
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <h2>Shedule for interview!</h2>
+      </div>
+    </div>
+    <div class="first_row">
+      <div class="row" >
+        <div class="col-md-12">
+          <div class="add_step" *ngIf="!emailsent">
+            <div class="col-md-10">
+              <h6>Email address</h6>
+              <input type="text" placeholder="Login User Email" class="input" [(ngModel)]="user_email"
+                autocomplete="off"  (blur)="ValidateEmail()">
+
+              <p class="text-danger" *ngIf="user_email_error">
+                Emai is required, please add Email.
+
+              </p>
+              <p class="text-danger" *ngIf="user_email_format_error">
+                You have entered an invalid email address!.
+              </p>
+            </div>
+            <div class="col-md-10">
+              <h6>Skype address</h6>
+              <input type="text" placeholder="Skype address" class="input" [(ngModel)]="skype_address"
+                autocomplete="off" (blur)="ValidateskypeAddress()">
+
+              <p class="text-danger" *ngIf="skype_address_error">
+                Skype  is required, please add skype user name .
+
+              </p>
+            </div>
+            <div class="col-md-10">
+              <div style="width: 200px;">
+                <h6>Choosse a Date</h6>
+                <mat-form-field>
+                  <input matInput [matDatepicker]="picker" (dateInput)="addEvent1('input', $event)"
+                    (dateChange)="addEvent1('change', $event)" (blur)="ValidateDate()">
+                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+
+                <p class="text-danger" *ngIf="date_error">
+                  Date is required, please chosse a date.
+
+                </p>
+              </div>
+            </div>
+              <div class="col-md-10">
+                <h6> Choose a Time </h6>
+                <input type="time" [(ngModel)]="time" placeholder="HH-MM-TT" (blur)="ValidateTime()" />
+
+                <p class="text-danger" *ngIf="time_error">
+                  Time is required, please chosse a time.
+
+                </p>
+              </div>
+              <div class="col-md-10">
+                <input type="button" name="submit" value="Submit" (click)="submitInfo()" class="btn btn-primary">
+              </div>
+            </div>
+            <div class="add_step" *ngIf="emailsent">
+              Email sent sucessfully!
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>

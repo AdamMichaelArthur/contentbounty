@@ -1,0 +1,17 @@
+<div
+  class="single-cell"
+  (drop)="dropEvent($event)"
+  (dragover)="allowDrop($event)"
+  (dragleave)="dragLeave($event)"
+  [attr.data-isodate]="isodate"
+>
+<!-- <span
+  (drop)="dropEvent($event)"
+  (dragover)="allowDrop($event)"
+  (dragleave)="dragLeave($event)"
+  [attr.data-isodate]="isodate"
+  >{{ date }}</span> -->
+  <span class="cdk-drop-list-disabled">{{ date }}</span>
+
+  <ng-template (showPopup)="showPopupClicked($event)" #comp></ng-template>
+</div>

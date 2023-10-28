@@ -1,0 +1,154 @@
+<div class="table_container">
+  <flexible-table
+    key="brand"
+    columns="selected,brand_name,website_url,new_post_url,new_post_login,new_post_pw,monthly_budget"
+    currencyColumns="monthly_budget"
+    noTextColumns="selected,new_post_url,new_post_login,new_post_pw"
+    linkColumns="website_url"
+    tableIcons="brand_name,new_post_url,new_post_login,new_post_pw"
+    tableIconNames="menu,menu,graphic_eq,verified_user,security"
+    tableIconMenus="{{iconMenusStr}}"
+    tableIconMenuRoutes="{{iconMenuRoutesStr}}"
+    maxCharacters="30"
+    displayClone="false"
+    buttons="brand_name,brand_name,brand_name,brand_name,brand_name,brand_name,brand_name"
+    buttonNames="{{buttonNamesStr}}"
+    (tableButtonClicked)="tableButtonClicked($event)"
+    (sendTableButtons)="updateTableButtons($event)"
+    displayFileUpload="false"
+    widths="0,50,610,270,60,60,60,600,600,600,600"
+    all="account"
+    addDataToSourceDesc="Add Brand"
+    addDataFormStr="{{ addDataFormStr }}"
+    (onHeaderButtonClicked)="flextableHeaderButtonClicked($event)"
+    maxCharactersStr="18,50,50,50,50,50,50"
+    selectedButtons="Delete Selected,Upload All"
+    [textCutoff]="textCutoff"
+    ><!-- 
+  customColumns=",column1,column2,column3,column4,column5,column6" -->
+  </flexible-table>
+</div>
+
+<div *ngIf="displayTableButtonArea" style="margin: auto;" class="popup_modal_fade">
+  <app-create-keyword
+    *ngIf="tableButtonSubviews[0]"
+    [(validation)]="validation"
+    displayTableButtonArea="{{displayTableButtonArea}}"
+    tableButtonSubview="{{ tableButtonSubviews[0] }}"
+    addDataFormStr="{{ addKeywordStr }}"
+    filter='{"brand_id":"{{ response.brand_id }}" }'
+    (displayTableButtonAreaBoolean)="hidePopup()"
+  ></app-create-keyword>
+
+  <div class="popup_modal_content_area" *ngIf="tableButtonSubviews[1]">
+    <button class="close_popup_modal" (click)="hidePopup()">X</button>
+        <div style="margin: 35px 15px 15px 15px">
+          <form #brandUpdateForm="ngForm" (ngSubmit)="updateBrand(response)">
+            <div>
+              <label for="name">Brand Name</label>
+              <input type="text" class="form-control" id="brand_name"
+                   required
+                   autocorrect="off"
+                   [(ngModel)]="response.brand_name" name="brand_name" #brand_name="ngModel">
+                <div [hidden]="brand_name.valid || brand_name.pristine"
+                class="text-danger">
+                  <small>Brand Name is required</small>
+                </div>
+            </div>
+            <div>
+              <label for="name">Website Url</label>
+              <input type="text" class="form-control" id="website_url"
+                   appWebRegvalidator
+                   autocorrect="off"
+                   [(ngModel)]="response.website_url" name="website_url" #website_url="ngModel">
+
+                   
+                  <div *ngIf="website_url.invalid && (website_url.dirty || website_url.touched)">
+                    <div *ngIf="website_url.errors && website_url.errors.required"
+                    class="text-danger">
+                      <small>Website Url is required</small>
+                    </div>
+                    <div *ngIf="website_url.errors && website_url.errors.websiteRegValidator" class="text-danger">  
+                      <small>Please provide a valid Website Url</small>
+                    </div> 
+                  </div>
+            </div>
+            <div>
+              <label for="name">New Post Url</label>
+              <input type="text" class="form-control" id="new_post_url"
+                   appWebRegvalidator
+                   autocorrect="off"
+                   [(ngModel)]="response.new_post_url" name="new_post_url" #new_post_url="ngModel">
+                  
+                   <div *ngIf="new_post_url.invalid && (new_post_url.dirty || new_post_url.touched)">
+                    <div *ngIf="new_post_url.errors && new_post_url.errors.websiteRegValidator" class="text-danger">  
+                      <small>Please provide a valid New Post Url</small>
+                    </div> 
+                  </div>
+            </div>
+            <div>
+              <label for="name">New Post Login</label>
+              <input type="text" class="form-control" id="new_post_login"
+              autocorrect="off"
+                   [(ngModel)]="response.new_post_login" name="new_post_login" #new_post_login="ngModel">
+            </div>
+            <div>
+              <label for="name">New Post Password</label>
+              <input type="text" class="form-control" id="new_post_pw"
+              autocorrect="off"
+                   [(ngModel)]="response.new_post_pw" name="new_post_pw" #new_post_pw="ngModel">
+            </div>
+            <div>
+              <label for="name">Zapier / Slack</label>&nbsp;
+              <a href="{{slack_url}}" taget="_blank">Link Slack</a>
+              <input type="text" class="form-control" id="zapier_webhook_url"
+              autocorrect="off"
+                   [(ngModel)]="response.zapier_webhook_url" name="zapier_webhook_url" #zapier_webhook_url="ngModel">
+              <mat-checkbox [(ngModel)]="max_notification_levels" (ngModelChange)="updateNotificationLevels()" [ngModelOptions]="{standalone: true}" class="example-margin">Notify For All Steps</mat-checkbox>
+            </div>
+            <div>
+              <label for="name">Code Generator</label>
+              <input type="text" class="form-control" id="code_generator_url"
+              autocorrect="off"
+                   [(ngModel)]="response.code_generator_url" name="code_generator_url" #zapier_webhook_url="ngModel">
+            </div>
+            <div>
+              <label for="name">Monthly Budget</label>
+              <input type="text" class="form-control" id="monthly_budget"
+                   required
+                   appBudgetRegvalidator
+                   autocorrect="off"
+                   [(ngModel)]="response.monthly_budget" name="monthly_budget" #monthly_budget="ngModel">
+                  <div *ngIf="monthly_budget.invalid && (monthly_budget.dirty || monthly_budget.touched)">
+                    <div *ngIf="monthly_budget.errors && monthly_budget.errors.required"
+                    class="text-danger">
+                      <small>Budget is required</small>
+                    </div>
+                    <div *ngIf="monthly_budget.errors && monthly_budget.errors.budgetRegValidator" class="text-danger">  
+                      <small>Please provide a valid Budget</small>
+                    </div> 
+                  </div>
+            </div>
+            <div><label for="name">Spreadsheets</label>
+              <a class="form-control" (click)="addSpreadsheet($event)" href="#">Add Spreadsheet</a>
+            </div>
+            <div *ngFor="let spreadsheet of spreadsheets"><span>Spreadsheet:&nbsp;<a class="form-control" href="https://docs.google.com/spreadsheets/d/{{spreadsheet.id}}/edit#gid=0" target="_blank">{{spreadsheet.title}}</a></span>
+              
+            </div>
+            <div class="float-right">
+              <!-- <button (click)="updateBrand(response)">Submit</button> -->
+              <button type="submit" class="btn btn-success" [disabled]="!brandUpdateForm.form.valid">Submit</button>
+            </div>
+          </form>
+        </div>
+  </div>
+  <div class="popup_modal_content_area" *ngIf="tableButtonSubviews[3]">
+    <button class="close_popup_modal" (click)="hidePopup()">X</button>
+
+  </div>
+  <div class="popup_modal_content_area" *ngIf="tableButtonSubviews[4]">
+    <button class="close_popup_modal" (click)="hidePopup()">X</button>
+
+  </div>
+
+</div>

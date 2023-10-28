@@ -1,0 +1,113 @@
+.single-cell {
+  /* height: 40px; */
+  width: 100%;
+  height: 100%;
+  float: left;
+  /* overflow-y: auto;
+  overflow-x: hidden; */
+  overflow: visible;
+  z-index: -9on;
+}
+.single-cell span {
+  font-size: 14px;
+  font-family: OpenSans, sans-serif;
+  color: #333333;
+  float: left;
+  padding: 0 5px;
+  background-color: inherit !important;
+  opacity: 1 !important;
+}
+
+.single-item {
+  height: 40px;
+  font-size: 20px;
+  font-weight: bold;
+  font-family: OpenSans, sans-serif;
+}
+
+/* @media screen and (max-width: 900px) and (min-width: 600px), (min-width: 1100px) {
+  div.circle {
+    width: 100px;
+    height: 40px;
+    background-color: red;
+    color: black;
+    font-size: 10px;
+    padding:5px;
+    margin-left: 10px;
+    margin-top: 10px;
+    border-radius: 5px;
+    }
+} */
+
+.circle {
+  /* margin-left: 50%;
+  margin-top: 50%;
+  width: 20px;
+  height: 20px;
+  background-color: blue;
+  border-radius: 50%;
+  color: black;
+  font-size: 10px; */
+  margin-left: 50%;
+  background-color: rgba(0, 118, 114, 0.2);
+  color: #007672;
+  font-size: 10px;
+  width: 100%;
+  /* height: 100%; */
+  float: left;
+  border-radius: 4px;
+  margin: 1px 0;
+  position: relative;
+  padding-right: 20px;
+}
+
+.bounty_title {
+  text-align: center;
+  float: left;
+  width: 100%;
+}
+
+.del_bounty {
+  opacity: 0;
+  float: right;
+  width: 20px;
+  line-height: 2.4;
+  position: absolute;
+  right: 0;
+  top: 0;
+  cursor: pointer;
+}
+
+.del_bounty:hover {
+  background-color: #ff9801;
+}
+
+.circle:hover .del_bounty{
+  opacity: 1;
+  transition: 0.3s ease-in-out;
+}
+
+.dropdown {
+  /* margin-top: 7.5%; */
+  /* display: inline-block; */
+  /* position: absolute; */
+  /* position: fixed; */
+  /* margin-left: -5%; */
+  /* position:absolute */
+}
+
+.dropdown::after {
+  content:none
+}
+
+.bMenu {
+  /* position: absolute; */
+/* left: 0; */
+/* z-index: 9; */
+float: left;
+width: 100%;
+}
+
+.showDiv {
+  display: block;
+}

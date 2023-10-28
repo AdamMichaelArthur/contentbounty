@@ -1,0 +1,66 @@
+
+            <button id="Add Skill" class="file_add_up button" (click)="viewPopup('authority')"> Add Menu To Authority</button>
+            <button id="Add Skill" class="file_add_up button" (click)="viewPopup('admin')"> Add Menu To Admin</button>
+            <button id="Add Skill" class="file_add_up button" (click)="viewPopup('creator')"> Add Menu To Creator</button>
+            <!-- <button id="Add Skill" class="file_add_up button" (click)="viewPopup('all')"> Add Menu To All Accounts</button> -->
+            <br>
+            <button id="Add Skill" class="file_add_up button" (click)="viewPopup('authority', 'Remove')"> Remove Menu From Authority</button>
+            <button id="Add Skill" class="file_add_up button" (click)="viewPopup('admin', 'Remove')"> Remove Menu From Admin</button>
+            <button id="Add Skill" class="file_add_up button" (click)="viewPopup('creator', 'Remove')"> Remove Menu From Creator</button>
+        <br /> <br /> <br />
+
+            <button id="Add Skill" class="file_add_up button" (click)="viewPopup('authority')"> Add Sub Menu To Authority</button>
+            <button id="Add Skill" class="file_add_up button" (click)="viewPopup('admin')"> Add Sub Menu To Admin</button>
+            <button id="Add Skill" class="file_add_up button" (click)="viewPopup('creator')"> Add Sub Menu To Creator</button>
+            <!-- <button id="Add Skill" class="file_add_up button" (click)="viewPopup('all')"> Add Sub Menu To All Accounts</button> -->
+            <br>
+            <button id="Add Skill" class="file_add_up button" (click)="viewPopup('authority', 'Remove')"> Remove Menu From Authority</button>
+            <button id="Add Skill" class="file_add_up button" (click)="viewPopup('admin', 'Remove')"> Remove Menu From Admin</button>
+            <button id="Add Skill" class="file_add_up button" (click)="viewPopup('creator', 'Remove')"> Remove Menu From Creator</button>
+        <br /> <br /> <br />
+        
+        <div id="id-Action1" class="popup_background_fade"
+          style="position: absolute; width: 600px; height: 400px; z-index: 9; top: 61px; left: 25px;">
+          <div *ngIf="buttonClick" class="add_step_container">
+            <div class="add_step_container">
+              <h3>{{action}} Menu {{preposition}} "{{account_type}}" Accounts</h3>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="add_step">
+                    <div class="col-md-12" *ngIf="displayTitle">
+                      
+                      <label for="">Menu Route</label>
+                      
+                      <input type="text" placeholder="Menu Name" class="description" [(ngModel)]="route">
+                      <p class="text-danger" *ngIf="route_error">
+                        Route is required.
+                      </p>
+                    </div>
+                    <div class="col-md-12">
+                      
+                      <label for="">Menu Title</label>
+                    
+                      <input type="text" (placeholder)="currentRoute" class="description" [(ngModel)]="title">
+                      <p class="text-danger" *ngIf="title_error">
+                        Title is required.
+                      </p>
+                    </div>
+                    <div class="col-md-12">
+                      
+                      <label for="">Icon</label>
+                    
+                      <input type="text" (placeholder)="icon" class="description" [(ngModel)]="icon">
+                      <p class="text-danger" *ngIf="title_error">
+                        Icon is required.
+                      </p>
+                    </div>
+                    <div class="col-md-12">
+                      <button type="button" class="btn btn-secondary btn-sm pull-right"
+                        (click)="add_menu()">Execute</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>

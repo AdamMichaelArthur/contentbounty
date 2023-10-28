@@ -1,0 +1,15 @@
+<div class="container"> 
+
+ 
+            <!-- here is the simple HTML you need (everything else is decoration) : --> 
+            <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit()">
+				<date-range-picker #myDateRange id="mydate" [options]="options" [controlName]="'myDateRange'"></date-range-picker>
+				<button class="button" type="submit" click="filter($event)">Filter</button>
+	        </form> 
+ 
+      </div>
+
+
+
+
+

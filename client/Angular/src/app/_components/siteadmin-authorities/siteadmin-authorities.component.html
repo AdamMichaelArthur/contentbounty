@@ -1,0 +1,66 @@
+<!-- <div class="page_container">
+    <div class="bounty_container" cdkDropListGroup>
+        <div style="margin:auto;">
+            <div style="width:1100px; margin:auto;">
+                <flexible-table
+                key="bounty"
+                all="all"
+                filters="{{ filtersStr }}" 
+                aggregate="{{aggregateStr}}"
+                columns="brand_name,content_type,pipeline,keywords,release_for_bounty,bounty,name,description,completion_order,refDocId"
+                displayFileUpload="false"
+                displayAddDataToSource="false"
+                viewSelectColumns="keyword"
+                tableIcons="description" 
+                tableIconNames="local_phone,local_phone,format_paint,local_phone,local_phone,local_phone,local_phone"
+                currencyColumns="bounty"
+                noDisplayColumns="refDocId"
+                noTextColumns="completion_order,description,refDocId"
+                displayClone=false
+                displayDelete=false
+
+                viewSelectColumns="keywords"
+                (tableButtonClicked)="tableButtonClicked($event)"
+                (sendTableButtons)="updateTableButtons($event)"
+                widths="0,450,150,100,100,100,100,200,150"
+                >
+              </flexible-table>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+<div class="table_container" cdkDropListGroup>
+    <flexible-table
+    key="bounty"
+    columns="brand_name,content_type,name,keywords,bounty,description,completion_order,refDocId"
+    displayFileUpload="false"
+    displayAddDataToSource="false"
+    viewSelectColumns="keyword"
+    tableIcons="description" 
+    tableIconNames="local_phone,local_phone,format_paint,local_phone,local_phone,local_phone"
+    aggregate="{{aggregateStr}}"
+    currencyColumns="bounty"
+    noDisplayColumns="refDocId"
+    noTextColumns="completion_order,description,refDocId"
+    displayClone=false
+    displayDelete=false
+    buttons="brand_name,brand_name,brand_name,"
+    buttonNames="Files,Approve,Kick Back,"
+    viewSelectColumns="keywords"
+    (tableButtonClicked)="tableButtonClicked($event)"
+    (sendTableButtons)="updateTableButtons($event)"
+    widths="0,450,150,170,100,100,80,0,0"
+    [textCutoff]="textCutoff">
+  </flexible-table>
+</div>
+
+<div *ngIf="displayTableButtonArea" style="margin: auto;" class="popup_modal_fade">
+  <div class="popup_modal_content_area" *ngIf="tableButtonSubviews[0]">
+    <button class="close_popup_modal" (click)="hidePopup()">X</button>
+     <!-- <a href="{{response.localFolder}}" target="_blank">Click here to access the assets directly on contentbounty.com</a> -->
+     <p><a href="{{response.localFolder}}" target="_blank">All Files</a>&nbsp;||&nbsp;<a (click)="openSpreadsheet($event)" href="#" target="_blank">Spreadsheet</a>&nbsp;||&nbsp;<a (click)="openDocument($event)" href="#" target="_blank">Document</a></p>
+
+    <div id="my-box-content-explorer"></div>
+  </div>
+</div>

@@ -1,0 +1,424 @@
+
+
+<div *ngIf="displayTableButtonArea" class="popup_modal_fade">
+  <div>
+    <div class="popup_modal_content_area">
+      <button style="font-size: 14px;
+      color: #ffffff;
+      background-color: #4CAF50;
+      padding: 2px 20px;
+      border-radius: 4px;
+      margin-bottom:10px;
+      width: 150px;
+      border: 0;" (click)="addStep()">Add Step</button>
+      <button class="close_popup_modal" (click)="disapparePopup()">X</button>
+    
+      <mat-accordion cdkDropList (cdkDropListDropped)="drop($event)">
+        <mat-expansion-panel *ngFor="let section of newSec" cdkDrag cdkDragLockAxis="y">
+          <!-- <mat-accordion>
+            <mat-expansion-panel *ngFor="let section of newSec"> -->
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              {{section}}
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="bounty_popup_tab">
+                <div class="process_tab_table">
+                  <h2>Total Cost of Bounty: {{total_bounty}}</h2>
+                  <table>
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th>Process</th>
+                        <th>Process Description</th>
+                        <th></th>
+                        <th>Suggested Bounty</th>
+                        <th></th>
+                        <th>Bounty</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody cdkDrop [cdkDropListData]="this.data" 
+                    cdkDropList (cdkDropListDropped)="onDrop($event)">
+                      <tr *ngFor="let proc of data; let i = index" cdkDrag cdkDragLockAxis="y">
+                        <td *ngIf="proc.stage == section"><button (click)="showEditStepModalFnc(i,proc)" style="background-color: #4CAF50;" class="btn">Edit</button></td> 
+                        <td *ngIf="proc.stage == section">
+                          <div (click)="stepProcessName(proc,i)" class="editorial_proc_check">
+                            <!-- <label class="switch" (change)="stepChecked(proc)">
+                              <input type="checkbox" [(ngModel)]="proc.process" />
+                              <span class="slider round"></span>
+                            </label> -->
+                            <!-- <h3> {{proc.step}} </h3> -->
+                            <p [ngClass]="!enableStep || currentProcName!=proc.step|| i!=index?'disabled text-bold':'text-bold'">
+                              <textarea type="text" placeholder="Step"
+                                [(ngModel)]="proc.step"></textarea>
+                            </p>
+                          </div>
+                        </td>
+                        <td *ngIf="proc.stage == section">
+                          <div (click)="stepProcess(proc,i)" (change)="stepChecked(proc)" class="editorial_proc_check"  >
+                            <p  [ngClass]="!enableTextArea || currentProcDesc!=proc.step_description || i!=index?'disabled text-bold':'text-bold'">
+                              <textarea type="text"   placeholder="Simple Descripti…"
+                                [(ngModel)]="proc.step_description"> </textarea>
+                            </p>
+                          </div>
+                        </td>
+                        <td *ngIf="proc.stage == section">
+                          
+                        </td>
+                        <td *ngIf="proc.stage == section">
+                          <!-- <div   class="editorial_proc_bounty">
+                            <p [ngClass]="{'disabled':proc.process === false}">
+                              <input type="number" class="text" 
+                                [(ngModel)]="proc.suggested_bounty">
+                            </p>
+                          </div> -->
+                          <div (click)="fncSuggestedBounty(proc,i)"  class="editorial_proc_bounty">
+                            <p [ngClass]="!enableSuggestedBounty || proc.suggested_bounty!=currentSuggestedBountyData|| i!==index?'disabled':'text-bold'">
+                              <input type="number" class="text" 
+                                [(ngModel)]="proc.suggested_bounty">
+                            </p>
+                          </div>
+                        </td>
+                        <td *ngIf="proc.stage == section">
+                          
+                        </td>
+                        <td *ngIf="proc.stage == section">
+                          <!-- <div class="editorial_proc_bounty">
+                            <p [ngClass]="{'disabled':proc.process === false}">
+                              <input type="number" class="text" (ngModelChange)="updateBountyTotal($event, proc)"
+                                [(ngModel)]="proc.bounty">
+                            </p>
+                          </div> -->
+                          <div (click)="fncEnablebounty(proc,i)"  class="editorial_proc_bounty">
+                            <p [ngClass]="{'disabled':!enablebounty || proc.bounty!=currentBountyData|| i!==index}">
+                              <input type="number" class="text" (ngModelChange)="updateBountyTotal($event, proc)"
+                                [(ngModel)]="proc.bounty">
+                            </p>
+                          </div>
+                        </td>
+                        <td *ngIf="proc.stage == section">
+                          <button class="btn bg-danger"  (click)="deleteProcess(proc)">X</button>
+                        </td>
+                      </tr>
+                    </tbody>
+
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </mat-expansion-panel>
+      </mat-accordion>
+      <!-- <div>
+        <p class="text-danger" *ngIf="stepdeleteError">Something wrong happend!</p>
+        <p class="text-danger" *ngIf="stepAddError">Something wrong happend!</p>
+      </div> -->
+      <div class="bounty_popup_footer">
+        <button  class="ml-2">Commit</button>
+        <button  (click)="addGuide()">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div *ngIf="addGuideClicked && stepAddError">
+  <div class="popup_fade" [ngClass]="!sections?'display_block' : 'display_none'">
+    <div class="blur"></div>
+    <div class="popup" style="text-align: center;vertical-align:middle">
+      <div class="popup_body">
+        <div class="spinner-border text-primary" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="popup_fade" *ngIf="showStepModal">
+  <div class="blur"></div>
+
+  <div class="popup" >
+    <button class="hide_btn" (click)="cancelStep()"></button>
+
+    <div class="popup_body">
+      <div>
+        <div class="form_fild">
+          <label> Step name: </label>
+          <input type="text" placeholder="Name of step" [(ngModel)]="stepName"
+            >
+          <p class="text-danger" *ngIf="error_name && !stepName.length">
+            Step name is required
+          </p>
+
+        </div>
+        <div class="form_fild">
+          <label> Step description: </label>
+          <textarea class="exampleFormControlTextarea1" rows="3"  type="text" placeholder="Step description" [(ngModel)]="step_description"
+       >
+            </textarea>
+          <p class="text-danger" *ngIf="error_des && !step_description.length ">
+            Step description is required
+          </p>
+        </div>
+        <div class="form_fild">
+          <label> Stage: </label>
+          <input *ngIf="this.newSec.length<=0" type="text" placeholder="Stage" [(ngModel)]="stage"
+          >
+          <div style="margin:40px;" class="parent_class" *ngIf="this.newSec.length>0">
+            <div class="file_add_up full_width">
+              <select class="flexdropdown" style="border:0px"   (change)="onSelectedStage2($event)">
+                <option  value="">Select a stage </option>
+                <option  #option *ngFor="let label of sections ; let y = index" [value]="label" >{{label
+                }}</option>
+              </select>
+              
+            </div>
+          </div>
+          <br>
+          <button *ngIf="this.newSec.length>0" style="background-color: #4CAF50;" class="btn" (click)="stageAddModal()">Add new stage</button>
+          <p class="text-danger" *ngIf="error_stage && !stage.length">
+            Stage is required
+          </p>
+
+        </div>
+        <form>
+          <p style="font-size: 14px;
+          color: #2a2f33;
+          font-weight: 600;">Selected skills:</p>
+          <ul class="list-inline">
+            <li *ngFor="let skill of skills" class="list-inline-item" style="list-style: none; display:inline-block">
+              <label class="checkbox-inline" style="font-size: 14px;
+              color: #2a2f33;
+              font-weight: 400;"> 
+               <input type="checkbox" checked value={{skill}} (change)="changeEvent($event)"> {{skill}}
+             </label>
+           </li>
+          </ul>
+        </form>
+        <div class="form_fild">
+          <!-- <label> Skills: </label> -->
+          
+          <div style="margin:40px;" class="parent_class">
+            <div class="file_add_up full_width">
+              
+              <select  class="flexdropdown" style="border:0px" (change)="onSelected($event)">
+                <option  value="">Select a skill (Optional)</option>
+                <option  #option *ngFor="let label of sData ; let y = index" [value]="label">{{label
+                }}</option>
+              </select>
+              
+            </div>
+          </div>
+         
+          <button style="background-color: #4CAF50;" class="btn" (click)="skillAdd()">Add new skill</button>
+          
+        </div>
+        <div class="form_fild">
+          <label> Bounty: </label>
+          <input type="text" placeholder="Bounty" [(ngModel)]="bounty"
+          >
+          <p class="text-danger" *ngIf="error_bounty && !bounty.length">
+            Bounty is required
+          </p>
+
+        </div>
+        <div class="form_fild">
+          <label> Required Files: </label>
+          <input type="text" placeholder="Add Files" [(ngModel)]="files">
+          <!-- <p class="text-danger" *ngIf="error_bounty">
+            Bounty is required
+          </p> -->
+        </div>
+      </div>
+    </div>
+    <div class="popup_footer">
+      <button (click)="cancelStep()">cancel</button>
+      <button  (click)="saveStep()">Save</button>
+  </div>
+  </div>
+</div>
+
+
+
+
+<div class="popup_fade" *ngIf="showEditStepModal">
+  <div class="blur"></div>
+
+  <div class="popup" >
+    <button class="hide_btn" (click)="cancelEditStepModal()"></button>
+
+    <div class="popup_body">
+      <div>
+        <div class="form_fild">
+          <label> Step name: </label>
+          <input type="text" placeholder="Name of step" [(ngModel)]="editStep"
+            >
+          <p class="text-danger" *ngIf="error_name && !editStep.length">
+            Step name is required
+          </p>
+
+        </div>
+        <div class="form_fild">
+          <label> Step description: </label>
+          <textarea class="exampleFormControlTextarea1" style="min-height:120px;"   type="text" placeholder="Step description" [(ngModel)]="editdes"
+       >
+            </textarea>
+          <p class="text-danger" *ngIf="error_des && !editdes.length ">
+            Step description is required
+          </p>
+        </div>
+        <div class="form_fild">
+          <label> Stage: </label>
+          <!-- <input type="text" placeholder="Stage"  [(ngModel)]="editstage"
+          > -->
+          <div style="margin:40px;" class="parent_class">
+            <div class="file_add_up full_width">
+              <select class="flexdropdown" style="border:0px"   (change)="onSelectedStage($event)">
+                <option  value="editstage">{{editstage}} </option>
+                <option *ngFor="let label of filteredStages ; let y = index" [value]="label" >{{label
+                }}</option>
+              </select>
+              
+            </div>
+          </div>
+          <button style="background-color: #4CAF50;" class="btn" (click)="showEditSatageModal()">Add new stage</button>
+          <p class="text-danger" *ngIf="error_stage && !stage.length">
+            Stage is required
+          </p>
+
+        </div>
+        <!-- <div class="from_fild">
+          <ul class="list-inline">
+            <li *ngFor="let skill of editSkills" class="list-inline-item" style="list-style: none; display:inline-block"><label class="checkbox-inline" >
+              <input type="checkbox" value="skill" selected>{{skill}}
+            </label> </li>
+          </ul>
+      </div> -->
+      <form>
+        <p style="font-size: 14px;
+        color: #2a2f33;
+        font-weight: 600;">Selected skills:</p>
+        <ul class="list-inline">
+          <li *ngFor="let skill of editSkills" class="list-inline-item" style="list-style: none; display:inline-block">
+            <label class="checkbox-inline" style="font-size: 14px;
+            color: #2a2f33;
+            font-weight: 400;"> 
+             <input type="checkbox" checked value={{skill}} (change)="changeEvent2($event)"> {{skill}}
+           </label>
+         </li>
+        </ul>
+      </form>
+      <div class="form_fild">
+         
+          <div style="margin:40px;" class="parent_class">
+            <div class="file_add_up full_width">
+              <select class="flexdropdown" style="border:0px"   (change)="onSelected2($event)">
+                <option  value="">Select a skill (Optional)</option>
+                <option  #option *ngFor="let label of sData ; let y = index" [value]="label" >{{label
+                }}</option>
+              </select>
+              
+            </div>
+          </div>
+          
+          <button style="background-color: #4CAF50;" class="btn" (click)="skillAdd()">Add new skill</button>
+         
+        </div>
+        <div class="form_fild">
+          <label> Bounty: </label>
+          <input type="number" placeholder="Bounty"  [(ngModel)]="editbounty"
+          >
+          <p class="text-danger" *ngIf="error_bounty && !editbounty.length">
+            Bounty is required
+          </p>
+
+        </div>
+        <div class="form_fild">
+          <label>Suggested Bounty: </label>
+          <input type="text" placeholder="Suggested Bounty"  [(ngModel)]="currentProc.suggested_bounty"
+          >
+        </div>
+        <div class="form_fild">
+          <label> Required Files: </label>
+          <input type="text" placeholder="Add Files"  [(ngModel)]="editfilles">
+         
+        </div>
+      </div>
+    </div>
+    <div class="popup_footer">
+      <button (click)="cancelEditStepModal()">cancel</button>
+      <button  (click)="saveEditStepModal()">Save</button>
+  </div>
+  </div>
+</div>
+
+<div class="popup_fade" [ngClass]="addSkillPopup?'d-block':'d-none'"  >
+  <div class="blur"></div>
+  <div class="popup">
+      <button class="hide_btn" (click)="SaveFuncCancle()"></button>
+      <div class="popup_header">
+        <h3>Add a new skill</h3>
+      </div>
+      <div class="popup_body">
+          
+              <div class="form_fild">
+                  <input type="text" placeholder="Add new skill" [(ngModel)]="newSkill">
+            <p *ngIf="error_skills && !newSkill" class="text-danger error">Please provide a skill</p>
+          </div>
+      </div>
+      <div class="popup_footer" style="text-align: right;">
+          <button (click)="SaveFunc()" style="margin-right: 10px;">Save</button>
+          <button (click)="SaveFuncCancle()">Cancel</button>
+      </div>
+  </div>
+</div>
+
+
+
+
+<div class="popup_fade" [ngClass]="addStagePopup?'d-block':'d-none'"  >
+  <div class="blur"></div>
+  <div class="popup">
+      <button class="hide_btn" (click)="SaveStageFuncCancle()"></button>
+      <div class="popup_header">
+        <h3>Add a new stage</h3>
+      </div>
+      <div class="popup_body">
+          
+              <div class="form_fild">
+                  <input type="text" placeholder="Add new stage" [(ngModel)]="newAddStageData">
+            <p *ngIf="error_newAddStageData && !newAddStageData" class="text-danger error">Please provide a stage</p>
+          </div>
+      </div>
+      <div class="popup_footer" style="text-align: right;">
+          <button (click)="SaveStageFunc()" style="margin-right: 10px;">Save</button>
+          <button (click)="SaveStageFuncCancle()">Cancel</button>
+      </div>
+  </div>
+</div>
+
+<div class="popup_fade" [ngClass]="addEditStagePopup?'d-block':'d-none'"  >
+  <div class="blur"></div>
+  <div class="popup">
+      <button class="hide_btn" (click)="SaveStageFuncEditCancle()"></button>
+      <div class="popup_header">
+        <h3>Add a new stage</h3>
+      </div>
+      <div class="popup_body">
+          
+              <div class="form_fild">
+                  <input type="text" placeholder="Add new stage" [(ngModel)]="newAddEditStageData">
+            <p *ngIf="error_newAddEditStageData && !newAddEditStageData" class="text-danger error">Please provide a stage</p>
+          </div>
+      </div>
+      <div class="popup_footer" style="text-align: right;">
+          <button (click)="SaveStageEditFunc()" style="margin-right: 10px;">Save</button>
+          <button (click)="SaveStageFuncEditCancle()">Cancel</button>
+      </div>
+  </div>
+</div>

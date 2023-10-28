@@ -1,0 +1,39 @@
+<p>sniper-campaign-research works!</p>
+
+    <flexible-table
+      key="outreach_emails"
+      columns="selected,Domain,Email,First,Last,Blog Page,DR,Parent Topic"
+      displayClone="false"
+      noTextColumns="bKeywordDeployed"
+      widths="0,50,250,250,250,250,250,250,60"
+      all="all"
+      displayAddDataToSource="false"
+      headerButtons="Complete" 
+      (sendHeaderButtons)="updateHeaderButtons($event)"
+      (onHeaderButtonClicked)="completeBounty($event)" 
+      all="all"
+      selectedButtons="Select All,Delete Selected"
+      filter={{filterStr}}
+      >
+    </flexible-table>
+
+  <!--     
+
+   -->
+<!-- 
+          buttonNames="Deploy Keyword,Create Bounty Now"
+      (tableButtonClicked)="tableButtonClicked($event)"
+      (sendTableButtons)="updateTableButtons($event)" -->
+
+  <div id="id-Action1" *ngIf="displayButtonArea" class="popup_modal_fade">
+    <div *ngIf="buttonSubviews[0] == true" class="popup_modal_content_area">
+    <button class="close_popup_modal" (click)="hidePopup()">X</button>
+      <app-bounty-create
+      content_type="Link Building"
+      [(currentBounty)]="currentBounty"
+      (passBountyTemplate)="addGuide($event)"
+    >
+      
+    </app-bounty-create><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+  </div>
+</div>

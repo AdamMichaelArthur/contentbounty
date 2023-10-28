@@ -1,0 +1,79 @@
+At the heart of Content Bounty is a database relationship we call a "process"
+
+Processes are a series of steps that, when completed in order, complete a desired outcome.
+
+Steps are individual components that specify a task, actions or series of action items that
+complete a specific aspect of the end product.
+
+Processes can be found in the "processes" collection
+Steps can be found in the "steps" collection
+
+How To Create A Process In The Database
+---------------------------------------
+
+1.	Create a document with the following characteristics:
+
+	{
+		"content_type" : "Short Form Article",
+		"distribution_method" : [
+			"Website,Platform,Document"
+		],
+		"editorial_guidelines" : [
+			"http://www.dropboxurl.com/link/to/editorial/guidelines/link1",
+			"http://www.dropboxurl.com/link/to/editorial/guidelines/link2",
+			"http://www.dropboxurl.com/link/to/editorial/guidelines/link3"
+		],
+		"frequency" : [
+			"Select Frequency",
+			"2x Per Day",
+			"3x Per Day",
+			"4x Per Day",
+			"Daily",
+			"3x Per Week",
+			"Weekly",
+			"2x Per Month",
+			"Monthly"
+		],
+		"media_type" : "text",
+		"process_description" : "Find an interesting article related to our keywords",
+		"short_description" : "Repost an image related to these keywords",
+		"starting_day" : [
+			"Select Day",
+			"Monday",
+			"Tuesday",
+			"Wednesday",
+			"Thursday",
+			"Friday",
+			"Saturday",
+			"Sunday"
+		],
+		"suggested_bounty" : 125,
+		"suggested_video_length" : 5,
+		"suggested_word_count" : 1800,
+	}
+
+2.	Once a Process document is created, you must add 'steps' to this process in the 'steps' collection
+	* Note there are a max of 100 steps for every process
+
+	{
+		"bounty" : 0,
+		"content_type" : "Long Form Article",
+		"display_pos" : 0,
+		"editorial_guidelines" : [ ],
+		"skills" : [
+			"seo"
+		],
+		"stage" : "SEO",
+		"step" : "Internal Linking",
+		"step_description" : "Create internal links",
+		"suggested_bounty" : 20,
+		"types" : [
+			"reviews"
+		],
+		"files" : [ ]
+	}
+
+3.	Steps will be displayed in the order they appear in the database.  If you want to re-arrange the the order in which steps are displayed,
+you must delete all of the steps and re-insert them.  This behavior will be deprecated in the future, though, as we plan to add a field "step_display_order"
+for this purpose.
+

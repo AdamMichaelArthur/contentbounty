@@ -1,0 +1,167 @@
+<div class="page_container">
+    <div class="campaign_header">
+        <h2>Application for Employment</h2>
+    </div>
+
+    <div class="container">
+        <div class="box_area">
+            <div class="box" [ngClass]="{'slide_default':slideDefault, 'slide_left':slideLeftView1, 'slide_right':slideRightView1}">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="input_area">
+                            <label>First Name</label>
+                            <input type="text" placeholder="First Name">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="input_area">
+                            <label>Last Name</label>
+                            <input type="text" placeholder="Last Name">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="input_area">
+                            <label>Email</label>
+                            <input type="text" placeholder="Email">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="input_area">
+                            <label>Phone</label>
+                            <input type="text" placeholder="Phone">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="input_area">
+                            <label>LinkedIn Profile</label>
+                            <input type="text" placeholder="First Name">
+                        </div>
+                    </div>
+                </div>
+                <div class="next_prev">
+                    <button (click)="next1()">Next</button>
+                </div>
+            </div>
+            <div class="box" [ngClass]="{'slide_default':slideDefault, 'slide_left':slideLeftView2, 'slide_right':slideRightView2}">
+                <h2>Skills</h2>
+                <div class="skils_area">
+                    <h3>Check  All That Apply</h3>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label class="cb_container">Writing
+                                <input type="checkbox" id="Writing"/>
+                                <span class="checkmark"></span>
+                            </label>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="cb_container">Editing
+                                <input type="checkbox" id="Editing"/>
+                                <span class="checkmark"></span>
+                            </label>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="cb_container">Skill 3
+                                <input type="checkbox" id="Skill3"/>
+                                <span class="checkmark"></span>
+                            </label>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="cb_container">Skill 4
+                                <input type="checkbox" id="Skill4"/>
+                                <span class="checkmark"></span>
+                            </label>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="cb_container">Skill 5
+                                <input type="checkbox" id="Skill5"/>
+                                <span class="checkmark"></span>
+                            </label>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="cb_container">Skill 6
+                                <input type="checkbox" id="Skill6"/>
+                                <span class="checkmark"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="next_prev">
+                    <button (click)="next2()">Next</button>
+                </div>
+            </div>
+            <div class="box" [ngClass]="{'slide_default':slideDefault, 'slide_left':slideLeftView3, 'slide_right':slideRightView3}">
+                <h2>Availability</h2>
+                <div class="available_area">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label class="cb_container">I am looking for assignments when I need them (1099)
+                                <input type="checkbox" id="av1"/>
+                                <span class="checkmark"></span>
+                            </label>
+                        </div>
+                        <div class="col-md-12">
+                            <label class="cb_container">I am interested in the $150 / week base + pay per assignment (W2)
+                                <input type="checkbox" id="av2"/>
+                                <span class="checkmark"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="next_prev">
+                    <button (click)="next3()">Next</button>
+                </div>
+            </div>
+            <div class="box" [ngClass]="{'slide_default':slideDefault, 'slide_left':slideLeftView4, 'slide_right':slideRightView4}">
+                <h2>Writing Samples</h2>
+                <div class="dragdrop_area" (click)="fileInput.click()" appDragdrop (onFileDropped)="uploadFile($event)">
+                    <p>Drop your CSV file here</p>
+                    <p>OR</p>
+                    <label for="select">Select Files</label>
+                    <input id="select" hidden type="file" #fileInput (change)="uploadFile($event.target.files)">
+                </div>
+                <div class="files-list" *ngFor="let file of files;let i= index">
+                  <p> {{ file }} </p>
+                  <button class="delete-file" (click)="deleteAttachment(i)">
+                    <img src="../../../assets/img/delet_ico.png">
+                  </button>
+                </div>
+                <div class="next_prev">
+                    <button (click)="next4()">Next</button>
+                </div>
+
+
+<!-- 
+                    <div class="uploadfilecontainer" >
+                        <input id="select" hidden type="file" #fileInput (change)="uploadFile($event.target.files)">
+                    </div>
+                    <div class="files-list" *ngFor="let file of files;let i= index">
+                      <p> {{ file }} </p>
+                      <button class="delete-file" (click)="deleteAttachment(i)">
+                        <img src="../../assets/Recycle_Bin_Full.png">
+                      </button>
+                    </div> -->
+
+
+            </div>
+            <div class="box" [ngClass]="{'slide_default':slideDefault, 'slide_left':slideLeftView5, 'slide_right':slideRightView5}">
+                <h2>Schedule an Interview</h2>
+                <div class="interview_area">
+                    <a href="#" onclick="Calendly.showPopupWidget('https://calendly.com/inbrain-bd/15min');return false;"><i class="far fa-calendar-alt"></i> Select Schedule Time With Us</a>
+
+                    <!-- Calendly inline widget begin -->
+                    <!-- <div #calendly style="min-width:320px;height:630px;" data-auto-load="false"></div> -->
+                    <!-- <div class="calendly-inline-widget" style="min-width:320px;height:630px;" data-auto-load="false"></div> -->
+                    <!-- Calendly inline widget end -->
+                    <!-- <app-calendly-widget></app-calendly-widget> -->
+                </div>
+                <div class="next_prev">
+                    <button>Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

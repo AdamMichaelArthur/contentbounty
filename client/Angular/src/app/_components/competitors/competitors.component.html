@@ -1,0 +1,15 @@
+<p>Brand Management -> Competitors</p>
+
+    <flexible-table
+      key="competitor"
+      columns="selected,URL,Traffic,DR"
+      displayClone="false"
+      widths="0,50,500,100,100,60,60,60,600,600,600,600"
+      all="account"
+      (onHeaderButtonClicked)="flextableHeaderButtonClicked($event)"
+      filter='{"brand_id":"{{ sharedService._id }}" }'
+      selectedButtons="Delete Selected,Upload All"
+      addDataToSourceDesc="Add Competitor"
+      [(textClickedRoutes)]="textClickedRoutes"
+      >
+    </flexible-table>

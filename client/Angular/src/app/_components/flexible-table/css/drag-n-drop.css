@@ -1,0 +1,988 @@
+.bMenu {
+  position: absolute;
+  left: 0;
+  z-index: 9;
+}
+
+.drag {
+  display: inline-block;
+  text-decoration: none;
+  border: 1px solid gray;
+  color: #111;
+  background-color: #dfdfdf;
+  padding: 8px 14px;
+}
+.drop {
+  margin-top: 10px;
+  background-color: #e3e3e3;
+  padding: 8px;
+}
+.over {
+  background-color: #ffaabb !important;
+}
+.dragging {
+  padding: 18px;
+  border: 1px dashed gray;
+}
+.drop p {
+  margin: 10px 0;
+}
+
+.drop * {
+  pointer-events: none;
+}
+
+.bg{
+  background-color: #ffaabb !important;
+}
+
+.arrow-up {
+  width: 5px;
+  height: 5px;
+  top: 12px;
+  position: absolute;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid #2f2f2f;
+  right: 10px;
+}
+
+.arrow-down {
+  width: 5px;
+  height: 5px;
+  top: 12px;
+  position: absolute;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid #2f2f2f;
+  right: 10px;
+}
+
+/*  CSS Styles for the flexibe-table-dragdrop.html file */
+
+/*  These allow me to customize the Angular Material bottom border line.  In this case I 
+    set it to the background color of the table to make it dissapear
+*/
+
+.mat-form-field-label {
+  color: white !important;
+}
+.mat-form-field-underline {
+  background-color: white !important;
+}
+.mat-form-field-ripple {
+  background-color: white !important;
+}
+
+/*  An example container for drag and drop demonstration */
+.example-container {
+  width: 45%;
+  float: left;
+  background-color: red;
+  padding: 0px;
+}
+
+/*  This contains the positioning for the table itself */
+.tableBody {
+  /*  position: absolute;
+  top: 50px;
+  left: 50px;*/
+}
+
+.flex-container {
+  /* width: 100%;                  /* Controls the width of the entire table */
+}
+
+.flexcolumn {
+  display: block;
+  float: left; /* The default behavior of <div> is to stack.  This causes the div's to stack side by side */
+  /* margin-left: 5px; */
+}
+
+/*    The flexdate controls the positioning of the mat-date picker.  This needs to be modified
+      if you change other elements, such as the size of the box or the font size/family
+*/
+.flexdate {
+  top: -13px;
+  height: 24px;
+  font-size: inherit;
+  position: relative;
+  max-width: 100px;
+}
+
+.flexicon {
+  padding-left: 2px;
+  /* padding-top: 1px; */
+  /*position: absolute;*/
+  transform: scale(0.9);
+  opacity: 1;
+  color: green;
+  height: 24px;
+  float: left;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.flexicon_endrow {
+  padding-left: 2px;
+  padding-top: 1px;
+  position: absolute;
+  transform: scale(0.9);
+  opacity: 1;
+  color: green;
+}
+
+.flexicon-hide {
+  opacity: 1;
+  display: inline-block;
+}
+
+.flexicon-hover {
+  opacity: 0;
+  display: inline-block;
+}
+
+.flexicon_header {
+  padding-left: 2px;
+  padding-top: 1px;
+  position: absolute;
+  transform: scale(0.9);
+}
+
+.sectionheader {
+  font-weight: bold;
+  font-size: 20px;
+  position: absolute;
+  /* transform: rotate(-15deg); */
+  right: 0;
+  top: 18px;
+  color: #555555;
+}
+.sectionheader span {
+  color: #0dd6d8;
+}
+
+.flexheader {
+  font-weight: bold;
+  font-size: 11px;
+  overflow: hidden;
+  height: 25px;
+  min-width: 10px;
+  max-width: 150px;
+  padding-left: 0px;
+  -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: col-resize;
+  /*transform: rotate(-15deg);*/
+}
+
+.flexicon-header {
+  -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: col-resize;
+}
+
+.flexcell {
+  border: none; /* This causes input form fields to not have a border around them */
+  min-height: 20px;
+  padding-right: 20px;
+  position: relative;
+}
+.dropdown {
+  width: 100%;
+  margin-top: 30px;
+  top: 25px;
+}
+.dropdown::after {
+  content: "";
+  width: 0;
+  height: 0;
+  border: 5px solid transparent;
+  border-color: transparent transparent #1096e0 transparent;
+  position: absolute;
+  top: -9px;
+  right: -20px;
+}
+
+/* This is necessary to make our checkboxes align correctly with the rest of our table cells */
+.flexcheckbox {
+  padding: 2px 0;
+  display: flex;
+  height: 28px;
+}
+/* The container */
+.cb_container {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.cb_container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Create a custom checkbox */
+.cb_container .cb_checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 24px;
+  width: 25px;
+  border: 1px solid #4caf50;
+}
+
+/* When the checkbox is checked, add a blue background */
+.cb_container input:checked ~ .cb_checkmark {
+  background-color: #4caf50;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.cb_container .cb_checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.cb_container input:checked ~ .cb_checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.cb_container .cb_checkmark:after {
+  left: 8px;
+  top: 3px;
+  width: 7px;
+  height: 12px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+
+
+
+
+
+
+
+.flexdropdown {
+  background-color: #4caf50; /* Green */
+  border: none;
+  color: white;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  height: 35px;
+  max-height: 35px;
+  font-size: 12px;
+  float: left;
+  margin-right: 10px;
+  border-radius: 4px;
+  padding-right: 25px;
+  width: 100%;
+}
+
+.select_dropdown{
+  float: left;
+  width: auto;
+  position: relative;
+  max-width: 180px;
+  margin-left: 10px;
+}
+.select_dropdown::after{
+  content: "";
+  width: 0;
+  height: 0;
+  border: 5px solid transparent;
+  border-color: #ffffff transparent transparent transparent;
+  position: absolute;
+  top: 16px;
+  right: 20px;
+}
+
+.tabledropdown {
+  background-color: #4caf50; /* Green */
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.button {
+  background-color: #4caf50; /* Green */
+  border: none;
+  color: white;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+
+  font-size: 12px;
+  float: left;
+  margin-right: 10px;
+}
+
+.flexa {
+  padding: 3px; /* Controls the height of the cell.  You may need to adjust flexcheckbox padding */
+  border-bottom: solid 1px #ccc; /* Controls the line.  Delete to have a table without a bottom border */
+  color: rgba(
+    0,
+    0,
+    0,
+    0.87
+  ); /* Controls the color of the text inside of the table cells */
+  /* background: white;           /* Controls the background color.  The effect is to change the entire bk color */
+  font-size: 14px; /* If you change the font size, you may  need to adjust the padding of flexcheckbox */
+  /* border-left: solid 1px #ccc; /* Creates horizontal lines */
+  /* border-right: solid 1px #ccc;/* Creates horizontal lines */
+  /*max-width:300px;*/
+  max-height: 70px;
+  padding-left: 10px;
+  padding-right: 10px;
+  position: relative;
+}
+
+.flexrow {
+  padding: 3px; /* Controls the height of the cell.  You may need to adjust flexcheckbox padding */
+  border-bottom: solid 1px #ccc; /* Controls the line.  Delete to have a table without a bottom border */
+  color: rgba(
+    0,
+    0,
+    0,
+    0.87
+  ); /* Controls the color of the text inside of the table cells */
+  /* background: white;           /* Controls the background color.  The effect is to change the entire bk color */
+  font-size: 14px; /* If you change the font size, you may  need to adjust the padding of flexcheckbox */
+  /* border-left: solid 1px #ccc; /* Creates horizontal lines */
+  /* border-right: solid 1px #ccc;/* Creates horizontal lines */
+  /*max-width:300px;*/
+  max-height: 70px;
+  padding-left: 0px;
+  padding-right: 10px;
+  position: relative;
+  min-height: 24px;
+}
+.flexrow .flexrow {
+  padding: 0 3px;
+  /* overflow-x: auto;
+  word-break: keep-all; */
+}
+.flexa .flexrow {
+  padding: 0 3px;
+}
+.flexrow .test4 {
+  padding: 0 3px;
+}
+
+.flexrow:hover .flextip > .flextiptext{
+  visibility: visible;
+  display: table;
+}
+.flexrow:hover .test4 > .flexicon-hover{
+  opacity: 1;
+}
+
+.flexrow_notext {
+  /* top: 5px; */
+  min-height: 28px;
+  position: relative;
+  padding: 1px; /* Controls the height of the cell.  You may need to adjust flexcheckbox padding */
+  border-bottom: solid 1px #ccc; /* Controls the line.  Delete to have a table without a bottom border */
+  color: rgba(
+    0,
+    0,
+    0,
+    0.87
+  ); /* Controls the color of the text inside of the table cells */
+  /* background: white;           /* Controls the background color.  The effect is to change the entire bk color */
+  font-size: 14px; /* If you change the font size, you may  need to adjust the padding of flexcheckbox */
+  /* border-left: solid 1px #ccc; /* Creates horizontal lines */
+  /* border-right: solid 1px #ccc;/* Creates horizontal lines */
+  /*max-width:300px;*/
+  max-height: 70px;
+  padding-left: 3px;
+  padding-right: 3px;
+  display: flex;
+}
+
+.flexrow_notext:last-child {
+  border: none;
+}
+
+.flexrow_notext:hover {
+  background-color: lightgrey;
+}
+
+.flexrow:hover {
+  background-color: lightgrey;
+}
+
+/*.flexrow-hover {
+    padding:6px;                 
+    color: rgba(0,0,0,0.87);   
+    font-size: 12px;   
+    max-width:100px;  
+    height:22px;
+    /*float: right;               
+}*/
+
+.flexrow-compact {
+  padding: 6px;
+  color: rgba(0, 0, 0, 0.87);
+  font-size: 12px;
+  max-width: 100px;
+  height: 22px;
+  /*float: right;               /* Causes the list to go from left to right as opposed to up or down */
+}
+
+/* Removes an unwanted line around the element */
+.flexrow:last-child {
+  border: none;
+  /*overflow: hidden;*/
+}
+
+/* Makes for a pretty drag preview */
+/*.cdk-drag-preview {
+  background-color: #4CAF50 !important;
+  color: #ffffff!important;
+  box-sizing: border-box;
+  border-radius: 4px;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+    0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+.cdk-drag-preview span{
+    color: #ffffff!important;
+}
+.cdk-drag-preview mat-icon{
+    color: #ffffff!important;
+}*/
+
+/* Changes the transparency of the cell when it's dragged around */
+/*.cdk-drag-placeholder {
+  opacity: 0.5;
+}*/
+
+/* This makes it very obvious where the dragged item was put into.  Adjust the 1250 ms for faster/slower */
+/*.cdk-drag-animating {
+  transition: transform 0ms cubic-bezier(0, 0, 0.2, 1);
+}*/
+
+.page_container {
+  margin: auto;
+  background-color: white;
+  opacity: 1;
+  width: 50%;
+  /* overflow: hidden;  */
+  border-radius: 5px;
+  padding: 0px;
+}
+
+/*Page Header*/
+.page_header {
+  width: 100%;
+  float: left;
+  padding: 10px 0px !important;
+}
+
+.add_content_popup {
+  width: 100%;
+  max-width: 900px;
+  height: 700px;
+  background-color: white;
+  position: absolute;
+
+  padding: 15px;
+  border-radius: 4px;
+  -webkit-box-shadow: 0px 1px 6px 0px rgba(143, 143, 143, 0.5);
+  -moz-box-shadow: 0px 1px 6px 0px rgba(143, 143, 143, 0.5);
+  box-shadow: 0px 1px 6px 0px rgba(143, 143, 143, 0.5);
+  overflow: scroll;
+  top: 0;
+  right: 0;
+  left: 5px;
+}
+
+.add_content_desc {
+  width: 80%;
+  height: auto;
+  float: left;
+  position: relative;
+}
+
+.add_content_desc label {
+  width: 100%;
+  height: auto;
+  float: left;
+  position: relative;
+  font-size: 14px;
+  color: #333333;
+  margin-bottom: 5px;
+}
+
+.add_content_desc input {
+  width: 100%;
+  float: left;
+  position: relative;
+  border: 1px solid #e2e2e3;
+  border-radius: 4px;
+  padding: 0px 10px;
+  height: 32px;
+  font-size: 14px;
+  line-height: 14px;
+}
+
+.add_content_desc select {
+  width: 100%;
+  float: left;
+  position: relative;
+  border: 1px solid #e2e2e3;
+  border-radius: 4px;
+  padding: 0px 10px;
+  height: 32px;
+  font-size: 14px;
+  line-height: 14px;
+}
+
+.add_content_desc .calender_input {
+  width: 80%;
+}
+
+.add_content_desc .calender_icon {
+  float: right;
+  margin-top: -5px;
+}
+
+.add_content_popup_check {
+  width: 100%;
+  float: left;
+  position: relative;
+}
+
+.cb_container {
+  display: block;
+  position: relative;
+  padding-left: 25px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 14px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  color: #3a3a3a;
+}
+
+.cb_container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 16px;
+  width: 16px;
+  border: 1px solid #95c8da;
+  border-radius: 4px;
+}
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.cb_container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+.cb_container .checkmark:after {
+  left: 4px;
+  top: 1px;
+  width: 6px;
+  height: 10px;
+  border: solid black;
+  border-width: 0 2px 2px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+.add_content_popup_submit {
+  width: 100%;
+  float: left;
+  position: relative;
+  text-align: right;
+  padding: 15px;
+  padding-bottom: 0;
+}
+
+.add_content_popup_submit button {
+  padding: 5px 15px;
+  background: #e0e1e2;
+  color: #5a5a5a;
+  font-size: 16px;
+  font-weight: 500;
+  border-radius: 4px;
+  border: 0;
+  cursor: pointer;
+}
+
+.close_popup {
+  position: absolute;
+  right: 0;
+  top: 0;
+  border: 0;
+  padding: 5px 15px;
+  background: #f1f1f1;
+  cursor: pointer;
+}
+
+.test1 {
+  border: 0;
+  padding-top: 6px;
+  width: 100px;
+  max-width: 1000px;
+}
+
+.test2 {
+  font-weight: bold;
+  font-size: 11px;
+  overflow: hidden;
+  height: 25px;
+  min-width: 10px;
+  max-width: 150px;
+  border: 0;
+  padding-top: -6px;
+
+  /*transform: rotate(-15deg);*/
+}
+
+.test3 {
+  padding: 3px; /* Controls the height of the cell.  You may need to adjust flexcheckbox padding */
+  border-bottom: solid 1px #ccc; /* Controls the line.  Delete to have a table without a bottom border */
+  color: rgba(
+    0,
+    0,
+    0,
+    0.87
+  ); /* Controls the color of the text inside of the table cells */
+  /* background: white;           /* Controls the background color.  The effect is to change the entire bk color */
+  font-size: 14px; /* If you change the font size, you may  need to adjust the padding of flexcheckbox */
+  /* border-left: solid 1px #ccc; /* Creates horizontal lines */
+  /* border-right: solid 1px #ccc;/* Creates horizontal lines */
+  /*max-width:300px;*/
+  max-height: 70px;
+  padding-left: 10px;
+
+  max-width: 1000px;
+  width: 1500px;
+}
+.test3:last-child {
+  border-bottom: 0;
+}
+.no-text-column:hover .flexicon-hover {
+  opacity: 1;
+}
+/* .test3:hover .flexicon-hover {
+  opacity: 1;
+} */
+/* .flexa:hover .flexicon-hover {
+  opacity: 1;
+}  */
+.test4 {
+  padding: 3px; /* Controls the height of the cell.  You may need to adjust flexcheckbox padding */
+  color: rgba(
+    0,
+    0,
+    0,
+    0.87
+  ); /* Controls the color of the text inside of the table cells */
+  /* background: white;           /* Controls the background color.  The effect is to change the entire bk color */
+  font-size: 14px; /* If you change the font size, you may  need to adjust the padding of flexcheckbox */
+  /* border-left: solid 1px #ccc; /* Creates horizontal lines */
+  /* border-right: solid 1px #ccc;/* Creates horizontal lines */
+  /*max-width:300px;*/
+  max-height: 70px;
+  padding-left: 0px;
+}
+
+/* flextip container */
+.flexrow_span {
+  /*float: right;*/
+  padding-left: 10px;
+}
+
+/* flextip container */
+.flexrow_span_empty {
+  /*float: right;*/
+  padding-left: 8px;
+}
+
+/* flextip container */
+.flexrow_span_notext {
+  /*float: right;*/
+  padding-left: 0px;
+}
+
+.flextipdrag {
+  /*position: absolute;
+  display: inline-block;*/
+  opacity: 0.67;
+  left: 0;
+  float: left;
+  position: relative;
+  display: block;
+}
+
+.flextip {
+  position: absolute;
+  display: inline-block;
+  left: 0;
+  float: left;
+  position: relative;
+  display: block;
+}
+
+/* flextip text */
+.flextip .flextiptext {
+  visibility: hidden;
+  background-color: #d13c13;
+  color: #fff;
+  text-align: center;
+  border-radius: 4px;
+  padding: 2px 5px;
+
+  /* Position the tooltip */
+  position: absolute;
+
+  /* top: -1px; */
+  /*right: 105%; */
+  /*  top: 30px;
+  left: 50%;
+  margin-left: -60px;*/
+  /* left: 30px; */
+  top: 29px;
+  left: 0px;
+  min-width: 50px;
+  z-index: 999;
+  width: -webkit-max-content;
+  width: max-content;
+  max-width: 200px;
+  text-align: left;
+  display: table;
+}
+/* editing flextip css by Noor */
+/* the previous code has been commented out */
+.flextip .flextiptext::after {
+  content: "";
+  width: 0;
+  height: 0;
+  /* border: 5px solid transparent;
+  border-color: transparent black transparent transparent; */
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid #d13c13;
+  position: absolute;
+  /* top: 14px;
+  left: -10px; */
+  top: -5px;
+  left: 10px;
+}
+
+/* Show the flextip text when you mouse over the flextip container */
+.flextip:hover .flextiptext {
+  visibility: visible;
+}
+
+.hideiconheader {
+  visibility: hidden;
+  width: 10px;
+  overflow: show;
+}
+
+.showiconheader {
+  visibility: hidden;
+  width: 10px;
+  overflow: show;
+}
+
+/* Toster UI */
+.toster_area{
+  width: 100%;
+  float: left;
+  position: absolute;
+  padding: 15px 0;
+}
+.success_toster{
+  float: right;
+  padding: 5px;
+  background: #4caf50;
+  border-radius: 4px;
+}
+.error_toster{
+  float: right;
+  padding: 5px;
+  background: #F44336;
+  border-radius: 4px;
+}
+.success_toster p, .error_toster p{
+  font-size: 14px;
+  margin: 0;
+  color: #ffffff;
+}
+/* Toster UI End */
+
+
+/* Loader */
+.loader {
+  color: #0dd6d8;
+  font-size: 90px;
+  text-indent: -9999em;
+  overflow: hidden;
+  width: 1em;
+  height: 1em;
+  border-radius: 50%;
+  margin: 72px auto;
+  position: relative;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-animation: load6 1.7s infinite ease, round 1.7s infinite ease;
+  animation: load6 1.7s infinite ease, round 1.7s infinite ease;
+}
+.loader,
+.loader:after {
+  border-radius: 50%;
+  width: 2em;
+  height: 2em;
+  float: right;
+  right: 0;
+}
+.loader {
+  margin: 6px auto;
+  font-size: 10px;
+  position: relative;
+  text-indent: -9999em;
+  border-top: 1.1em solid rgba(17, 239, 255, 0.185);
+  border-right: 1.1em solid rgba(17, 239, 255, 0.185);
+  border-bottom: 1.1em solid rgba(17, 239, 255, 0.185);
+  border-left: 1.1em solid #0dd6d8;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-animation: load8 1.1s infinite linear;
+  animation: load8 1.1s infinite linear;
+}
+.loader_absolute{
+  position: absolute !important;
+  margin: 3px auto;
+  top: 0;
+  right: -25px;
+}
+.loader_absolute_left{
+  position: absolute !important;
+  left: 0;
+  margin-left: -25px;
+  top: -5px;
+}
+@-webkit-keyframes load8 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@keyframes load8 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+/* Loader end */
+
+/* Block row */
+.block_row{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 9;
+  background-color: rgba(254, 162, 162, 0.5);
+}
+.block_row_gr{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 9;
+  background-color: rgba(162, 254, 174, 0.5);
+}
+
+
+.nodata_table{
+  width: 100%;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.nodata_table h1{
+  font-size: 24px;
+  margin: 0;
+  font-weight: 500;
+  color: #b5b5b5;
+}
+
+.testbyimran{
+  min-width: 50px;
+}
+.table_area{
+  width: 100%;
+  /* float: left; */
+  overflow-x: auto;
+  /* overflow-y: -webkit-paged-y; */
+}

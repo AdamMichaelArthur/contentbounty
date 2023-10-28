@@ -1,0 +1,23 @@
+<div>
+        <div class="card-header d-flex flex-row-sm">
+                <div class="d-flex">
+                  <p class="logo" ></p>
+                <h3><strong>{{label}}</strong></h3>
+                </div>
+        </div> 
+        <div class="card-body" style="overflow-y: auto;">
+          <div style="margin-left: 32px; font-size:1.2rem">
+            <p class="count">Total: {{this.count?this.count:0}} {{label}}</p> 
+          </div>
+          <div style="margin-left: 32px; font-size:1.2rem">
+            <p style="font-size:medium" *ngFor="let item of this.summary;let idx=index">
+                {{idx+1}}. {{item.first_name[0]?item.first_name[0]:""}} {{item.last_name[0]?item.last_name[0]:''}} {{item.last_name[0]?'claimed the step':''}} {{item.name}} for a {{item.content_type}} for {{item.brand_name}}
+            </p>
+            <p style="font-size:small" *ngFor="let item of this.summaryText;">
+              {{item}}
+           </p>
+          </div>
+          <button type="button" class="read_more_btn" (click)="onShowDetails()">Read More</button>
+        </div>
+      </div>
+  

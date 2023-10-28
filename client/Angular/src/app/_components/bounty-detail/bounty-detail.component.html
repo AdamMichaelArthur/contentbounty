@@ -1,0 +1,159 @@
+<!-- <div class="bounty_container" cdkDropListGroup> -->
+
+  <button class="close_popup_modal" (click)="hidePopup()">X</button>
+<div *ngIf="globalVars.isLoading"></div>
+<div [ngClass]="{'hideContent': globalVars.isLoading}">
+  <div style="margin: auto;">
+    <div style="margin: auto;">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="bounty_popup_tab">
+            <<!-- div class="popup_modal_content_area" *ngIf="displayFiles">
+              <app-files [response]="response" (displayPopup)="hidePopup()"></app-files>
+            </div> -->
+            <div class="process_tab_table" *ngIf="!displayFiles">
+              <h2>{{_variableData.keywords[0]}}</h2>
+              <div *ngIf="_variableData.published_link"><h2><a href="{{_variableData.published_link}}">Published Content</a></h2></div>
+              <!-- <h2><a href="" (click)="files($event)">Files</a></h2> -->
+              
+              <h2><a href="" (click)="$event.stopPropagation();$event.preventDefault(); forceCompleteEverything()">Force Complete</a></h2>
+              <h2>Process Detail</h2>
+              <table>
+                <tr>
+                  <th>Action</th>
+                  <th>Process</th>
+                  <th>Description</th>
+                  <th>In House</th>
+                  <th>Check In</th>
+                  <!-- <th>Assignee</th> -->
+                </tr>
+                <tr *ngFor="let proc of all_processes; let i = index">
+                  
+                  
+                  <td *ngIf="proc.green" style="background-color: lightgreen; color:black">
+                    Completed
+                    <br>{{proc.assignee}}
+                 </td>
+
+                 <td *ngIf="proc.orange" style="background-color: orange; color:black">
+                    In Progress
+                    <br>{{proc.assignee}}
+                 </td>
+
+                 <td *ngIf="proc.pink" style="background-color: pink; color:black">
+                    Unclaimed
+                 </td>
+
+                 <td *ngIf="proc.yellow" style="background-color: yellow; color:black">
+                    Waiting for completion...<br>{{proc.assignee}}
+                 </td>
+
+                 <td *ngIf="proc.red" style="background-color: red; color:black">
+                    Not Released Yet
+                 </td>
+
+                 <td *ngIf="proc.clear" style="color:black">
+                    Not Used
+                 </td>
+
+                 <td>
+                    <div class="editorial_proc_check">
+                      <label class="switch">
+                        <input
+                          type="checkbox"
+                          [(ngModel)]="all_processes[i].bChecked"
+                          (change)="changeProcess(i)"
+                          [disabled]="
+                            all_processes[i].assignee == 'unclaimed'
+                              ? false
+                              : true
+                          "
+                        />
+                        <span class="slider round"></span>
+                      </label>
+                      <h3>{{ proc.step }}</h3>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="editorial_proc_textarea">
+                      
+                      <div *ngIf="proc.fullStep">
+                        <p><a href="" (click)="$event.stopPropagation();$event.preventDefault(); forceComplete(proc.fullStep.refDocId)">Force Complete</a><br><a href="" (click)="$event.stopPropagation();$event.preventDefault(); fireContractor(proc.fullStep.refDocId)">Fire Contractor</a></p>
+                      </div>
+                      <!-- <p>{{ proc.step_description }}</p> -->
+                    </div>
+                  </td>
+                  <td>
+                    <div class="add_content_popup_check_bounty">
+                      <label class="cb_container_bounty">
+                        <input
+                          type="checkbox"
+                          [disabled]="all_processes[i].bChecked ? false : true"
+                          [(ngModel)]="all_processes[i].inhouse"
+                          [checked]="all_processes[i].inhouse"
+                          (change)="changeProcess(i)"
+                        />
+                        <span class="checkmark_bounty"></span>
+                        <!-- <h2>{{all_processes[i].bChecked}}</h2> -->
+                      </label>
+                    </div>
+                    <div class="add_content_popup_select_bounty">
+                      <select 
+                      [ngClass]="{'displaynone':all_processes[i].inhouse === false || all_processes[i].bChecked === false}" 
+                      [(ngModel)]="all_processes[i].inhouseUser" 
+                      (change)="changeProcess(i)">
+                        <option *ngFor="let user of inhouseUsers; let i = index" value="{{i}}">
+                          {{user.first_name}} {{ user.last_name.substring(0, 1) | titlecase }}
+                       </option>
+                      </select>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="add_content_popup_check_bounty">
+                      <label class="cb_container_bounty">
+                        <input
+                          type="checkbox"
+                          [disabled]="all_processes[i].bChecked ? false : true"
+                          [(ngModel)]="all_processes[i].checkin"
+                          [checked]="all_processes[i].checkin"
+                          (change)="changeProcess(i)"
+                        />
+                        <span class="checkmark_bounty"></span>
+                      </label>
+                    </div>
+                    <div class="add_content_popup_select_bounty">
+                      <select 
+                      [ngClass]="{'displaynone':all_processes[i].checkin === false || all_processes[i].bChecked === false}" 
+                      [(ngModel)]="all_processes[i].checkinUser"
+                      (change)="changeProcess(i)">
+                        <option *ngFor="let user of inhouseUsers; let i = index" value="{{i}}">
+                          {{user.first_name}} {{ user.last_name.substring(0, 1) | titlecase }}
+                       </option>
+                      </select>
+                    </div>
+                  </td>
+
+                </tr>
+
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<!--   <div class="bounty_details_button">
+    <button (click)="backClicked()">Back</button>
+  </div> -->
+</div>
+
+<!-- <div>Showing received data</div>
+<p><strong>_id: </strong>{{ _id }}</p>
+<p><strong>_dateKey: </strong>{{ _dateKey }}</p>
+<p><strong>_dateValue: </strong>{{ _dateValue }}</p>
+<p><strong>_variableDataString: </strong>{{ _variableDataString }}</p>
+<p>
+  <strong>_variableData.process[0].name: </strong>
+  <span>{{ _variableData.process[0].name }}</span>
+</p>
+<p><strong>date: </strong>{{ date }}</p> -->

@@ -1,0 +1,139 @@
+<!-- old -->
+<div style="margin: auto;">
+  <div style="width: 1100px; margin: auto;">
+    <flexible-table
+      key="brand"
+      columns="brand_name,website_url,new_post_url,new_post_login,new_post_pw,monthly_budget"
+      currencyColumns="monthly_budget"
+      noTextColumns="new_post_url,new_post_login,new_post_pw"
+      tableIcons="new_post_url,new_post_login,new_post_pw"
+      tableIconNames=",,graphic_eq,verified_user,security"
+      maxCharacters="30"
+      displayClone="false"
+      buttons="brand_name,brand_name,brand_name,brand_name,brand_name,brand_name,brand_name"
+      buttonNames="Keywords,Prompts,Titles,Products,Links,Siteinfo,testbutton"
+      (tableButtonClicked)="tableButtonClicked($event)"
+      (sendTableButtons)="updateTableButtons($event)"
+      displayFileUpload="false"
+      widths="0,600,170,60,60,60,100"
+      addDataToSourceDesc="Add Brand"
+      addDataFormStr="{{ addDataFormStr }}"
+      (onHeaderButtonClicked)="flextableHeaderButtonClicked($event)"
+      ><!-- 
+    customColumns=",column1,column2,column3,column4,column5,column6" -->
+    </flexible-table>
+  </div>
+</div>
+
+<div *ngIf="displayTableButtonArea" style="margin: auto;" class="popup_fade">
+  <div class="popup_content_area" *ngIf="tableButtonSubviews[0]">
+    <button class="close_popup" (click)="hidePopup()">X</button>
+    <flexible-table
+      key="keyword"
+      all="account"
+      columns="Keyword,KD,Volume,Category"
+      displayClone="false"
+      addDataToSourceDesc="Add Keyword"
+      addDataFormStr="{{ addKeywordStr }}"
+      widths="0,400,170,300,400"
+      displaySearch="false"
+      filter='{"brand_name":"{{ response.brand_name }}"}'
+    >
+    </flexible-table>
+  </div>
+  <div class="popup_content_area" *ngIf="tableButtonSubviews[1]">
+    <button class="close_popup" (click)="hidePopup()">X</button>
+    <flexible-table
+      key="prompt"
+      all="account"
+      columns="Prompt"
+      displayClone="false"
+      displaySearch="false"
+      widths="0,500"
+      addDataToSourceDesc="Add Prompts"
+      addDataFormStr="{{ addPromptStr }}"
+      filter='{"brand_name":"{{ response.brand_name }}"}'
+    >
+    </flexible-table>
+  </div>
+  <div class="popup_content_area" *ngIf="tableButtonSubviews[2]">
+    <button class="close_popup" (click)="hidePopup()">X</button>
+    <flexible-table
+      key="title"
+      all="account"
+      displaySearch="false"
+      columns="Title"
+      widths="0,500"
+      displayClone="false"
+      addDataToSourceDesc="Add Title"
+      addDataFormStr="{{ addTitleStr }}"
+      filter='{"brand_name":"{{ response.brand_name }}"}'
+    >
+    </flexible-table>
+  </div>
+  <div class="popup_content_area" *ngIf="tableButtonSubviews[3]">
+    <button class="close_popup" (click)="hidePopup()">X</button>
+    <flexible-table
+      key="product"
+      all="account"
+      displaySearch="false"
+      columns="Product"
+      displayClone="false"
+      widths="0,500"
+      addDataToSourceDesc="Add Product"
+      addDataFormStr="{{ addProductStr }}"
+      filter='{"brand_name":"{{ response.brand_name }}"}'
+    >
+    </flexible-table>
+  </div>
+  <div class="popup_content_area" *ngIf="tableButtonSubviews[4]">
+    <button class="close_popup" (click)="hidePopup()">X</button>
+    <flexible-table
+      key="link"
+      all="account"
+      displaySearch="false"
+      columns="Link"
+      displayClone="false"
+      widths="0,500"
+      addDataToSourceDesc="Add Link"
+      addDataFormStr="{{ addLinkStr }}"
+      filter='{"brand_name":"{{ response.brand_name }}"}'
+    >
+    </flexible-table>
+  </div>
+  <div class="popup_content_area" *ngIf="tableButtonSubviews[5]">
+    <button class="close_popup" (click)="hidePopup()">X</button>
+    <div class="popup_fade" [style.display]="openEditDataSource ? 'none' : ''">
+      <div *ngIf="editDataFormInitialized" class="add_content_popup" id="editdatasource" style="position:absolute; left: 100px;">
+        <button class="close_popup" (click)="closeDataSource()">X</button>
+        <form [formGroup]="datasourceFormDynamic" (ngSubmit)="onSubmitDatasourceFormDynamic(datasourceFormDynamic)">
+          <div class="row">
+            <div class="col-md-12 margin_top" *ngFor="let itemdata of addDataForm_value">
+              <input [type]="itemdata.formType.controlType" class="form-control" [placeholder]="itemdata.field_label"
+                [formControlName]="itemdata.field_name" autocorrect="off" />
+                <div *ngIf="datasourceFormDynamic.controls[itemdata.field_name].invalid && (datasourceFormDynamic.controls[itemdata.field_name].dirty || datasourceFormDynamic.controls[itemdata.field_name].touched || submitted)">
+                
+                  <div class="text-danger" *ngIf="datasourceFormDynamic.controls[itemdata.field_name].errors.required">
+                    <small>{{itemdata.field_label}} is required.</small>
+                  </div>
+    
+                  <div class="text-danger" *ngIf="datasourceFormDynamic.controls[itemdata.field_name].errors.pattern">
+                    <small>{{itemdata.field_label}} is invalid.</small>
+                  </div>
+                
+                </div>
+            </div>
+            
+            <div class="add_content_popup_submit">
+              <button>Add</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!-- <div class="popup_content_area" *ngIf="tableButtonSubviews[6]">
+    <button class="close_popup" (click)="hidePopup()">X</button>
+    {{response.test}}
+  </div> -->
+</div>

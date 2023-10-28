@@ -1,0 +1,342 @@
+
+<div cdkDropListGroup>
+  <div class="table_container" style="user-select: none;">
+    <flexible-table #step 
+      cdkDrop 
+      key="process" all="all"
+      headerButtons={{headerButtons}}
+      displayPageLength=false
+      (onHeaderButtonClicked)="flextableHeaderButtonClicked($event)"
+      (sendHeaderButtons)="updateHeaderButtons($event)" 
+      columns="content_type,process_description,media_type"
+      widths="0,250,200,60,100,100,100,100" 
+      dragdrop="skills,files" 
+      displaySearch=false displayAddDataToSource=false
+      noTextColumns="step_description"
+      menuColumns="step_description" tableIcons="step_description" 
+      tableIconNames="local_phone,local_phone,format_paint,local_phone,local_phone" 
+      displayFileUpload=false 
+      filters="{{ filtersStr }}"
+      (receivedDropItem)="dropItemReceived($event)"
+      viewSelectColumns="skills,files"
+      (onDragEnd)="onDragEnd($event)" 
+      (onDragEnter)="onDragEnter($event)" 
+      (onDragLeave)="onDragLeave($event)" 
+      (onDragOver)="onDragOver($event)" 
+      (onDropEvent)="onDropEvent($event)"
+      buttons="content_type" 
+      buttonNames="Edit"
+      (tableButtonClicked)="tableButtonClicked($event)"
+      [textCutoff]="textCutoff"
+      >
+    </flexible-table>
+
+    <app-bounty-createv2
+*ngIf="bounty_createv2"
+displayTableButtonArea="{{displayTableButtonArea}}"
+content_type="{{content_type}}"
+currentBounty={{currentBounty}}
+(hideTableButtonArea)="disapparePopup()"
+(passBountyTemplate)="addGuide($event)"
+></app-bounty-createv2>
+
+
+    <div id="id-Action1" style="position:absolute; width:600px; height:400px;z-index:9"
+      [style.display]="displayButtonArea ? 'none' : ''" class="popup_background_fade">
+      <div *ngIf="buttonSubviews[0]" class="add_step_container">
+        <h3>Add Step</h3>
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="add_step">
+              <div class="title_desp">
+                <label for=""><img src="../../../assets/img/add_brand_i.png" /> Step name</label>
+              </div>
+              <div class="col-md-12">
+                <input type="text" placeholder="Name of step" class="description" [(ngModel)]="add_description"
+                  (click)="onBlurMethod('step_description')" (keyup)="onBlurMethodpress('step_description')">
+                <p class="text-danger" *ngIf="error_des">
+                  Step name is required, please add name of step.
+                </p>
+              </div>
+
+              <div class="col-md-12">
+                <h6>Step Requirments</h6>
+                <div class="add_conten_check">
+                  <label class="cb_container" *ngFor="let step_level of step_level;let i=index">
+                    <input type="checkbox" name="step_level" [value]="step_level"
+                      (change)="onCheckboxChange($event)" (click)="onBlurMethod('step_level')" />
+                    <span class="checkmark"></span> {{step_level}}
+                  </label>
+                  <p class="text-danger" *ngIf="error">
+                    Checkbox is required, select atleast one value.
+                  </p>
+                </div>
+              </div>
+              <div class="col-md-12" style="z-index: 99;">
+                <div class="row">
+                  <div class="col-md-12">
+                    <h6>Stage</h6>
+                    <app-flex-dropdown style="width: 100%; float: left;" key='stage' distinct='stage'
+                      (change)="onContentTypeSelected_Stage($event.target.value)"></app-flex-dropdown>
+                    <p class="text-danger" *ngIf="stageError">
+                      Stage is required.
+                    </p>
+                  </div>
+                  <div class="col-md-12">
+                    <h6>Content type</h6>
+                    <app-flex-dropdown style="width: 100%; float: left;" key='content_types' distinct='content_type'
+                      (change)="onContentTypeSelected($event.target.value)"></app-flex-dropdown>
+                    <p class="text-danger" *ngIf="contentError">
+                      Content type is required.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <h6>Step description</h6>
+
+                <textarea class="exampleFormControlTextarea1" rows="3"
+                  placeholder="step description how to complete step" [(ngModel)]="add_step_text_area"
+                  (click)="onBlurMethod('add_step_text_area')"
+                  (keyup)="onBlurMethodpress('add_step_text_area')"></textarea>
+                <p class="text-danger" *ngIf="error_add_step_text_area">
+                  Step descrption is required, please add step descrption.
+                </p>
+              </div>
+              <div class="col-md-12">
+                <button type="submit" class="btn btn-secondary btn-sm pull-right" (click)="add_step()"> Add
+                </button>
+                <button type="button" class="btn btn-secondary btn-sm pull-left"
+                  (click)="add_asset()">Assets</button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="buttonSubviews[1]" class="add_task_container">
+        <h3>Add Task</h3>
+        <div class="add_task">
+          <div class="title_desp">
+            <label for=""><img src="../../../assets/img/add_brand_i.png" /> Task Name</label>
+          </div>
+          <div class="col-md-12">
+            <input type="text" placeholder="Task name" class="description" [(ngModel)]="task_des"
+              (click)="onBlurMethod('task_des')" (keyup)="onBlurMethod('task_des')">
+            <p class="text-danger" *ngIf="task_des_error">
+              Name is required.
+            </p>
+
+          </div>
+          <div class="col-md-12">
+            <h6>Task Requirments</h6>
+            <div class="add_conten_check">
+              <label class="cb_container">
+                <input type="checkbox" checked="checked" name="require_login" [(ngModel)]="require_login"
+                  (click)="onBlurMethod('require_login')" />
+                <span class="checkmark"></span> Require login
+              </label>
+            </div>
+            <div class="cb_container_input">
+              <div class="row">
+                <div class="col-md-4">
+                  <input type="text" placeholder="Login User Email" class="input" [(ngModel)]="user_email"
+                    autocomplete="off" (click)="onBlurMethod('user_email')">
+                </div>
+                <div class="col-md-4">
+                  <input type="password" placeholder="Login Password" class="input" [(ngModel)]="user_password"
+                    autocomplete="off" (click)="onBlurMethod('user_password')">
+                </div>
+                <div class="col-md-4">
+                  <input type="text" placeholder="Login Url" class="input" [(ngModel)]="user_url" autocomplete="off"
+                    (click)="onBlurMethod('user_url')">
+                  <p class="text-danger" *ngIf="user_url_error">
+                    Login url is required, please add URL.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <textarea class="exampleFormControlTextarea1" rows="3" placeholder="Description how to complete task"
+              [(ngModel)]="task_deatils_descrption" (click)="onBlurMethod('task_deatils_descrption')"
+              (keyup)="onBlurMethodpress('task_deatils_descrption')"></textarea>
+            <p class="text-danger" *ngIf="task_deatils_descrption_error">
+              Description is required.
+            </p>
+          </div>
+          <div class="col-md-12">
+            <button type="button" class="btn btn-secondary btn-sm pull-right" (click)="add_task()">Add</button>
+            <button type="button" class="btn btn-secondary btn-sm pull-left"> Assets </button>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="buttonSubviews[2]" class="add_task_container">
+        <h3>Add Skill</h3>
+        <div class="add_skill">
+          <div class="title_desp">
+            <label for=""><img src="../../../assets/img/add_brand_i.png" />Skill name</label>
+          </div>
+          <div class="col-md-11">
+            <input type="text" name="description" placeholder="Skill Name" class="description"
+              [(ngModel)]="skill_des" (click)="onBlurMethod('skill_des')" (keyup)="onBlurMethodpress('skill_des')">
+
+            <p class="text-danger" *ngIf="skill_des_error">
+              Name is required.
+            </p>
+          </div>
+          <div class="col-md-10">
+            <h6>Skill Description</h6>
+          </div>
+          <div class="col-md-11">
+            <textarea class="exampleFormControlTextarea1" rows="3" placeholder="This is a description of the skill"
+              [(ngModel)]="skill_details_descrption" (click)="onBlurMethod('skill_details_descrption')"
+              (keyup)="onBlurMethodpress('skill_details_descrption')"></textarea>
+
+            <p class="text-danger" *ngIf="skill_deatils_descrption_error">
+              Deatils Descrption is required.
+            </p>
+          </div>
+
+          <div class="col-md-10">
+            <h6>Skill Keywords</h6>
+          </div>
+          <div class="col-md-11">
+            <input #skill (keyup.enter)="addSkill(skill.value); skill.value=''"
+              (blur)="addSkill(skill.value); skill.value='' " class="description"
+              (click)="onBlurMethod('skill_lists')" (keyup)="onBlurMethodpress('skill_lists')">
+            <p class="text-danger" *ngIf="skill_lists_error">
+              skill keyword is required.
+            </p>
+            <ul>
+              <li *ngFor="let skill_lists of skill_lists">
+                {{skill_lists}}
+              </li>
+            </ul>
+          </div>
+
+          <div class="col-md-11">
+            <button type="button" class="btn btn-secondary btn-sm pull-right" (click)="add_skill()">Add</button>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="buttonSubviews[3]" class="add_task_container">
+        <h3>Add Stage</h3>
+
+        <div class="add_skill">
+          <div class="title_desp">
+            <label for=""><img src="../../../assets/img/add_brand_i.png" /> Stage name</label>
+          </div>
+          <div class="col-md-11">
+            <input type="text" name="stage_name" placeholder="Stage" class="description" [(ngModel)]="stage_name"
+              (click)="onStage()" (keyup)="onBlurMethodpress('stage_name')">
+
+            <p class="text-danger" *ngIf="stage_name_error">
+              Name is required.
+            </p>
+          </div>
+          <div class="col-md-11">
+            <button type="button" class="btn btn-secondary btn-sm pull-right" (click)="add_stage()">Add</button>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="buttonSubviews[4]" class="add_task_container">
+        <h3>Add Content Type</h3>
+
+        <div class="add_skill">
+          <div class="title_desp">
+            <label for=""><img src="../../../assets/img/add_brand_i.png" /> Stage name</label>
+          </div>
+          <div class="col-md-11">
+            <input type="text" name="content_name" placeholder="Stage" class="description"
+              [(ngModel)]="content_name" (click)="onContent()" (keyup)="onBlurMethodpress('content_name')">
+
+            <p class="text-danger" *ngIf="content_name_error">
+              Name is required.
+            </p>
+          </div>
+          <div class="col-md-11">
+            <button type="button" class="btn btn-secondary btn-sm pull-right" (click)="add_conten()">Add</button>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="buttonSubviews[5]" class="add_task_container">
+        <h3>Add Files</h3>
+        <div class="add_skill">
+          <div class="title_desp">
+            <label for=""><img src="../../../assets/img/add_brand_i.png" /> File Name</label>
+          </div>
+          <div class="col-md-11">
+            <input type="text" name="file_name" placeholder="File Name" class="description" [(ngModel)]="file_name"
+              (click)="onContent()" (keyup)="onBlurMethodpress('file_name')">
+
+            <p class="text-danger" *ngIf="file_name_error">
+              Name Name is required.
+            </p>
+          </div>
+          <div class="col-md-11">
+            <button type="button" class="btn btn-secondary btn-sm pull-right" (click)="add_files()">Add</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <!--new flext able-->
+  <div class="table_container" style="user-select: none;">
+    <div class="tab_switch">
+      <ul>
+        <li [class.active_tab]="viewMode == 'skills'" rel="skills" (click)="viewMode ='skills'">Skills</li>
+        <li [class.active_tab]="viewMode == 'tasks'" rel="tasks" (click)="viewMode ='tasks'">Tasks</li>
+        <li [class.active_tab]="viewMode == 'stages'" rel="stages" (click)="viewMode ='stages'">Stages</li>
+        <li [class.active_tab]="viewMode == 'content_types'" rel="content_types" (click)="viewMode ='content_types'">Content Types</li>
+        <li [class.active_tab]="viewMode == 'files'" rel="files" (click)="viewMode ='files'">Files</li>
+      </ul>
+    </div>
+
+    <div class="tab_switch_container" [ngSwitch]="viewMode">
+      <div id="keyword" class="tab_switch_body" *ngSwitchCase="'skills'">
+        <flexible-table cdkDrop key="skills" all="all" displayHeaders=false displayHeader=false
+          displayAddDataToSource=false addDataToSourceDesc='Add Skill' displayFileUpload=false columns="skills"
+          (onDragStart)="onDragStart($event, 'skills')" 
+          displayPageLength=false displaySearch=false widths="0,250,450,250" dragdrop="skills">
+        </flexible-table>
+      </div>
+      <div id="title" class="tab_switch_body" *ngSwitchCase="'tasks'">
+        <flexible-table cdkDrop key="tasks" displayHeaders=false displayHeader=false displayAddDataToSource=false
+          all="all" addDataToSourceDesc='Add Task' displayFileUpload=false columns="description"
+          (onDragStart)="onDragStart($event, 'tasks')" 
+          displayPageLength=false displaySearch=false widths="0,250,450,250" dragdrop="description">
+        </flexible-table>
+      </div>
+      <div id="stages" class="tab_switch_body" *ngSwitchCase="'stages'">
+        <flexible-table cdkDrop key="stages" displayHeaders=false displayHeader=false displayAddDataToSource=false
+          all="all" addDataToSourceDesc='Add Stage' displayFileUpload=false columns="stage"
+          displayPageLength=false displaySearch=false widths="0,250,450,250" dragdrop="stage"
+          (onDragStart)="onDragStart($event, 'stages')" 
+          >
+        </flexible-table>
+      </div>
+      <div id="content_types" class="tab_switch_body" *ngSwitchCase="'content_types'">
+        <flexible-table cdkDrop key="content_types" displayHeaders=false displayHeader=false displayAddDataToSource=false
+          all="all" addDataToSourceDesc='Add Content Type' displayFileUpload=false columns="content_type"
+          (onDragStart)="onDragStart($event, 'content_types')" 
+          displayPageLength=false displaySearch=false widths="0,250,450,250" dragdrop="content_type">
+        </flexible-table>
+      </div>
+      <div id="files" class="tab_switch_body" *ngSwitchCase="'files'">
+          <flexible-table cdkDrop key="file_types" 
+          all="all" 
+          addDataToSourceDesc='Add File Type' 
+          displayFileUpload=false 
+          columns="file_name"
+          (onDragStart)="onDragStart($event, 'files')" 
+          displayPageLength=false displaySearch=false widths="0,250,450,250" dragdrop="file_name">
+        </flexible-table>
+      </div>
+
+    </div>
+  </div>
+  <!--end -->
+</div>

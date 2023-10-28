@@ -1,0 +1,53 @@
+// The idea here is that anytime you want to have something execute on a schedule, all you do
+// is add this into the database.  Behind the scenes magic will monitor and execute this as needed
+
+"payload": {
+	"_id":"12345",
+	"datetime":"3-20-20:00:00:00",								// The date and time the payload will be executed
+	"payload_url":"www.contentbounty.com/v1.0/api/payload/",	// The URL of the payload to be executed
+	"payload_headers":"ABCDEFG",								// Base64 encoded headers		
+	"payload_verb":"POST",										// the http verb of the payload
+	"payload_body":"ABCDEFG",									// the base64 encoded payload body
+	"payload_status":"waiting",									// Status flag of the payload
+	"payload_responses":["12345"],								// History of server responses
+}
+
+// I use mongodb watch to get change notification
+// any time a "payload" gets added into the database,
+// we move a reference to that payload into a "scheduled_tasks"
+// scheduled tasks.  Scheduled tasks is very simple:
+
+scheduled_tasks: {
+	"payload_id":"12345",
+	"collection":"collection",
+	"trigger_date":"3-30-2020:00:00:00T",
+	"triggered":false
+}
+
+// We have a seperate node.js process -- or any other program (Go?) whose sole function
+// is to loop and scan for scheduled_tasks that haven't triggered.  Something like
+
+/*
+	var elapsedTimeInMilliseconds = 0
+	while(1){
+		startTime = now()	
+		checkForScheduledTasks(startTime - elapsedTimeInMilliseconds, startTime()){
+			setTriggeredTrue()
+			executeTasksAsync()
+			elapstedTimeInMilliseconds = now() - 
+		}
+	}
+
+	The purpose of this pseudocode is to create a continuous running loop that continuously scans
+	the database for any documents that have a trigger time between now() and now() and the last time
+	that the loop cycled.  The purpose of doing it this way is to try and make it scalable and platform
+	independent.
+*/
+
+
+
+
+
+
+
+

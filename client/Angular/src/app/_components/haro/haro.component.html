@@ -1,0 +1,41 @@
+<div class="page_container">
+    <div class="bounty_container" cdkDropListGroup>
+        <div style="margin:auto;">
+            <div style="width:1100px; margin:auto;">
+                <flexible-table
+                key="haro"
+                all="all"
+                columns="Media Outlet,Category,Summary,Name,Deadline,Query,Email"
+                buttons="Media Outlet"
+                buttonNames="Email"
+                filter="{{filterStr}}"
+                displayFileUpload="false"
+                displayAddDataToSource="false"
+                viewSelectColumns="keyword"
+                tableIcons="description" 
+                tableIconNames="local_phone,local_phone,format_paint,local_phone,local_phone,local_phone"
+                [textCutoff]="textCutoff"
+                currencyColumns="bounty"
+                noDisplayColumns="refDocId"
+                displayClone=false
+                (tableButtonClicked)="tableButtonClicked($event)"
+                (receivedTableData)="receivedTableData($event)"
+                (sendTableButtons)="updateTableButtons($event)"
+                widths="0,230,190,220,170,350,180,350,350"
+                [textCutoff]="textCutoff"
+                >
+              </flexible-table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="displayTableButtonArea" style="margin: auto;" class="popup_modal_fade">
+
+
+  <div *ngIf="tableButtonSubviews[0]">
+    <button class="close_popup_modal" (click)="hidePopup()">X</button>
+    <app-email-send [sendEmailsData]="sendEmailsData"></app-email-send>
+  </div>
+
+  </div>

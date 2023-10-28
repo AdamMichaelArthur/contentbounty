@@ -1,0 +1,20 @@
+<ng-container *ngTemplateOutlet="buttom_Config['text'] ? text : image">
+</ng-container>
+
+<ng-template #image style="width: 200px;">
+  <img alt="image button"
+       [src]="buttom_Config.src"
+       [ngStyle]="buttom_Config.styles"
+       (click)="onImgBtnClick()">
+       <div class="loader" *ngIf="isLoading">Loading...</div>
+</ng-template>
+
+<ng-template #text>
+    <input style="float:left;" class="btn-blue"
+    (click)="clicked($event)"
+    [disabled]="globalVars.disableLoadingButton"
+    value="{{buttom_Config.text}}" 
+    [ngClass]="globalVars.isLoadingButton ? 'disable' : ''"
+    />
+    <div class="loader" style="float:right" *ngIf="globalVars.isLoadingButton">Loading...</div>   
+</ng-template>

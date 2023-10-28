@@ -1,0 +1,172 @@
+
+
+<div class="sidebar_area " [ngClass]="isShowSidenav?'expandNav':'collapseNav'">
+    <div class="logo">
+        <a href="#">
+            <img src="/assets/img/logo-white.png" width="180" *ngIf="isShowSidenav"/>
+            <img src="/assets/img/logo-white-icon-96.png" *ngIf="!isShowSidenav"/>
+        </a>
+        <div class="collapseButton">
+            <i class="fas"
+            [class.fa-chevron-left]="isShowSidenav"
+            [class.fa-chevron-right]="!isShowSidenav"
+            (click)="onClickCollaps()">
+            </i>
+        </div>
+    </div>
+    <div class="menu_bottom">
+        <ul>
+            <li>
+                <div appClickOutside (clickOutside)="onClickedOutsideDV($event)">
+                    <a (click)="onClickUserShow()">
+                        <span *ngIf="isShowSidenav">
+                            <img *ngIf="!settingAvailable" class="rounded-circle" src="../../../../assets/img/faces/blank_profile.png" width="70" height="70">                        
+                            <img *ngIf="settingAvailable" class="rounded-circle" src="{{initialImg}}" width="70" height="70"> 
+                        </span>
+                        <span *ngIf="!isShowSidenav" style="padding-left: 0px">
+                            <img *ngIf="!settingAvailable" class="rounded-circle" src="../../../../assets/img/faces/blank_profile.png" width="50" height="50">                        
+                            <img *ngIf="settingAvailable" class="rounded-circle" src="{{initialImg}}" width="50" height="50"> 
+                        </span>
+                        <i *ngIf="!isShowSidenav" class="material-icons">more_horiz</i>
+                        <span *ngIf="isShowSidenav && userAccount"> 
+                            <h3>{{userAccount.first_name}} <i class="fas fa-angle-down"></i></h3>
+                            <p>{{userAccount.accountType}}</p>
+                        </span>
+                        <span *ngIf="isShowSidenav && !userAccount"> 
+                            <h3>User<i class="fas fa-angle-down"></i></h3>
+                            <p>account type</p>
+                        </span>
+                    </a>
+                    <div class="profile_dropdown showDiv" *ngIf="click_coutside_dv">
+                        <ul>
+                            <li *ngFor="let accountMenuItem of subMenuItems">
+                                <a routerLink="/{{accountMenuItem.path}}" >
+                                    <i class="material-icons">{{accountMenuItem.icon}}</i>
+                                    <span *ngIf="isShowSidenav">{{accountMenuItem.title}}</span> 
+                                    <span class="tooltip tooltip_top_margin" *ngIf="!isShowSidenav">{{accountMenuItem.title}}</span>
+                                </a>
+                            </li>
+                            <!-- <li>
+                                <a href="{{gmail_url}}" target="_blank">
+                                    <i class="fas fa-question-circle"></i> 
+                                    <span *ngIf="isShowSidenav">Link to Gmail</span>
+                                    <span class="tooltip tooltip_top_margin" *ngIf="!isShowSidenav">Link to Gmail</span>
+                                </a>
+                            </li> -->
+                            <li>
+                                <a href="{{box_url}}" target="_blank">
+                                    <i class="fas fa-question-circle"></i> 
+                                    <span *ngIf="isShowSidenav">Link to Box</span>
+                                    <span class="tooltip tooltip_top_margin" *ngIf="!isShowSidenav">Link to Box</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a (click)="userLogout()"><i class="fas fa-sign-out-alt"></i>
+                                <span *ngIf="isShowSidenav">Sign Out</span> 
+                                <span class="tooltip tooltip_top_margin" *ngIf="!isShowSidenav">Sign Out</span></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="menu_top">
+        <ul>
+            <li *ngFor="let menuItem of menuItems">
+                <a routerLink="/{{menuItem.path}}" [routerLinkActive]="'is-active'" [routerLinkActiveOptions]="{ exact: false }" *ngIf="!menuItem.submenu">
+                    <i class="material-icons">{{menuItem.icon}}</i>
+                    <span *ngIf="isShowSidenav">{{menuItem.title}}</span>
+                    <span class="tooltip" *ngIf="!isShowSidenav">{{menuItem.title}}</span>
+                </a>
+                <a (click)="showSubMenu(menuItem)" *ngIf="menuItem.submenu">
+                    <i class="material-icons">{{menuItem.icon}}</i>
+                    <span *ngIf="isShowSidenav">{{menuItem.title}}</span>
+                    <span class="tooltip" *ngIf="!isShowSidenav">{{menuItem.title}}</span>
+                </a>
+                <small class="small2" *ngIf="menuItem.path==='call-List'">
+                    <i class="fas fa-bell"></i>
+                    <!-- <span>{{length}}</span> -->
+                    <span>{{callListItem.list?.length}}</span>
+                </small>
+                <small class="small1" *ngIf="menuItem.submenu?.length > 0">{{menuItem.submenu?.length}}</small>
+                <ul  [ngClass]="nav_show_hide? 'show_dropdown':'hide_dropdown'">
+                    <li *ngFor="let sbmenu of menuItem.submenu">
+                        <a routerLink="/{{sbmenu.path}}" [routerLinkActive]="'is-active'" [routerLinkActiveOptions]="{ exact: false }">
+                            <i class="material-icons">{{sbmenu.icon}}</i>
+                            <span *ngIf="isShowSidenav">{{sbmenu.title}}</span>
+                            <span class="tooltip" *ngIf="!isShowSidenav">{{sbmenu.title}}</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <!-- <li>
+                <a routerLink="test" [routerLinkActive]="'is-active'">
+                    <i class="material-icons">testicon</i>
+                    <span>title</span>
+                    <span class="tooltip">title</span>
+                </a>
+            </li> -->
+        </ul>
+    </div>
+</div>
+
+<!-- 
+<div class="sidebar_area mobile_view collapseNav">
+    <div class="logo">
+        
+    </div>
+    <div class="menu_bottom">
+        <ul>
+            <li>
+                <div (clickOutside)="onClickedOutsideMDV($event)">
+                <a (click)="onClickUserShow()">
+                    <span style="padding-left: 0px">
+                        <img *ngIf="!settingAvailable" class="rounded-circle" src="../../../../assets/img/faces/blank_profile.png" width="30" height="30">                        
+                        <img *ngIf="settingAvailable" class="rounded-circle" src="{{initialImg}}" width="30" height="30"> 
+                    </span>
+                </a>
+                <div class="profile_dropdown showDiv" *ngIf="click_coutside_mdv">
+                    <ul>
+                        <li *ngFor="let accountMenuItem of subMenuItems">
+                            <a routerLink="/{{accountMenuItem.path}}" >
+                                <i class="material-icons">{{accountMenuItem.icon}}</i>
+                            </a>
+                        </li>
+                        <li>
+                            <a (click)="userLogout()"><i class="fas fa-sign-out-alt"></i></a>
+                        </li>
+                    </ul>
+                </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="menu_top">
+        <ul>
+            <li *ngFor="let menuItem of menuItems">
+                <a routerLink="/{{menuItem.path}}" [routerLinkActive]="'is-active'" [routerLinkActiveOptions]="{ exact: false }" *ngIf="!menuItem.submenu">
+                    <i class="material-icons">{{menuItem.icon}}</i>
+                    <span class="tooltip">{{menuItem.title}}</span>
+                </a>
+                <a (click)="showSubMenu(menuItem)" *ngIf="menuItem.submenu">
+                    <i class="material-icons">{{menuItem.icon}}</i>
+                    <span class="tooltip">{{menuItem.title}}</span>
+                </a>
+                <small class="small2" *ngIf="menuItem.path==='call-List'">
+                    <i class="fas fa-bell"></i>
+                    <span>{{callListItem.list?.length}}</span>
+                </small>
+                <small class="small1" *ngIf="menuItem.submenu?.length > 0">{{menuItem.submenu?.length}}</small>
+                <ul  [ngClass]="nav_show_hide? 'show_dropdown':'hide_dropdown'">
+                    <li *ngFor="let sbmenu of menuItem.submenu">
+                        <a routerLink="/{{sbmenu.path}}" [routerLinkActive]="'is-active'" [routerLinkActiveOptions]="{ exact: false }">
+                            <i class="material-icons">{{sbmenu.icon}}</i>
+                            <span class="tooltip">{{sbmenu.title}}</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div> -->

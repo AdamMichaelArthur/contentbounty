@@ -1,0 +1,19 @@
+[
+		{
+			"path" : "settings",
+			"icon" : "settings_applications",
+			"title" : "Settings"
+		}
+]
+
+
+db.accountnavs.update({created_by:ObjectId("5e998701c68e1a4577f13d37")}, {$set: { "navigation": 
+[
+{
+"path" : "settings",
+"icon" : "settings_applications",
+"title" : "Settings"
+}
+] 
+}
+})

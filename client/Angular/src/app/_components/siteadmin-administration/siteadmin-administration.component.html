@@ -1,0 +1,44 @@
+<div class="table_container">
+  <flexible-table
+    key="user"
+    headerButtons="Add User"
+    (onHeaderButtonClicked)="flextableHeaderButtonClicked($event)"
+    (sendHeaderButtons)="($event)"
+    displayClone="false"
+    displayAddDataToSource="false"
+    displayFileUpload="false"
+    viewSelectColumns="skill"
+    columns="email,first_name,last_name,role,skill"
+    widths="0,250,150,150,220,75"
+    all="all"
+    dragdrop="skill" 
+    (receivedDropItem)="dropItemReceived($event)" 
+    (onDragEnd)="onDragEnd($event)" 
+    (onDragEnter)="onDragEnter($event)" 
+    (onDragLeave)="onDragLeave($event)" 
+    (onDragOver)="onDragOver($event)" 
+    (onDropEvent)="onDropEvent($event)"
+    buttons="role"
+    buttonNames="Change Role"
+    (tableButtonClicked)="tableButtonClicked($event)"
+    (sendTableButtons)="updateTableButtons($event)"
+    [textCutoff]="textCutoff">
+  </flexible-table>
+</div>
+
+<div class="table_container">
+  <flexible-table 
+    cdkDrop key="skills" 
+    all="all"
+    headerButtons="Add Skill"
+    displayAddDataToSource=false 
+    addDataToSourceDesc='Add Skill' 
+    displayFileUpload=false 
+    columns="skills"
+    (onDragStart)="onDragStart($event, 'skill')" 
+    displayPageLength=false 
+    displaySearch=false 
+    widths="0,250,450,250" 
+    dragdrop="skills">
+  </flexible-table>
+</div>

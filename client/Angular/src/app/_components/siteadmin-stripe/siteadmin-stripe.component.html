@@ -1,0 +1,277 @@
+<div class="container">
+  <div class="tab_area">
+    <div class="tab_nav">
+      <ul>
+        <li [class.active]="viewMode == 'plan'" 
+          rel="plan" 
+          (click)="viewMode ='plan'">Plans</li>
+        <li [class.active]="viewMode == 'product'" 
+          rel="product" 
+          (click)="viewMode ='product'">Products</li>
+      </ul>
+    </div>
+    <div class="tab_container" [ngSwitch]="viewMode">
+      <div id="plan" class="tab_body" *ngSwitchCase="'plan'">
+        <button class="add_button" (click)="addPleanePopup()"><i class="fas fa-plus"></i> Add Plan</button>
+        <div class="table_area">
+          <table>
+              <img class="loader_img" src="../../../assets/img/data-loader.gif" alt="" *ngIf="isLoading">
+              <tr>
+                <th>Name</th>
+                <th>Amount</th>
+                <th>Currency</th>
+                <th>Interval</th>
+                <th style="text-align: center">Metadata</th>
+                <th>Controller</th>
+              </tr>
+              <h2 *ngIf="isEmptyPlan">Plan table empty!</h2>
+              <tr *ngFor="let plan of plan_list">
+                <td>{{plan.name}}</td>
+                <td>{{plan.amount}}</td>
+                <td>{{plan.currency}}</td>
+                <td>{{plan.interval}}</td>
+                <td>
+                  <!--{{plan.metadata}}-->
+                  <table class="sub_table">
+                    <tr>
+                      <th>Users</th>
+                      <th>Emails</th>
+                      <th>Bounties</th>
+                    </tr>
+                    <tr>
+                      <td>{{plan.metadata.users}}</td>
+                      <td>{{plan.metadata.emails}}</td>
+                      <td>{{plan.metadata.bounties}}</td>
+                    </tr>
+                  </table>
+                </td>
+                <td>
+                  <button class="edit_button" (click)="updatePlan(plan)"><i class="fas fa-pencil-alt"></i></button>
+                  <button class="delete_button" (click)="deletePlan(plan)"><i class="far fa-trash-alt"></i></button>
+                </td>
+              </tr>
+          </table>
+        </div>
+
+      </div>
+      <div id="product" class="tab_body" *ngSwitchCase="'product'">
+        <button class="add_button" (click)="addProductPopup()"><i class="fas fa-plus"></i> Add Product</button>
+        <div class="table_area">
+          <table>
+              <img class="loader_img" src="../../../assets/img/data-loader.gif" alt="" *ngIf="isLoading">
+              <tr>
+                <th>Name</th>
+                <th>Images</th>
+                <th>Object</th>
+                <th>Active</th>
+                <th>Caption</th>
+                <th>Created</th>
+                <th>Description</th>
+                <th>Package Dimensions</th>
+                <th>Shippable</th>
+                <th>Statement Descriptor</th>
+                <th>Type</th>
+                <th>Unit Label</th>
+                <th>Updated</th>
+                <th>Url</th>
+                <th>Controller</th>
+              </tr>
+              <h2 *ngIf="isEmptyProduct">Product table empty!</h2>
+              <tr *ngFor="let product of product_list">
+                <td>{{product.name}}</td>
+                <td> <img src="{{product.images}}" alt="" width="60" height="60"> </td>
+                <td>{{product.object}}</td>
+                <td>{{product.active}}</td>
+                <td>{{product.caption}}</td>
+                <td>{{product.created}}</td>
+                <td>{{product.description}}</td>
+                <td>{{product.package_dimensions}}</td>
+                <td>{{product.shippable}}</td>
+                <td>{{product.statement_descriptor}}</td>
+                <td>{{product.type}}</td>
+                <td>{{product.unit_label}}</td>
+                <td>{{product.updated}}</td>
+                <td>{{product.url}}</td>
+                <td>
+                  <button class="edit_button"><i class="fas fa-pencil-alt"></i></button>
+                  <button class="delete_button" (click)="deleteProduct(product)"><i class="far fa-trash-alt"></i></button>
+                </td>
+              </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Plan Popup -->
+  <div class="popup_modal_fade" [ngClass]="addPlanPopup ? 'show' : 'hide'" *ngIf="addPlanPopup">
+    <div class="popup_modal_content_area">
+      <h3>Add Plan</h3>
+      <button class="close_popup_modal" (click)="hideAddPlanePopup()">X</button>
+      <form (submit)="addPleane()">
+        <div class="row">
+          <div class="col-md-6 margin_top">
+            <div class="add_content_desc">
+              <label for="">Id</label>
+              <input type="text" [(ngModel)]="id" name="id" placeholder="Id"/>
+            </div>
+          </div>
+          <div class="col-md-6 margin_top">
+            <div class="add_content_desc">
+              <label for="">Amount</label>
+              <input type="number" [(ngModel)]="amount" name="amount" placeholder="Amount"/>
+            </div>
+          </div>
+          <div class="col-md-12 margin_top">
+            <div class="add_content_desc">
+              <label for="">Product Id</label>
+              <div class="select_interval">
+              <select [(ngModel)]="productId" name="productId">
+                <option *ngFor="let product of product_list" [value]="product.id">{{product.id}}</option>
+              </select>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12 margin_top">
+            <div class="add_content_desc">
+              <label for="">Metadata</label>
+              <ul>
+                <li><input type="text" [(ngModel)]="users" name="users" placeholder="users"/></li>
+                <li><input type="text" [(ngModel)]="emails" name="emails" placeholder="emails"/></li>
+                <li><input type="text" [(ngModel)]="bounties" name="bounties" placeholder="bounties"/></li>
+              </ul>
+            </div>
+          </div>
+          <!-- <div class="col-md-12">
+            <div class="add_content_desc">
+              <label class="cb_container">Restrict Based on Qualifications
+                <input type="checkbox" checked="checked" />
+                <span class="checkmark"></span>
+              </label>
+              <label class="cb_container">Dynamic Bounties
+                <input type="checkbox" />
+                <span class="checkmark"></span>
+              </label>
+            </div>
+          </div> -->
+        </div>
+        <div class="add_content_popup_submit">
+          <!-- <button>Add</button> -->
+          <input type="submit" value="Add">
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-- Add Plan Popup End-->
+  
+  <!-- Update Plan Popup -->
+  <div class="popup_modal_fade" [ngClass]="updatePlanPopup ? 'show' : 'hide'" *ngIf="updatePlanPopup">
+    <div class="popup_modal_content_area">
+      <h3>Update Plan</h3>
+      <button class="close_popup_modal" (click)="hideUpdatePlanePopup()">X</button>
+      <p>{{update_plan | json}}</p>
+      
+      <form (submit)="hideUpdatePlanePopup()">
+        <div class="row">
+          <div class="col-md-6 margin_top">
+            <div class="add_content_desc">
+              <label for="">Id</label>
+              <input type="text" [(ngModel)]="update_plan.id" name="id" placeholder="Id"/>
+            </div>
+          </div>
+          <div class="col-md-6 margin_top">
+            <div class="add_content_desc">
+              <label for="">Amount</label>
+              <input type="text" [(ngModel)]="update_plan.amount" name="amount" placeholder="Amount"/>
+            </div>
+          </div>
+          <div class="col-md-6 margin_top">
+            <div class="add_content_desc">
+              <label for="">Currency</label>
+              <input type="text" [(ngModel)]="update_plan.currency" name="currency" placeholder="Currency"/>
+            </div>
+          </div>
+          <div class="col-md-6 margin_top">
+            <div class="add_content_desc">
+              <label for="">Name</label>
+              <input type="text" [(ngModel)]="update_plan.name" name="name" placeholder="Name"/>
+            </div>
+          </div>
+          <div class="col-md-12 margin_top">
+            <div class="add_content_desc">
+              <label for="">Interval</label>
+              <div class="select_interval">
+                <select [(ngModel)]="update_plan.interval" name="interval">
+                  <option value="Monthly">Monthly</option>
+                  <option value="Yearly">Yearly</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12 margin_top">
+            <div class="add_content_desc">
+              <label for="">Metadata</label>
+              <ul>
+                <li>
+                  <input type="text" 
+                  [(ngModel)]="update_plan.metadata.users" 
+                  name="users" placeholder="Users"/>
+                </li>
+                <li>
+                  <input type="text" 
+                  [(ngModel)]="update_plan.metadata.emails" 
+                  name="emails" placeholder="Emails"/>
+                </li>
+                <li>
+                  <input type="text" 
+                  [(ngModel)]="update_plan.metadata.bounties" 
+                  name="bounties" placeholder="Bounties"/>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <!-- <div class="col-md-12">
+            <div class="add_content_desc">
+              <label class="cb_container">Restrict Based on Qualifications
+                <input type="checkbox" checked="checked" />
+                <span class="checkmark"></span>
+              </label>
+              <label class="cb_container">Dynamic Bounties
+                <input type="checkbox" />
+                <span class="checkmark"></span>
+              </label>
+            </div>
+          </div> -->
+        </div>
+        <div class="add_content_popup_submit">
+          <input type="submit" value="Save">
+          <!-- <button (click)="hideUpdatePlanePopup()">Save</button> -->
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-- Update Plan Popup End-->
+
+  
+  <!-- Add Product Popup -->
+  <div class="popup_modal_fade" *ngIf="add_product_popup">
+    <div class="popup_modal_content_area">
+      <h3>Add Product</h3>
+      <button class="close_popup_modal" (click)="hideAddProductPopup()">X</button>
+      <form (submit)="addProduct()">
+        <div class="row">
+          <div class="col-md-12 margin_top">
+            <div class="add_content_desc">
+              <label for="">Product Name</label>
+              <input type="text" [(ngModel)]="productName" name="productName" placeholder="Product Name"/>
+            </div>
+          </div>
+        </div>
+        <div class="add_content_popup_submit">
+          <input type="submit" value="Add">
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-- Add Product Popup End-->
+</div>

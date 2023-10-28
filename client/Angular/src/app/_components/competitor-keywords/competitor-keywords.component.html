@@ -1,0 +1,17 @@
+<p>Brand Management -> Competitors -> Competitors Keywords</p>
+
+    <flexible-table
+      key="keywords"
+      columns="selected,Keyword,Volume,KD,Current URL,Current position"
+      displayClone="false"
+      widths="0,50,500,250,50,250,60,60,600,600,600,600"
+      all="account"
+      (onHeaderButtonClicked)="flextableHeaderButtonClicked($event)"
+      filter='{"competitor_id":"{{ sharedService._variableData.competitor_id }}" }'
+      selectedButtons="Delete Selected,Upload All"
+      buttons="Keyword,Keyword"
+      buttonNames="Deploy Keyword,Create Bounty Now"
+      (tableButtonClicked)="tableButtonClicked($event)"
+      (sendTableButtons)="updateTableButtons($event)"
+      >
+    </flexible-table>

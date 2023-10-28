@@ -1,0 +1,82 @@
+<div class="container">
+
+    <div class="form_area">
+        <div class="form_header">
+            <h1>Form Title</h1>
+            <p>Form sub title</p>
+        </div>
+        <form [formGroup]="addEmailResearchForm" (ngSubmit)="addEmailResearch()">
+            <div class="form_input">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>Domain</label>
+                        <input [class.form_error]="adddomain.invalid && adddomain.touched" formControlName="domain">
+                    </div>
+                    <div class="col-md-6">
+                        <label>Email</label>
+                        <input [class.form_error]="addemail.invalid && addemail.touched" formControlName="email">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>First</label>
+                        <input [class.form_error]="addfirst.invalid && addfirst.touched" formControlName="first">
+                    </div>
+                    <div class="col-md-6">
+                        <label>Last</label>
+                        <input [class.form_error]="addlast.invalid && addlast.touched" formControlName="last">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>Blog Page</label>
+                        <input [class.form_error]="addblogpage.invalid && addblogpage.touched" formControlName="blog_page">
+                    </div>
+                    <div class="col-md-6">
+                        <label>Affiliate Site</label>
+                        <input [class.form_error]="addaffiliatesite.invalid && addaffiliatesite.touched" formControlName="affiliate_site">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>Ecommerce</label>
+                        <input [class.form_error]="addecommerce.invalid && addecommerce.touched" formControlName="ecommerce">
+                    </div>
+                    <div class="col-md-6">
+                        <label>Affiliate Program</label>
+                        <input [class.form_error]="addaffiliateprogram.invalid && addaffiliateprogram.touched" formControlName="affiliate_program">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>DR</label>
+                        <input [class.form_error]="adddr.invalid && adddr.touched" formControlName="dr">
+                    </div>
+                    <div class="col-md-6">
+                        <label>Parent Topic</label>
+                        <input [class.form_error]="addparenttopic.invalid && addparenttopic.touched" formControlName="parent_topic">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>Suggestions</label>
+                        <input [class.form_error]="addsuggestions.invalid && addsuggestions.touched" formControlName="suggestions">
+                    </div>
+                    <div class="col-md-6">
+                        <label>Social</label>
+                        <input [class.form_error]="addsocial.invalid && addsocial.touched" formControlName="social">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <label>Notes</label>
+                        <textarea [class.form_error]="addnotes.invalid && addnotes.touched" formControlName="notes"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="form_submit">
+                <input type="submit" value="Save" [ngClass]="addEmailResearchForm.valid ? 'enable':'disabled'">
+            </div>
+        </form>
+    </div>
+</div>

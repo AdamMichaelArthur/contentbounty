@@ -1,0 +1,52 @@
+<form *ngIf="displayElement; else showThis" [formGroup]="dynamicForm" (ngSubmit)="submitForm(dynamicForm)">
+    <div class="row">
+        <div class="col-md-12 margin_top" *ngFor="let itemdata of formDetail">
+            <div *ngIf="itemdata.fieldType==='checkbox'">{{itemdata.fieldLevel}}</div>
+            <input [type]="itemdata.fieldType" class="form-control" [placeholder]="itemdata.fieldLevel"
+                [formControlName]="itemdata.fieldName" autocorrect="off"/>
+            <div *ngIf="dynamicForm.invalid && (dynamicForm.controls[itemdata.fieldName].dirty || dynamicForm.controls[itemdata.fieldName].touched || submitted)"
+                >
+                <div class="text-danger" *ngIf="dynamicForm.controls[itemdata.fieldName].errors && dynamicForm.controls[itemdata.fieldName].errors.required">
+                    {{itemdata.fieldLevel}} is required.
+                </div>
+                <div class="text-danger" *ngIf="dynamicForm.controls[itemdata.fieldName].errors && dynamicForm.controls[itemdata.fieldName].errors.minlength">
+                    {{itemdata.fieldLevel}} is invalid.
+                </div>
+                <div class="text-danger" *ngIf="dynamicForm.controls[itemdata.fieldName].errors && dynamicForm.controls[itemdata.fieldName].errors.pattern">
+                    {{itemdata.fieldLevel}} is invalid.
+                </div>
+            </div>
+            <div>
+                <input type="submit" value="Submit">
+            </div>
+        </div>
+    </div>
+</form>
+
+<ng-template #showThis>
+    <form [formGroup]="addDropdownForm" (ngSubmit)="submitDropdownForm(addDropdownForm)">
+        <div class="row">
+            <div class="col-md-12 margin_top">
+                <p>Dropdown options create form</p>
+                <div *ngIf="dropdowns.length > 0">
+                    <div *ngFor="let dropdown of dropdowns">
+                        <input [type]="dropdown.fieldType" class="form-control" [placeholder]="dropdown.fieldLevel"
+                            [formControlName]="dropdown.fieldName" autocorrect="off"/>
+                        <div *ngIf="addDropdownForm.invalid && (addDropdownForm.controls[dropdown.fieldName].dirty || addDropdownForm.controls[dropdown.fieldName].touched || submitted)"
+                            >
+                            <div class="text-danger" *ngIf="addDropdownForm.controls[dropdown.fieldName].errors && addDropdownForm.controls[dropdown.fieldName].errors.required">
+                                {{dropdown.fieldLevel}} is required.
+                            </div>
+                            <div class="text-danger" *ngIf="addDropdownForm.controls[dropdown.fieldName].errors && addDropdownForm.controls[dropdown.fieldName].errors.minlength">
+                                {{dropdown.fieldLevel}} is invalid.
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <input type="submit" value="Submit">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</ng-template>

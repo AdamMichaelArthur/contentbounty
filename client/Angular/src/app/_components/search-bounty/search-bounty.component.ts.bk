@@ -1,0 +1,338 @@
+import { Component, OnInit, ElementRef, ViewChild, OnDestroy } from '@angular/core';
+import {Router} from '@angular/router';
+import { SearchBountyService } from './search-bounty.service';
+import { BaseComponent } from '../base/base.component';
+import { FlexibleTableService } from "../flexible-table/services/flexible-table-service"
+import { BaseService } from '../base/base.service'
+import { FlexibleComponent } from '../flexible-table/flexible-table.component';
+import { Observable, Observer } from 'rxjs';
+import { environment } from '../../../environments/environment';
+import { map, take, catchError } from 'rxjs/operators';
+import * as moment from 'moment';
+import * as socketIo from 'socket.io-client';
+
+@Component({
+  selector: 'app-search-bounty',
+  templateUrl: './search-bounty.component.html',
+  styleUrls: ['./search-bounty.component.css']
+})
+
+export class SearchBountyComponent extends BaseComponent implements OnInit, OnDestroy {
+
+  skills = ""
+
+  private socket;
+  public SERVER_URL = environment.websocketBase;
+
+    public initSocket(): void {
+        //console.log(28, this.SERVER_URL);
+        this.socket = socketIo(this.SERVER_URL/*, {path: "/ws/socket.io"}*/);
+        //console.log(30, this.socket);
+        this.socket.on('my broadcast', (data: string) => {
+          console.log(31);
+          //this.refreshTable()
+      });
+
+      this.socket.on('delete', (data: string) => {
+          console.log(37);
+          this.refreshTable()
+      });
+
+        this.socket.on('insert', (data: string) => {
+          console.log(42);
+          this.refreshTable()
+      });
+
+        this.socket.on('update', (data: string) => {
+          console.log(46);
+          this.refreshTable();
+          setTimeout(function(self){
+            console.log(50)
+            self.refreshTable()
+          }, 2500, this)
+          
+      });
+    }
+
+  public destroySocket(): void {
+      //console.log(37, "disconnect?");
+      //this.socket.disconnect()
+  }
+
+  public onEvent(event: Event): Observable<any> {
+    console.log(32, "An event has occured");
+          return new Observable<Event>(observer => {
+              this.socket.on(event, () => observer.next());
+          });
+      }
+
+  @ViewChild(FlexibleComponent)
+  private flexTable: FlexibleComponent;
+
+  refreshTable() {
+    console.log("Refreshing FlexTable");
+    this.flexTable.getInitialDataTableList()
+  }
+
+  tableButtonClicked($event){
+    //console.log(27, "tableButtonClicked", $event);
+    super.tableButtonClicked($event);
+    //this.refreshTable()
+  }
+
+  isoDateString = new Date().toISOString()
+  
+  aggregateStr = `[
+      { "$match" : { "release_for_bounty": { "$lte": "{{isoDateString}}" } } },
+      { $project:{
+          brand_name:1,
+          content_type:1,
+          pipeline:1,
+          keywords:1,
+          process:1
+      }},
+      {"$unwind":"$process"},
+      {"$match":
+        { "$and":
+          [  
+            {"process.bStatus": true},
+            {"process.pipeline":"unclaimed"},
+            {"process.skills":
+              { "$in": "$res.locals.user.skill"} 
+            }
+          ]
+        }
+      },
+      { $project:{
+
+          brand_name:1,  
+          content_type:1,
+          bounty:"$process.bounty",
+          refDocId:"$process.refDocId",
+          name:"$process.name",
+          description:"$process.description",
+          pipeline:1,
+          keywords:1,
+          completion_order:"$process.completion_order"
+      }},
+      { 
+        $replaceRoot: 
+          { 
+              newRoot: 
+                { 
+                  $mergeObjects: 
+                    [ 
+                      { 
+                        _id: "$_id", 
+                        brand_name: "$brand_name", 
+                        content_type:"$content_type",
+                        pipeline:"$pipeline",
+                        keywords:"$keywords",
+                        bounty:"$bounty",
+                        name:"$name",
+                        description:"$description",
+                        completion_order:"$completion_order",
+                        refDocId:"$refDocId"
+
+                      } 
+                    ] 
+                } 
+          }
+      }
+  ]`
+
+  constructor( private router: Router, public searchBountyService:SearchBountyService, 
+    public service: BaseService, public elementRef: ElementRef,
+    public flexibleTableService: FlexibleTableService) 
+  {
+    super(service, elementRef) 
+  }
+
+  ngOnInit() {
+    // this.loadBounty();
+    // this.getBounty()
+    // this.skills = "test";
+    this.aggregateStr = this.aggregateStr.replace("{{isoDateString}}", this.isoDateString);
+    //this.initSocket();
+  }
+
+  viewMinutes: any = []
+
+  test(row, body, api_url){
+      this.service.http.post(api_url, body, this.service.httpOptions).subscribe(response => {
+          this.updateBountyPrice(row, response['actions'].firstViewDate)
+          console.log(164, row, response);
+          this.viewMinutes.push({... row, minutes: response['actions'].firstViewDate })
+            setInterval(function(self, row, firstViewDate){
+                self.updateBountyPrice(row, firstViewDate)
+            }, 4000, this, row, response['actions'].firstViewDate)
+        })
+  }
+
+updateBountyPrice(row, firstViewDate){
+
+    
+    for(var i = 0; i < this.viewMinutes.length; i++){
+
+      if(row.id == this.viewMinutes[i].id){
+        //console.log(178, this.viewMinutes[i])
+        var secondsElapsed = moment().unix() - this.lastCall
+        //console.log(183, secondsElapsed)
+        this.viewMinutes[i].minutes += (secondsElapsed / 60)
+        
+        var incPrice = String( (this.viewMinutes[i].minutes * .01).toFixed(2) )
+        this.flexTable.updateField(row._id, "Bounty", "$" + incPrice)
+      }
+    }
+    this.lastCall = moment().unix()
+    //this.firstMoment = moment().unix()  
+  }
+
+  firstMoment: any
+  lastCall: any
+
+
+  receivedTableData($event){
+    // this.firstMoment = moment().unix()
+
+    // for(var i = 0; i < $event.length; i++){
+    //   var row =  $event[i];
+    //    this.flexTable.updateField(row._id, "Bounty", '...')
+    //    var api_url = this.service.baseUrl + '/actions/datasource/track/action/trackBounty'
+
+    // var body = {
+    //   "refDocId" : row.refDocId
+    // }
+
+    // this.test(row, body, api_url)
+    // }
+
+    
+    
+  }
+
+  ngOnDestroy(){
+    this.destroySocket();
+  }
+  //Popup Function
+  viewDetailsBountyPopup = false;
+  bounty_details:any
+
+  viewDetailsBounty(bounty){
+    this.viewDetailsBountyPopup = !this.viewDetailsBountyPopup
+    this.bounty_details = bounty;
+    console.log(bounty)
+  }
+
+  viewDetailsBounty2(){
+    this.viewDetailsBountyPopup = false;
+  }
+  //Popup Function end
+
+  //Search Function
+  searchAll = false;
+  searchCheck = true;
+  searchText:any;
+  somethingChanged(newval:any){
+    if(newval.length > 0){
+      this.searchAll = true;
+      this.searchCheck = false;
+    }else{
+      this.searchCheck = true;
+      this.searchAll = false;
+    }
+  }
+
+  catogary_name:string;
+  get selectedBountyTypes() {
+    return this.bounty_catogarys.reduce((aas, a) => {
+      if (a.selected) {
+        aas.push(a.catogary_name);
+      }
+      return aas;
+    }, [])
+  }
+  //Search Function
+
+  //Claim Bounty Functionality
+  claimBounty(bountyId:any){
+    console.log(bountyId.id)
+    const index: number = this.bountys.indexOf(bountyId);
+    if(index !== -1){
+        this.bountys.splice(index, 1)
+    }
+    let cart: any = [];
+    cart.push(bountyId);
+    localStorage.setItem('cart', JSON.stringify(cart));
+    this.router.navigate(["/submit_bounty"]);
+
+    this.searchBountyService.submitCreatorsBounty(bountyId).subscribe((data:any)=>{
+      console.log(data);
+      console.log("Bounty Added Successfully")
+
+      //this.refreshTable()
+    },error=>{
+      console.log(277, error)
+    })
+  }
+	items: any = [];
+  ifUncompletedBounty = false
+  loadBounty(){
+		// this.items = JSON.parse(localStorage.getItem('cart'));
+  //   if(this.items.length < 1){
+  //     //alert("0+++")
+  //     this.ifUncompletedBounty = false
+  //   }else{
+  //     //alert("0-----")
+  //     this.ifUncompletedBounty = true
+  //   }
+  //   console.log(this.items.length)
+
+  }
+  //Claim Bounty Functionality End
+
+  // Get Bounty	
+  bountys: any = [];
+  getBounty(){
+    this.searchBountyService.getBounty().subscribe((data:any)=>{
+      this.bountys = data.imran;
+      console.log(this.bountys);
+    },error=>{
+      console.log(error)
+    })
+
+  }
+  // Get Bounty End
+
+  //Dummy Data
+  bounty_catogarys:any = [
+      {
+        label:"Content Writer",
+        catogary_name:"content_writer",
+        selected: false
+      },
+      {
+        label:"SEO Expart",
+        catogary_name:"SEO",
+        selected: false
+      },
+      {
+        label:"UI Designer",
+        catogary_name:"ui_designer",
+        selected: false
+      },
+      {
+        label:"Video Animator",
+        catogary_name:"video_animator",
+        selected: false
+      },
+      {
+        label:"Content Checker",
+        catogary_name:"content_checker",
+        selected: false
+      }
+    ];
+
+
+  //Dummy Data End
+}
